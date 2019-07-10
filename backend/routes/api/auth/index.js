@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const controller = require('../../../controller/index');
+const jwtAuth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {
     const {username, password} = req.body;
@@ -18,6 +19,23 @@ router.post('/register', (req, res) => {
         })
         .catch((err) => {
             res.status(500).send(err);
+        })
+});
+
+router.post('/login', (req, res) => {
+    const {username, password} = req.body;
+
+    controller.user.login(username, password)
+        .then((result) => {
+            res.json({
+                token: result
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err.message
+            });
         })
 });
 
