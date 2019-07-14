@@ -3,8 +3,8 @@ const controller = require('../../../controller/index');
 const upload = require('../../../multer');
 const auth = require('../../../middlewares/auth');
 
-router.use('/write', auth);
-router.post('/write', upload.single('photo'), (req, res, next) => {
+router.use('/write/typea', auth);
+router.post('/write/typea', upload.single('photo'), (req, res, next) => {
     const data = {
         title: req.body.title,
         content: req.body.content,
