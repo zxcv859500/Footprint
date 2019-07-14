@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const controller = require('../../../controller/index');
-const jwtAuth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {
     const {username, password} = req.body;
