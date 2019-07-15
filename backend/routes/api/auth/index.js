@@ -2,7 +2,7 @@ const router = require('express').Router();
 const controller = require('../../../controller/index');
 
 router.post('/register', (req, res) => {
-    const {username, password} = req.body;
+    const {username, password, nickname} = req.body;
 
     if (username.length <= 0 || username.length > 16 || password.length <= 0 || password.length > 16) {
         res.status(409).json({
@@ -10,7 +10,7 @@ router.post('/register', (req, res) => {
         });
     }
 
-    controller.user.create(username, password)
+    controller.user.create(username, password, nickname)
         .then((result) => {
             res.json({
                 message: "register success"

@@ -5,9 +5,10 @@ module.exports = {
         try {
             let postId = await knex('post')
                 .insert({
-                title: data.title,
-                content: data.content
-            })
+                    title: data.title,
+                    content: data.content,
+                    date: data.date
+                })
                 .returning('postId');
             postId = postId[0];
 
