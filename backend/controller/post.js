@@ -28,10 +28,10 @@ module.exports = {
                 .returning('pictureId');
             pictureId = pictureId[0];
 
-            let userId = await knex('user as u')
+            let userId = await knex('user')
                 .select('userId')
-                .where('u.username', data.username);
-            userId = userId[0];
+                .where('user.nickname', data.author);
+            userId = userId[0].userId;
 
             await knex('postApply')
                 .insert({

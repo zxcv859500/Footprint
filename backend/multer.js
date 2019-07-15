@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
-const uploadDir = path.join(__dirname, '../public/uploads');
+//const uploadDir = path.join(__dirname, '../uploads');
+const uploadDir = './uploads';
 const config = require('./config');
 const crypto = require('crypto');
 
@@ -9,9 +10,10 @@ const storage = multer.diskStorage({
         callback(null, uploadDir);
     },
     filename: (req, file, callback) => {
-        const encrypted = crypto.createHmac('sha1', config.secret)
-            .update(file.originalname)
+        let encrypted = crypto.createHmac('sha1', config.secret)
+            .update(file.originalname + new Date().valueOf())
             .digest('base64');
+        encrypted = encrypted.split('/').join('');
         const ext = path.extname(file.originalname);
         const fname = encrypted + ext;
         callback(null, fname);

@@ -26,14 +26,13 @@ module.exports = {
 
         try {
             const user = await knex('user AS u')
-                .select('u.password')
+                .select('*')
                 .where('u.username', username);
             actualPwd = user[0].password;
             nickname = user[0].nickname;
         } catch(err) {
             throw err;
         }
-
         if (encrypted === actualPwd) {
              return await jwt.sign(
                 {
