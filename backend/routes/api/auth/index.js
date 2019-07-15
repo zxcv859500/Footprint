@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const controller = require('../../../controller/index');
+const auth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {
     const {username, password, nickname} = req.body;
@@ -36,6 +37,13 @@ router.post('/login', (req, res) => {
                 error: err.message
             });
         })
+});
+
+router.use('/check', auth);
+router.get('/check', (req, res) => {
+    res.status(200).json({
+        message: "token authorized"
+    });
 });
 
 module.exports = router;
