@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_nick_name_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        android:text="tester"/>
+    <Button
+        android:id="@+id/btn_love_comment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorAccent"
+        android:layout_marginRight="20dp"
+        android:layout_alignRight="@+id/tv_nick_name_comment"
+        />
+
+    <TextView
+        android:id="@+id/tv_main_text_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_nick_name_comment"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:text="이것은 테스트 글입니다"/>
+
+    <TextView
+        android:id="@+id/tv_date_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2019/07/16 15:04"
+        android:layout_below="@+id/tv_main_text_comment"
+        />
+
+
+
+
+</RelativeLayout>

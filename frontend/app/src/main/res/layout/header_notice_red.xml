@@ -2,5 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="test"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="2019.07.16 14:38"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_nick_name"/>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이것은 제목"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_below="@+id/tv_date"/>
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:background="@drawable/ic_launcher_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_title"
+            />
+
+        <TextView
+            android:id="@+id/tv_main_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_image"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            android:text="이것은 테스트 글입니다"
+            />
+
+        <Button
+            android:id="@+id/btn_love"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorAccent"
+            android:layout_below="@+id/tv_main_text"
+            />
+    </RelativeLayout>
+
+
 
 </LinearLayout>
