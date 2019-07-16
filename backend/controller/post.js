@@ -27,13 +27,32 @@ module.exports = {
                 .returning('postId');
             postId = postId[0];
 
-            let markerId = await knex('marker')
-                .insert( {
+            const marker = await knex.count('markerId as cnt')
+                .from('marker')
+                .where({
                     latitude: data.latitude,
-                    longitude: data.longitude,
-                    road: data.road
-                })
-                .returning('markerId');
+                    longitude: data.longitude
+                });
+            let markerId;
+            if (marker.cnt <= 0) {
+                markerId = await knex('marker')
+                    .insert({
+                        latitude: data.latitude,
+                        longitude: data.longitude,
+                        road: data.road
+                    })
+                    .returning('markerId');
+            } else {
+                markerId = await knex('marker')
+                    .select('markerId')
+                    .where({
+                        latitude: data.latitude,
+                        longitude: data.longitude
+                    })
+                    .map((result) => {
+                        return result.markerId
+                    });
+            }
             markerId = markerId[0];
 
             let pictureId = await knex('picture')
