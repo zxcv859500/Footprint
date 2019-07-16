@@ -80,4 +80,31 @@ router.get('/:id/like', (req, res, next) => {
         })
 });
 
+router.use('/:id/comment', auth);
+router.post('/:id/comment', (req, res, next) => {
+    const { nickname } = req.decoded;
+    const postId = req.params.id;
+    const { content } = req.body;
+
+    if ( content.trim() === '') {
+        res.status(409).json({
+            Error: "Content empty"
+        })
+    } else {
+        controller.comment.write(nickname, postId, content)
+            .then(() => {
+                res.status(200).json({
+                    nickname: nickname,
+                    postId: postId,
+                    content: content
+                })
+            })
+            .catch((err) => {
+                res.status(409).json({
+                    Error: err.message
+                })
+            })
+    }
+});
+
 module.exports = router;
