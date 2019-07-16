@@ -66,7 +66,26 @@ router.get('/:id/like', (req, res, next) => {
     const postId = req.params.id;
     const {username} = req.decoded;
 
-    controller.post.likeHandle(postId, username)
+    controller.like.likeHandle(postId, username)
+        .then(() => {
+            res.status(200).json({
+                postId: postId,
+                username: username
+            })
+        })
+        .catch((err) => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
+router.use('/:id/like/cancel', auth);
+router.get('/:id/like/cancel', (req, res, next) => {
+    const postId = req.params.id;
+    const {username} = req.decoded;
+
+    controller.like.likeCancel(postId, username)
         .then(() => {
             res.status(200).json({
                 postId: postId,
@@ -86,7 +105,7 @@ router.post('/:id/comment', (req, res, next) => {
     const postId = req.params.id;
     const { content } = req.body;
 
-    if ( content.trim() === '') {
+    if (content.trim() === '') {
         res.status(409).json({
             Error: "Content empty"
         })

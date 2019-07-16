@@ -139,44 +139,6 @@ module.exports = {
                 date: r.date,
             }));
         return post[0];
-    },
-
-    async likeHandle(postId, username) {
-        const userId = await knex('user')
-            .select('userId')
-            .where('username', username)
-            .map((result) => {
-                return result.userId
-            });
-
-        const like = await knex
-            .count('postId as cnt')
-            .from('likeApply')
-            .where({
-                postId: postId,
-                userId: userId
-            });
-
-        const post = await knex
-            .count('postId as cnt')
-            .from('post')
-            .where({
-                postId: postId
-            });
-
-        if (like[0].cnt >= 1) {
-            throw new Error("Already liked this post");
-        } else if (post[0].cnt <= 0) {
-            throw new Error("Post doesn't exist");
-        } else {
-            await knex('likeApply')
-                .insert({
-                    userId: userId[0],
-                    postId: postId
-                });
-            await knex('post')
-                .where('postId', postId)
-                .increment('like', 1);
-        }
     }
-};
+}
+;
