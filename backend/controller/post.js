@@ -208,7 +208,7 @@ module.exports = {
                     .where('markerId', markerId[0])
                     .del();
 
-                await knex('marekrApply')
+                await knex('markerApply')
                     .where('markerId', markerId[0])
                     .del();
 
@@ -236,6 +236,10 @@ module.exports = {
 
         for (const id of commentId) {
             await knex('comment')
+                .where('commentId', commentId)
+                .del();
+
+            await knex('commentApply')
                 .where('commentId', commentId)
                 .del();
         }
