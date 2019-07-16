@@ -158,17 +158,86 @@ module.exports = {
             }));
 
         if (post[0].cnt <= 0) {
-            throw new Error("Comment doesn't exist");
+            throw new Error("Post doesn't exist");
         } else if (post[0].author !== data.author) {
-            throw new Error("This user is not author of this comment");
+            throw new Error("This user is not author of this post");
         } else {
-            console.log(data);
             await knex('post')
                 .where('postId', data.postId)
                 .update({
                     title: data.title,
                     content: data.content
                 });
+        }
+    },
+
+    async delete(data) {
+        const post = await knex('post')
+            .select('nickname', 'type')
+            .count('postId as cnt')
+            .joinRaw('natural join postApply natural join user')
+            .where('postId', data.postId)
+            .map(r => ({
+                cnt: r.cnt,
+                type: r.type,
+                author: r.nickname
+            }));
+
+        if (post[0].cnt <= 0) {
+            throw new Error("Post doesn't exist");
+        } else if (post[0].author !== data.author) {
+            throw new Error("This user is not author of this post");
+        } else {
+            this.deleteComment(data.postId);
+            if (post[0].type === 0) {
+                const markerId = await knex('markerApply')
+                    .select('markerId')
+                    .where('postId', data.postId)
+                    .map((result) => {
+                        return result.markerId
+                    });
+
+                const postIds = await knex('markerApply')
+                    .select('postId')
+                    .where('markerId', markerId[0])
+                    .map((result) => {
+                        return result.postId
+                    });
+
+                await knex('marker')
+                    .where('markerId', markerId[0])
+                    .del();
+
+                await knex('marekrApply')
+                    .where('markerId', markerId[0])
+                    .del();
+
+                for (const id of postIds) {
+                    await knex('post')
+                        .where('postId', id)
+                        .del();
+                    this.deleteComment(id);
+                }
+
+            }
+            await knex('post')
+                .where('postId', data.postId)
+                .del();
+        }
+    },
+
+    async deleteComment(postId) {
+        const commentId = await knex('commentApply')
+            .select('commentId')
+            .where('postId', postId)
+            .map((result) => {
+                return result.commentId;
+            });
+
+        for (const id of commentId) {
+            await knex('comment')
+                .where('commentId', commentId)
+                .del();
         }
     }
 };

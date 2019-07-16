@@ -156,4 +156,24 @@ router.post('/:id/edit', (req, res, next) => {
         })
 });
 
+router.use('/:id/delete', auth);
+router.get('/:id/delete', (req, res, next) => {
+    const data = {
+        author: req.decoded.nickname,
+        postId: req.params.id
+    };
+
+    controller.post.delete(data)
+        .then(() => {
+            res.status(200).json({
+                message: "Delete complete"
+            })
+        })
+        .catch((err) => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
 module.exports = router;
