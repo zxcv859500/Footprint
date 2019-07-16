@@ -52,5 +52,26 @@ module.exports = {
                 .where('commentId', commentId)
                 .del();
         }
+    },
+
+    async edit(author, commentId, content) {
+        const comment = await knex('comment')
+            .select('author')
+            .count('commentId as cnt')
+            .where('commentId', commentId)
+            .map(r => ({
+                cnt: r.cnt,
+                author: r.author
+            }));
+
+        if (comment[0].cnt <= 0) {
+            throw new Error("Comment doesn't exist");
+        } else if (comment[0].author !== author) {
+            throw new Error("This user is not author of this comment");
+        } else {
+            await knex('comment')
+                .where('commentId', commentId)
+                .update('content', content);
+        }
     }
 }
