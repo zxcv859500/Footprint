@@ -4,14 +4,14 @@ const config = require('../config');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-    async create(username, password) {
+    async create(username, password, nickname) {
         const encrypted = crypto.createHmac('sha1', config.secret)
             .update(password)
             .digest('base64');
 
         try {
             return await knex('user')
-                .insert({username: username, password: encrypted});
+                .insert({username: username, password: encrypted, nickname: nickname});
         } catch(err) {
             throw err;
         }
@@ -19,23 +19,25 @@ module.exports = {
 
     async login(username, password) {
         let actualPwd;
+        let nickname;
         const encrypted = crypto.createHmac('sha1', config.secret)
             .update(password)
             .digest('base64');
 
         try {
             const user = await knex('user AS u')
-                .select('u.password')
+                .select('*')
                 .where('u.username', username);
             actualPwd = user[0].password;
+            nickname = user[0].nickname;
         } catch(err) {
             throw err;
         }
-
         if (encrypted === actualPwd) {
              return await jwt.sign(
                 {
-                    username: username
+                    username: username,
+                    nickname: nickname
                 },
                 config.secret,
                 {

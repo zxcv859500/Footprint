@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const controller = require('../../../controller/index');
-const jwtAuth = require('../../../middlewares/auth');
+const auth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {
-    const {username, password} = req.body;
+    const {username, password, nickname} = req.body;
 
     if (username.length <= 0 || username.length > 16 || password.length <= 0 || password.length > 16) {
         res.status(409).json({
@@ -11,7 +11,7 @@ router.post('/register', (req, res) => {
         });
     }
 
-    controller.user.create(username, password)
+    controller.user.create(username, password, nickname)
         .then((result) => {
             res.json({
                 message: "register success"
@@ -37,6 +37,13 @@ router.post('/login', (req, res) => {
                 error: err.message
             });
         })
+});
+
+router.use('/check', auth);
+router.get('/check', (req, res) => {
+    res.status(200).json({
+        message: "token authorized"
+    });
 });
 
 module.exports = router;
