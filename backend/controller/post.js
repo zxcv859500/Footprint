@@ -144,6 +144,31 @@ module.exports = {
             .where('postId', postId);
 
         return post[0];
+    },
+
+    async edit(data) {
+        const post = await knex('post')
+            .select('nickname')
+            .count('postId as cnt')
+            .joinRaw('natural join postApply natural join user')
+            .where('postId', data.postId)
+            .map(r => ({
+                cnt: r.cnt,
+                author: r.nickname
+            }));
+
+        if (post[0].cnt <= 0) {
+            throw new Error("Comment doesn't exist");
+        } else if (post[0].author !== data.author) {
+            throw new Error("This user is not author of this comment");
+        } else {
+            console.log(data);
+            await knex('post')
+                .where('postId', data.postId)
+                .update({
+                    title: data.title,
+                    content: data.content
+                });
+        }
     }
-}
-;
+};

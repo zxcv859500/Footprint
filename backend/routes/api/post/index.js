@@ -126,4 +126,34 @@ router.post('/:id/comment', (req, res, next) => {
     }
 });
 
+router.use('/:id/edit', auth);
+router.post('/:id/edit', (req, res, next) => {
+    const data = {
+        author: req.decoded.nickname,
+        postId: req.params.id,
+        title: req.body.title,
+        content: req.body.content
+    };
+
+    if (!data.title || !data.content || data.title.trim() === '' || data.content.trim() === '') {
+        res.status(409).json({
+            Error: "Empty title or content"
+        })
+    }
+
+    controller.post.edit(data)
+        .then(() => {
+            res.status(200).json({
+                postId: data.postId,
+                title: data.title,
+                content: data.content
+            })
+        })
+        .catch((err) => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
 module.exports = router;
