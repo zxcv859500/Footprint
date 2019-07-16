@@ -123,7 +123,7 @@ module.exports = {
     },
 
     async getPost(postId) {
-        const post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
+        let post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
             .from('post')
             .joinRaw('natural join pictureApply natural join picture')
             .joinRaw('natural join postApply natural join user')
@@ -138,6 +138,11 @@ module.exports = {
                 like: r.like,
                 date: r.date,
             }));
+        post[0].comments = await knex.select('date', 'author', 'content')
+            .from('comment')
+            .joinRaw('natural join commentApply')
+            .where('postId', postId)
+
         return post[0];
     }
 }
