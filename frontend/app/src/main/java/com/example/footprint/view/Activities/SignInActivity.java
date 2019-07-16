@@ -2,7 +2,6 @@ package com.example.footprint.view.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,13 +10,12 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.apache.http.Header;
-
 import com.example.footprint.R;
 import com.example.footprint.model.User;
 import com.example.footprint.net.UserClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 
 public class SignInActivity extends AppCompatActivity {
@@ -29,17 +27,15 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        BtnOnClickListener btnOnClickListener = new BtnOnClickListener();
-
+        setContentView(R.layout.activity_sign_in);
         etEmail = (EditText) findViewById(R.id.et_email);
         etPassword = (EditText) findViewById(R.id.et_password);
         cbAutoLogin = (CheckBox) findViewById(R.id.cb_auto_login);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnJoin = (Button) findViewById(R.id.btn_join);
 
-        btnLogin.setOnClickListener(btnOnClickListener);
-        btnJoin.setOnClickListener(btnOnClickListener);
+        btnLogin.setOnClickListener(new BtnOnClickListener());
+        btnJoin.setOnClickListener(new BtnOnClickListener());
     }
 
     @Override
@@ -66,18 +62,18 @@ public class SignInActivity extends AppCompatActivity {
 
 
                     // 에러 분류 관리 추가 미완
-                    userClient.signIn(new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-
-
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-                        }
-                    });
+//                    userClient.signIn(new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//
+//                        }
+//                    });
 
 
 

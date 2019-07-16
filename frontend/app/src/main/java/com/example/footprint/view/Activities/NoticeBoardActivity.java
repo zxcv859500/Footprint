@@ -43,8 +43,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
         noticeBoardYellowFragment = new NoticeBoardYellowFragment();
         noticeBoardBlueFragment = new NoticeBoardBlueFragment();
 
-        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(tb) ;
+//        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(tb) ;
         setFragment(0);
 
 
