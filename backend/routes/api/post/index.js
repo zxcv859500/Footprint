@@ -61,4 +61,23 @@ router.get('/:id', (req, res, next) => {
         })
 });
 
+router.use('/:id/like', auth);
+router.get('/:id/like', (req, res, next) => {
+    const postId = req.params.id;
+    const {username} = req.decoded;
+
+    controller.post.likeHandle(postId, username)
+        .then(() => {
+            res.status(200).json({
+                postId: postId,
+                username: username
+            })
+        })
+        .catch((err) => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
 module.exports = router;
