@@ -236,11 +236,11 @@ module.exports = {
 
         for (const id of commentId) {
             await knex('comment')
-                .where('commentId', commentId)
+                .where('commentId', id)
                 .del();
 
             await knex('commentApply')
-                .where('commentId', commentId)
+                .where('commentId', id)
                 .del();
         }
     }
