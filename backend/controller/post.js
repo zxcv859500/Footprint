@@ -3,11 +3,26 @@ const knex = require('../knexfile');
 module.exports = {
     async create(data) {
         try {
+            if (data.type !== 1) {
+                const count = await knex.count('postId as CNT')
+                    .from('post')
+                    .joinRaw('natural join markerApply natural join marker')
+                    .where({
+                        latitude: data.latitude,
+                        longitude: data.longitude
+                    });
+                console.log(count[0].CNT);
+                if (count[0].CNT >= 1) {
+                    throw new Error("Type A or Type C can only exist by one");
+                }
+            }
+
             let postId = await knex('post')
                 .insert({
                     title: data.title,
                     content: data.content,
-                    date: data.date
+                    date: data.date,
+                    type: data.type
                 })
                 .returning('postId');
             postId = postId[0];
