@@ -68,7 +68,7 @@ module.exports = {
         }
     },
 
-    async getPost(latitude, longitude) {
+    async getList(latitude, longitude) {
         let posts = [];
         const postIds = await knex.select('postId')
             .from('post')
@@ -82,7 +82,7 @@ module.exports = {
             });
 
         for (const postId of postIds) {
-            const post = await knex.select('title', 'content', 'nickname', 'like', 'pictureId', 'date', 'type')
+            const post = await knex.select('title', 'nickname', 'pictureId', 'like', 'date', 'type', 'postId')
                 .from('post')
                 .joinRaw('natural join pictureApply natural join picture')
                 .joinRaw('natural join postApply natural join user')
@@ -90,16 +90,35 @@ module.exports = {
                     postId: postId
                 })
                 .map(r => ({
+                    postId: r.postId,
                     title: r.title,
-                    content: r.content,
-                    author: r.author,
-                    like: r.like,
+                    author: r.nickname,
                     pictureId: r.pictureId,
+                    like: r.like,
                     date: r.date,
                     type: r.type
                 }));
             posts.push(await post[0]);
         }
         return posts;
+    },
+
+    async getPost(postId) {
+        const post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
+            .from('post')
+            .joinRaw('natural join pictureApply natural join picture')
+            .joinRaw('natural join postApply natural join user')
+            .where({
+                postId: postId
+            })
+            .map(r=> ({
+                title: r.title,
+                content: r.content,
+                author: r.nickname,
+                pictureId: r.pictureId,
+                like: r.like,
+                date: r.date,
+            }));
+        return post[0];
     }
 };
