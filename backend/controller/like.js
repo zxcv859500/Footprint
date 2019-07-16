@@ -82,5 +82,87 @@ module.exports = {
                     .decrement('like', 1);
             }
         }
+    },
+
+    async commentLikeHandle(commentId, username) {
+        const userId = await knex('user')
+            .select('userId')
+            .where('username', username)
+            .map((result) => {
+                return result.userId
+            });
+
+        const like = await knex
+            .count('commentId as cnt')
+            .from('commentLike')
+            .where({
+                commentId: commentId,
+                userId: userId
+            });
+
+        const comment = await knex
+            .count('commentId as cnt')
+            .from('comment')
+            .where({
+                commentId: commentId
+            });
+
+        if (like[0].cnt >= 1) {
+            throw new Error("Already liked this comment");
+        } else if (comment[0].cnt <= 0) {
+            throw new Error("Comment doesn't exist");
+        } else {
+            await knex('commentLike')
+                .insert({
+                    userId: userId[0],
+                    commentId: commentId
+                });
+            await knex('comment')
+                .where('commentId', commentId)
+                .increment('like', 1);
+        }
+    },
+
+    async commentLikeCancel(commentId, username) {
+        const commentCnt = await knex('comment')
+            .count('commentId as cnt')
+            .where('commentId', commentId)
+            .map((result) => {
+                return result.cnt
+            });
+
+        if (commentCnt <= 0) {
+            throw new Error("Comment doesn't exist");
+        } else {
+            const userId = await knex('user')
+                .select('userId')
+                .where('username', username)
+                .map((result) => {
+                    return result.userId
+                });
+            const likeCnt = await knex('commentLike')
+                .count('commentId as cnt')
+                .where({
+                    commentId: commentId,
+                    userId: userId
+                })
+                .map((result) => {
+                    return result.cnt
+                });
+            if (likeCnt <= 0) {
+                throw new Error("This user have never been liked this post");
+            } else {
+                await knex('commentLike')
+                    .where({
+                        commentId: commentId,
+                        userId: userId
+                    })
+                    .del();
+
+                await knex('comment')
+                    .where('commentId', commentId)
+                    .decrement('like', 1);
+            }
+        }
     }
 };

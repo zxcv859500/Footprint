@@ -40,4 +40,41 @@ router.post('/:id/edit', (req, res, next) => {
         })
 });
 
+router.use('/:id/like', auth);
+router.get('/:id/like', (req, res, next) => {
+    const commentId = req.params.id;
+    const { username } = req.decoded;
+
+    controller.like.commentLikeHandle(commentId, username)
+        .then(() => {
+            res.status(200).json({
+                commentId: commentId,
+                username: username
+            })
+        })
+        .catch(() => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
+router.use('/:id/like/cancel', auth);
+router.get('/:id/like', (req, res, next) => {
+    const commentId = req.params.id;
+    const { username } = req.decoded;
+
+    controller.like.commentLikeCancel(commentId, username)
+        .then(() => {
+            res.status(200).json({
+                message: "Comment like cancel complete"
+            })
+        })
+        .catch((err) => {
+            res.status(409).json({
+                Error: err.message
+            })
+        })
+});
+
 module.exports = router;
