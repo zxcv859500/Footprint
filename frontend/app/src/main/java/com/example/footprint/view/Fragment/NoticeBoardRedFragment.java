@@ -28,7 +28,9 @@ public class NoticeBoardRedFragment extends Fragment {
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_notice_board_red,container,false);
+
         lvNoticeRed = (ListView) view.findViewById(R.id.lv_notice_red);
+
         header = getLayoutInflater().inflate(R.layout.header_notice_red,null,false);
         tvNickName = (TextView) header.findViewById(R.id.tv_nick_name);
         tvTitle = (TextView) header.findViewById(R.id.tv_title);
