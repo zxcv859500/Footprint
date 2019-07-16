@@ -33,4 +33,18 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
         })
 });
 
+router.post('/get', (req, res, next) => {
+   const { latitude, longitude } = req.body;
+
+   controller.post.getPost(latitude, longitude)
+       .then((result) => {
+           res.status(200).send(result);
+       })
+       .catch((err) => {
+           res.status(500).json({
+               Error: err.message
+           });
+       })
+});
+
 module.exports = router;

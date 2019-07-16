@@ -3,15 +3,15 @@ const knex = require('../knexfile');
 module.exports = {
     async create(data) {
         try {
-            if (data.type !== 1) {
+            if (data.type !== '1') {
                 const count = await knex.count('postId as CNT')
                     .from('post')
                     .joinRaw('natural join markerApply natural join marker')
                     .where({
                         latitude: data.latitude,
-                        longitude: data.longitude
+                        longitude: data.longitude,
+                        type: data.type
                     });
-                console.log(count[0].CNT);
                 if (count[0].CNT >= 1) {
                     throw new Error("Type A or Type C can only exist by one");
                 }
@@ -66,6 +66,40 @@ module.exports = {
         } catch(err) {
             throw err;
         }
+    },
 
+    async getPost(latitude, longitude) {
+        let posts = [];
+        const postIds = await knex.select('postId')
+            .from('post')
+            .joinRaw('natural join markerApply natural join marker')
+            .where({
+                latitude: latitude,
+                longitude: longitude
+            })
+            .map((result) => {
+                return result.postId;
+            });
+
+        for (const postId of postIds) {
+            const post = await knex.select('title', 'content', 'nickname', 'like', 'pictureId', 'date', 'type')
+                .from('post')
+                .joinRaw('natural join pictureApply natural join picture')
+                .joinRaw('natural join postApply natural join user')
+                .where({
+                    postId: postId
+                })
+                .map(r => ({
+                    title: r.title,
+                    content: r.content,
+                    author: r.author,
+                    like: r.like,
+                    pictureId: r.pictureId,
+                    date: r.date,
+                    type: r.type
+                }));
+            posts.push(await post[0]);
+        }
+        return posts;
     }
 };
