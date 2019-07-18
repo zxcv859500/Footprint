@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,29 +19,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap googleMap;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton fabMain, fabCamera, fabHere;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        //Intent intent = new Intent(MapActivity.this,NoticeBoardActivity.class);
-        //startActivity(intent);
 
-        floatingActionButton = findViewById(R.id.fab_main);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fabMain = findViewById(R.id.fab_main);
+        fabCamera = findViewById(R.id.fab_camera);
+        fabHere = findViewById(R.id.fab_here);
 
-            }
-        });
+        fabMain.setOnClickListener(new BtnOnClickListener());
+        fabCamera.setOnClickListener(new BtnOnClickListener());
+        fabHere.setOnClickListener(new BtnOnClickListener());
 
-        try {
-            MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment);
-            mapFragment.getMapAsync(this);
-        } catch (NullPointerException e) {
-
-        }
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -49,5 +44,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng jeonJu = new LatLng(35.828521, 127.115604);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jeonJu, (float)11.9));
+    }
+
+    class BtnOnClickListener implements FloatingActionButton.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.fab_main:
+                    if (fabCamera.getVisibility() == View.VISIBLE) {
+                        fabCamera.hide();
+                        fabHere.hide();
+                    } else {
+                        fabCamera.show();
+                        fabHere.show();
+                    }
+                    break;
+                case R.id.fab_camera:
+                    break;
+                case R.id.fab_here:
+                    break;
+            }
+        }
     }
 }

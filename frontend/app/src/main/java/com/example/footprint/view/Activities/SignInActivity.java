@@ -50,6 +50,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     class BtnOnClickListener implements Button.OnClickListener {
+
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
