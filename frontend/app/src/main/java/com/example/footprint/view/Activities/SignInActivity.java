@@ -54,11 +54,11 @@ public class SignInActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btn_login:
-                    User user = new User();
-                    user.setUserName(etEmail.getText().toString());
-                    user.setPassword(etPassword.getText().toString());
-
-                    UserClient userClient = new UserClient(user);
+//                    User user = new User();
+//                    user.setUserName(etEmail.getText().toString());
+//                    user.setPassword(etPassword.getText().toString());
+//
+//                    UserClient userClient = new UserClient(user);
 
 
                     // 에러 분류 관리 추가 미완
