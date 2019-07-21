@@ -6,6 +6,12 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/src/app/
+    environment:
+      MYSQL_ROOT_PASSWORD: "rkfaorl453!"
+      MYSQL_DATABASE: "Footprint"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "rkfaorl453!"
+      MYSQL_HOST: "172.0.0.1"
     links:
       - mysql
     depends_on:
