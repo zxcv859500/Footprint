@@ -5,6 +5,12 @@ const auth = require('../../../middlewares/auth');
 router.post('/register', (req, res) => {
     const {username, password, nickname} = req.body;
 
+    if (!username || !password || !nickname) {
+        res.status(409).json({
+            error: "Username, password, nickname required"
+        })
+    }
+
     if (username.length <= 0 || username.length > 16 || password.length <= 0 || password.length > 16) {
         res.status(409).json({
             error: "username or password too long"
@@ -18,12 +24,20 @@ router.post('/register', (req, res) => {
             });
         })
         .catch((err) => {
-            res.status(500).send(err);
+            res.status(500).json({
+                error: err.message
+            });
         })
 });
 
 router.post('/login', (req, res) => {
     const {username, password} = req.body;
+
+    if (!username || !password) {
+        res.status(409).json({
+            Error: "Username and password required"
+        })
+    }
 
     controller.user.login(username, password)
         .then((result) => {

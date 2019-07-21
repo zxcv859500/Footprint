@@ -22,6 +22,12 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
         date: new Date()
     };
 
+    if (!data.title || !data.content || !data.latitude || !data.longitude || !data.road || !data.type) {
+        res.status(409).json({
+            Error: "Title, content, latitude, longitude, road, type required"
+        })
+    }
+
     controller.post.create(data)
         .then(() => {
             res.status(200).send(data);
@@ -35,6 +41,12 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
 
 router.post('/list', (req, res, next) => {
    const { latitude, longitude } = req.body;
+
+   if (!latitude || !longitude) {
+       res.status(409).json({
+           Error: "Latitude and longitude required"
+       })
+   }
 
    controller.post.getList(latitude, longitude)
        .then((result) => {
@@ -105,7 +117,7 @@ router.post('/:id/comment', (req, res, next) => {
     const postId = req.params.id;
     const { content } = req.body;
 
-    if (content.trim() === '') {
+    if (!content || content.trim() === '') {
         res.status(409).json({
             Error: "Content empty"
         })
