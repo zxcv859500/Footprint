@@ -26,6 +26,12 @@ router.post('/:id/edit', (req, res, next) => {
     const commentId = req.params.id;
     const { content } = req.body;
 
+    if (!content) {
+        res.status(409).json({
+            Error: "Content required"
+        })
+    }
+
     controller.comment.edit(nickname, commentId, content)
         .then(() => {
             res.status(200).json({
