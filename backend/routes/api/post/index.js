@@ -36,6 +36,12 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
 router.post('/list', (req, res, next) => {
    const { latitude, longitude } = req.body;
 
+   if (!latitude || !longitude) {
+       res.status(409).json({
+           Error: "Latitude and longitude required"
+       })
+   }
+
    controller.post.getList(latitude, longitude)
        .then((result) => {
            res.status(200).send(result);
