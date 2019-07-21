@@ -117,7 +117,7 @@ router.post('/:id/comment', (req, res, next) => {
     const postId = req.params.id;
     const { content } = req.body;
 
-    if (content.trim() === '') {
+    if (!content || content.trim() === '') {
         res.status(409).json({
             Error: "Content empty"
         })
