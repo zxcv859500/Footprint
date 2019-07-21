@@ -5,6 +5,18 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
     async create(username, password, nickname) {
+        const count = await knex.count('userId as cnt')
+            .from('user')
+            .where('username', username)
+            .orWhere('nickname', nickname)
+            .map((result) => {
+                return result.cnt
+            });
+
+        if (count >= 1) {
+            throw new Error("Username or nickname already exists");
+        }
+
         const encrypted = crypto.createHmac('sha1', config.secret)
             .update(password)
             .digest('base64');
