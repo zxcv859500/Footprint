@@ -22,6 +22,12 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
         date: new Date()
     };
 
+    if (!data.title || !data.content || !data.latitude || !data.longitude || !data.road || !data.type) {
+        res.status(409).json({
+            Error: "Title, content, latitude, longitude, road, type required"
+        })
+    }
+
     controller.post.create(data)
         .then(() => {
             res.status(200).send(data);
