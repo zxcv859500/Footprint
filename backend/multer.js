@@ -1,7 +1,6 @@
 const multer = require('multer');
 const path = require('path');
-//const uploadDir = path.join(__dirname, '../uploads');
-const uploadDir = './public/uploads';
+const uploadDir = path.join(__dirname, '/public/uploads');
 const config = require('./config');
 const crypto = require('crypto');
 
