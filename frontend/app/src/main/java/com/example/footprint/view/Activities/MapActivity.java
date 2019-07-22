@@ -56,14 +56,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jeonJu, (float)11.9));
     }
 
-    public void whereAmI() {
+    public Location whereAmI() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MapActivity.this,
                         new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
-                return;
             }
         }
 
@@ -78,10 +77,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
 
-        double lat = location.getLatitude();
-        double lng = location.getLongitude();
-        LatLng here = new LatLng(lat, lng);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+        return location;
     }
 
     class BtnOnClickListener implements FloatingActionButton.OnClickListener {
@@ -103,7 +99,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 case R.id.fab_camera:
                     break;
                 case R.id.fab_here:
-                    whereAmI();
+                    Location location = whereAmI();
+                    double lat = location.getLatitude();
+                    double lng = location.getLongitude();
+                    LatLng here = new LatLng(lat, lng);
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
                     break;
             }
         }
