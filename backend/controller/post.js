@@ -19,13 +19,22 @@ module.exports = {
             .select('userId')
             .where('user.nickname', data.author);
         userId = userId[0].userId;
+
+        let pictureId = await knex('picture')
+            .insert({
+                path: data.picture
+            })
+            .returning('pictureId');
+        pictureId = pictureId[0];
+
         let postId = await knex('post')
             .insert({
                 title: data.title,
                 content: data.content,
                 date: data.date,
                 type: data.type,
-                userId: userId
+                userId: userId,
+                pictureId: pictureId
             })
             .returning('postId');
         postId = postId[0];
@@ -59,17 +68,6 @@ module.exports = {
                 });
         }
         markerId = markerId[0];
-        let pictureId = await knex('picture')
-            .insert({
-                path: data.picture
-            })
-            .returning('pictureId');
-        pictureId = pictureId[0];
-        await knex('pictureApply')
-            .insert({
-                pictureId: pictureId,
-                postId: postId
-            });
         await knex('markerApply')
             .insert({
                 markerId: markerId,
@@ -93,7 +91,7 @@ module.exports = {
         for (const postId of postIds) {
             const post = await knex.select('title', 'nickname', 'pictureId', 'like', 'date', 'type', 'postId')
                 .from('post')
-                .joinRaw('natural join pictureApply natural join picture')
+                .joinRaw('natural join picture')
                 .joinRaw('natural join user')
                 .where({
                     postId: postId
@@ -115,7 +113,7 @@ module.exports = {
     async getPost(postId) {
         let post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
             .from('post')
-            .joinRaw('natural join pictureApply natural join picture')
+            .joinRaw('natural join picture')
             .joinRaw('natural join user')
             .where({
                 postId: postId
