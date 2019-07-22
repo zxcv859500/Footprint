@@ -91,7 +91,6 @@ module.exports = {
         for (const postId of postIds) {
             const post = await knex.select('title', 'nickname', 'pictureId', 'like', 'date', 'type', 'postId')
                 .from('post')
-                .joinRaw('natural join picture')
                 .joinRaw('natural join user')
                 .where({
                     postId: postId
@@ -113,7 +112,6 @@ module.exports = {
     async getPost(postId) {
         let post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
             .from('post')
-            .joinRaw('natural join picture')
             .joinRaw('natural join user')
             .where({
                 postId: postId

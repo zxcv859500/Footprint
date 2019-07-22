@@ -14,11 +14,18 @@ module.exports = {
         if (postCnt <= 0) {
             throw new Error("Post doesn't exist");
         } else {
+            const userId = await knex('user')
+                .select('userId')
+                .where('nickname', author)
+                .map((result) => {
+                    return result.userId
+                });
+
             const commentId = await knex('comment')
                 .insert({
                     content: content,
-                    author: author,
-                    date: date
+                    date: date,
+                    userId: userId
                 })
                 .returning('commentId');
             await knex('commentApply')
@@ -31,12 +38,13 @@ module.exports = {
 
     async delete(author, commentId) {
         const comment = await knex('comment')
-            .select('author')
+            .select('nickname')
+            .joinRaw('natural join user')
             .count('commentId as cnt')
             .where('commentId', commentId)
             .map(r => ({
                 cnt: r.cnt,
-                author: r.author
+                author: r.nickname
             }));
 
         if (comment[0].cnt <= 0) {
@@ -56,7 +64,8 @@ module.exports = {
 
     async edit(author, commentId, content) {
         const comment = await knex('comment')
-            .select('author')
+            .select('nickname')
+            .joinRaw('natural join user')
             .count('commentId as cnt')
             .where('commentId', commentId)
             .map(r => ({
