@@ -2,7 +2,7 @@
   
 ### ENDPOINT : jonathan.iptime.org:10355  
 
-### **요청 시 Auth 필요: x-access-header에 토큰 삽입 필요**
+### **요청 시 Auth 필요: x-access-token에 토큰 삽입 필요**
   
   
 #### 로그인
