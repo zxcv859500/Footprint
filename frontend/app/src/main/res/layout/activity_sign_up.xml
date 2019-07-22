@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:gravity="center" >
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입" />
+
     <EditText
         android:id="@+id/et_sign_up_id"
         android:layout_width="300dp"
@@ -36,16 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
-        
-        <Spinner
-            android:id="@+id/sp_carrier"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/carrier" />
 
         <EditText
             android:id="@+id/et_phone"
-            android:layout_width="150dp"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:hint="핸드폰 번호"
             android:inputType="phone" />
@@ -60,7 +59,7 @@
 
     <EditText
         android:id="@+id/et_authentication"
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="인증 번호"
         android:inputType="number" />

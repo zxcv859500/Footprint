@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:tint="@color/colorPrimary"
+        android:tint="#FFFFFF"
+        android:src="@drawable/ic_plus"
         android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,7 +29,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="88dp"
-        android:tint="@color/colorPrimary"
+        android:tint="#FFFFFF"
+        android:src="@drawable/ic_camera"
         android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,7 +41,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="160dp"
-        android:tint="@color/colorPrimary"
+        android:tint="#FFFFFF"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_gps"
         android:visibility="invisible" />
 
 </FrameLayout>
