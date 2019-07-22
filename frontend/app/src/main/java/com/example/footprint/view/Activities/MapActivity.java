@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
@@ -25,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private static final int REQUEST_IMAGE_CAPTURE = 672;
     GoogleMap googleMap;
     FloatingActionButton fabMain, fabCamera, fabHere;
     LocationManager locationManager;
@@ -80,6 +82,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return location;
     }
 
+    public void imageCapture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+    }
+
     class BtnOnClickListener implements FloatingActionButton.OnClickListener {
 
         @Override
@@ -97,6 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     break;
                 case R.id.fab_camera:
+                    imageCapture();
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();
