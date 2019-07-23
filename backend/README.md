@@ -1,6 +1,6 @@
 # Footprint RESTFUL API  
   
-### ENDPOINT : jonathan.iptime.org:10355  
+### ENDPOINT : 203.254.143.185:3000 
 
 ### **요청 시 Auth 필요: x-access-token에 토큰 삽입 필요**
   
