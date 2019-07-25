@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const controller = require('../../../controller/index');
+const controller = require('../../../controller/mysql');
 const auth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {

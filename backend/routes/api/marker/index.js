@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const controller = require('../../../controller');
+const controller = require('../../../controller/mysql');
 
 router.get('/list', (req, res, next) => {
     controller.marker.list()
