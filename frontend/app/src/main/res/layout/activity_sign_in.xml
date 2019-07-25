@@ -13,18 +13,18 @@
         android:text="FootPrint"/>
 
     <EditText
-        android:id="@+id/et_email"
+        android:id="@+id/et_id"
 
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="아이디"
         android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/et_password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="비밀번호"
         android:inputType="textPassword" />
 
     <CheckBox

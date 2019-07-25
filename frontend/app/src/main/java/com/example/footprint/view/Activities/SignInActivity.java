@@ -19,7 +19,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 
 public class SignInActivity extends AppCompatActivity {
-    EditText etEmail, etPassword;
+    EditText etId, etPassword;
     CheckBox cbAutoLogin;
     Button btnLogin, btnJoin;
     User user;
@@ -28,7 +28,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        etEmail = (EditText) findViewById(R.id.et_email);
+        etId = (EditText) findViewById(R.id.et_id);
         etPassword = (EditText) findViewById(R.id.et_password);
         cbAutoLogin = (CheckBox) findViewById(R.id.cb_auto_login);
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -50,15 +50,16 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     class BtnOnClickListener implements Button.OnClickListener {
+
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btn_login:
-                    User user = new User();
-                    user.setUserName(etEmail.getText().toString());
-                    user.setPassword(etPassword.getText().toString());
-
-                    UserClient userClient = new UserClient(user);
+//                    User user = new User();
+//                    user.setUserName(etEmail.getText().toString());
+//                    user.setPassword(etPassword.getText().toString());
+//
+//                    UserClient userClient = new UserClient(user);
 
 
                     // 에러 분류 관리 추가 미완

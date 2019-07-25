@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입" />
+
+    <EditText
+        android:id="@+id/et_sign_up_id"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="아이디"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/et_nick_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="닉네임" />
+
+    <EditText
+        android:id="@+id/et_sign_up_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/et_password_check"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 재입력"
+        android:inputType="textPassword"/>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:hint="핸드폰 번호"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/btn_authentication"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:hint="인증" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_authentication"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="인증 번호"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:layout_marginTop="30dp" />
 
 </LinearLayout>
