@@ -1,0 +1,1 @@
+const client = require('redis').createClient();

@@ -1,4 +1,4 @@
-const knex = require('../../knexfile');
+const knex = require('../knexfile');
 const crypto = require('crypto');
 const config = require('../../config');
 const jwt = require('jsonwebtoken');

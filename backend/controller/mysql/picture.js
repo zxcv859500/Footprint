@@ -1,4 +1,4 @@
-const knex = require('../../knexfile');
+const knex = require('../knexfile');
 const path = require('path');
 const picturePath = path.join(__dirname, '../', '/public/uploads');
 
