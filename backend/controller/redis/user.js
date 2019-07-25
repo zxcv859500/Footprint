@@ -1,1 +1,2 @@
-const client = require('redis').createClient();
+const client = require('../redisfile');
+

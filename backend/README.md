@@ -29,7 +29,8 @@
 {
   "username": "example",
   "password": "password",
-  "nickname": "nickname"
+  "nickname": "nickname",
+  "phone": "010-0000-0000"
 }
 ```
 
