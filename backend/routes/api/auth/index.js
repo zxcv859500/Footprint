@@ -3,11 +3,17 @@ const controller = require('../../../controller/index');
 const auth = require('../../../middlewares/auth');
 
 router.post('/register', (req, res) => {
-    const {username, password, nickname} = req.body;
+    const {username, password, nickname, phone} = req.body;
 
-    if (!username || !password || !nickname) {
+    if (!username || !password || !nickname || !phone) {
         res.status(409).json({
-            error: "Username, password, nickname required"
+            error: "Username, password, nickname, phone required"
+        })
+    }
+
+    if (!phone.match(/^\d{3}-\d{3,4}-\d{4}$/)) {
+        res.status(409).json({
+            error: "Unsuccessful phone number"
         })
     }
 
@@ -17,7 +23,7 @@ router.post('/register', (req, res) => {
         });
     }
 
-    controller.user.create(username, password, nickname)
+    controller.user.create(username, password, nickname, phone)
         .then((result) => {
             res.json({
                 message: "register success"
