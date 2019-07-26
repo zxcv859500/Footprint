@@ -1,4 +1,4 @@
-const controller = require('../../../controller');
+const controller = require('../../../controller/mysql');
 const router = require('express').Router();
 
 router.get('/:id', (req, res, next) => {
