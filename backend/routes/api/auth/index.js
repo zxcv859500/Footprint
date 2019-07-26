@@ -2,6 +2,7 @@ const router = require('express').Router();
 const controller = require('../../../controller/mysql');
 const service = require('../../../service/');
 const auth = require('../../../middlewares/auth');
+const redis = require('../../../controller/redis');
 
 router.post('/register', (req, res) => {
     const {username, password, nickname, phone} = req.body;
@@ -63,7 +64,7 @@ router.get('/check', (req, res) => {
     });
 });
 
-router.use('/verify', async (req, res) => {
+router.post('/verify/create', async (req, res) => {
     const { phone } = req.body;
 
     if (!phone) {
@@ -84,6 +85,36 @@ router.use('/verify', async (req, res) => {
                 res.status(200).json({
                     message: "Verification number has send to your phone"
                 })
+            })
+            .catch((err) => {
+                res.status(409).json({
+                    error: err.message
+                })
+            })
+    }
+});
+
+router.post('/verify', (req, res) => {
+    const { phone, verify } = req.body;
+
+    if (!phone || !verify) {
+        res.status(409).json({
+            error: "Phone number or verify number required"
+        })
+    } else if (!phone.match(/^\d{3}-\d{3,4}-\d{4}$/)) {
+        res.status(409).json({
+            error: "Unsuccessful phone number"
+        })
+    } else {
+        redis.verify.verify(phone)
+            .then((result) => {
+                if (verify === result) {
+                    res.status(200).json({
+                        message: "Verification complete"
+                    })
+                } else {
+                    throw new Error("Verification failed")
+                }
             })
             .catch((err) => {
                 res.status(409).json({

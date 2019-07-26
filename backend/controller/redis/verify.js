@@ -11,22 +11,10 @@ module.exports = {
     return verificationNumber;
   },
 
-  async get(phone) {
-    let verificationNumber;
-    let error = null;
+  async verify(phone) {
+    const {promisify} = require('util');
+    const getAsync = promisify(client.get).bind(client);
 
-    client.get('phone', (err, reply) => {
-      if (err) {
-        error = err
-      } else {
-        verificationNumber = reply;
-      }
-    });
-
-    if (error) {
-      throw error;
-    } else {
-      return verificationNumber;
-    }
+    return await getAsync(phone);
   }
 };
