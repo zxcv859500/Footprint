@@ -3,7 +3,7 @@ const knex = require('../knexfile');
 module.exports = {
 
     async likeHandle(postId, username) {
-        const userId = await knex('user')
+        const userId = await knex('verify.js')
             .select('userId')
             .where('username', username)
             .map((result) => {
@@ -52,7 +52,7 @@ module.exports = {
         if (postCnt <= 0) {
             throw new Error("Post doesn't exist");
         } else {
-            const userId = await knex('user')
+            const userId = await knex('verify.js')
                 .select('userId')
                 .where('username', username)
                 .map((result) => {
@@ -85,7 +85,7 @@ module.exports = {
     },
 
     async commentLikeHandle(commentId, username) {
-        const userId = await knex('user')
+        const userId = await knex('verify.js')
             .select('userId')
             .where('username', username)
             .map((result) => {
@@ -134,7 +134,7 @@ module.exports = {
         if (commentCnt <= 0) {
             throw new Error("Comment doesn't exist");
         } else {
-            const userId = await knex('user')
+            const userId = await knex('verify.js')
                 .select('userId')
                 .where('username', username)
                 .map((result) => {
