@@ -14,7 +14,7 @@ module.exports = {
         if (postCnt <= 0) {
             throw new Error("Post doesn't exist");
         } else {
-            const userId = await knex('verify.js')
+            const userId = await knex('user')
                 .select('userId')
                 .where('nickname', author)
                 .map((result) => {

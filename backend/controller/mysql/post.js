@@ -15,9 +15,9 @@ module.exports = {
                 throw new Error("Type A or Type C can only exist by one");
             }
         }
-        let userId = await knex('verify.js')
+        let userId = await knex('user')
             .select('userId')
-            .where('verify.js.nickname', data.author);
+            .where('user.nickname', data.author);
         userId = userId[0].userId;
 
         let pictureId = await knex('picture')

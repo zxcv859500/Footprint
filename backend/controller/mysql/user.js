@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 module.exports = {
     async create(username, password, nickname, phone) {
         const count = await knex.count('userId as cnt')
-            .from('verify.js')
+            .from('user')
             .where('username', username)
             .orWhere('nickname', nickname)
             .orWhere('phone', phone)
@@ -23,7 +23,7 @@ module.exports = {
             .digest('base64');
 
         try {
-            return await knex('verify.js')
+            return await knex('user')
                 .insert({username: username, password: encrypted, nickname: nickname, phone: phone});
         } catch(err) {
             throw err;
@@ -60,5 +60,16 @@ module.exports = {
         } else {
             throw new Error("Wrong password");
         }
+    },
+
+    async verifyPhone(phone) {
+        const count = await knex.count('userId as cnt')
+            .from('user')
+            .where('phone', phone)
+            .map((result) => {
+                return result.cnt;
+            });
+
+        return count[0] <= 0;
     }
 };
