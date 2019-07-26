@@ -64,7 +64,7 @@ router.get('/check', (req, res) => {
     });
 });
 
-router.post('/verify/create', async (req, res) => {
+router.post('/cert', async (req, res) => {
     const { phone } = req.body;
 
     if (!phone) {
