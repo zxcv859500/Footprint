@@ -24,12 +24,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int REQUEST_IMAGE_CAPTURE = 672;
-    GoogleMap googleMap;
-    FloatingActionButton fabMain, fabCamera, fabHere;
-    LocationManager locationManager;
+    private GoogleMap googleMap;
+    private FloatingActionButton fabMain, fabCamera, fabHere;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(MapActivity.this,
                         new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
+                return null;
             }
         }
 
@@ -85,6 +87,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void imageCapture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+
+//        TODO:
+//        찍은 사진 파일을 가져올 것
     }
 
     class BtnOnClickListener implements FloatingActionButton.OnClickListener {
@@ -105,6 +110,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     break;
                 case R.id.fab_camera:
                     imageCapture();
+                    // TODO:
+                    // 찍은 이미지와 현위치 정보를 서버에 보내고
+                    // 마커 찍기
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();

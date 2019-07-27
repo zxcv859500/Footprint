@@ -9,7 +9,7 @@ public class Comment {
     public void Comment(){
     }
 
-    public void Comment(String maintext,String nickname,String date, String love){
+    public void Comment(String maintext, String nickname,String date, String love){
         this.maintext = maintext;
         this.nickname = nickname;
         this.date = date;
