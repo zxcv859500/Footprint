@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Footprint</string>
+    <string name="end_point">203.254.143.185:3000</string>
 </resources>

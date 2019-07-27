@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.footprint.R;
 import com.example.footprint.model.User;
 import com.example.footprint.net.UserClient;
+import com.example.footprint.service.RestAPI;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class SignInActivity extends AppCompatActivity {
     EditText etId, etPassword;
@@ -28,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
         etId = (EditText) findViewById(R.id.et_id);
         etPassword = (EditText) findViewById(R.id.et_password);
         cbAutoLogin = (CheckBox) findViewById(R.id.cb_auto_login);
@@ -56,13 +63,11 @@ public class SignInActivity extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.btn_login:
 //                    User user = new User();
-//                    user.setUserName(etEmail.getText().toString());
+//                    user.setUserName(etId.getText().toString());
 //                    user.setPassword(etPassword.getText().toString());
 //
 //                    UserClient userClient = new UserClient(user);
-
-
-                    // 에러 분류 관리 추가 미완
+//
 //                    userClient.signIn(new JsonHttpResponseHandler() {
 //                        @Override
 //                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -75,11 +80,26 @@ public class SignInActivity extends AppCompatActivity {
 //
 //                        }
 //                    });
+                    JSONObject jsonParams = new JSONObject();
+                    try {
+                        jsonParams.put("username", etId.getText().toString())
+                                  .put("password", etPassword.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    RestAPI.post("/auth/login", jsonParams, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            // TODO: 토큰 저장
+                            Toast.makeText(SignInActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                            Intent signInIntent = new Intent(SignInActivity.this, MapActivity.class);
+                            startActivity(signInIntent);
+                        }
+                    });
 
 
-
-                    Intent signInIntent = new Intent(SignInActivity.this, MapActivity.class);
-                    startActivity(signInIntent);
                     break;
 
 
