@@ -1,7 +1,9 @@
 package com.example.footprint.view.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,16 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.footprint.R;
 import com.example.footprint.model.User;
-import com.example.footprint.net.UserClient;
 import com.example.footprint.service.RestAPI;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class SignInActivity extends AppCompatActivity {
     EditText etId, etPassword;
@@ -52,6 +50,18 @@ public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
+        SharedPreferences sf = getSharedPreferences("sFile", MODE_PRIVATE);
+        String email = sf.getString("email", "");
+        Log.d("for email", email);
+        String pass = sf.getString("pass", "");
+        Log.d("for email", pass);
+
+        if (email.equals("") || pass.equals("")) {
+        } else {
+            signin(email,pass);
+        }
+
         super.onResume();
 
     }
@@ -62,43 +72,7 @@ public class SignInActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btn_login:
-//                    User user = new User();
-//                    user.setUserName(etId.getText().toString());
-//                    user.setPassword(etPassword.getText().toString());
-//
-//                    UserClient userClient = new UserClient(user);
-//
-//                    userClient.signIn(new JsonHttpResponseHandler() {
-//                        @Override
-//                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//
-//                        }
-//                    });
-                    JSONObject jsonParams = new JSONObject();
-                    try {
-                        jsonParams.put("username", etId.getText().toString())
-                                  .put("password", etPassword.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    RestAPI.post("/auth/login", jsonParams, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            // TODO: 토큰 저장
-                            Toast.makeText(SignInActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-
-                            Intent signInIntent = new Intent(SignInActivity.this, MapActivity.class);
-                            startActivity(signInIntent);
-                        }
-                    });
-
+                    signin(etId.getText().toString(),etPassword.getText().toString());
 
                     break;
 
@@ -110,6 +84,49 @@ public class SignInActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+
+    private void signin(String id, String password){
+        JSONObject jsonParams = new JSONObject();
+        try {
+            jsonParams.put("username",id)
+                    .put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestAPI.post("/auth/login", jsonParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // TODO: 토큰 저장
+                Toast.makeText(SignInActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+
+
+                SharedPreferences sharedPreferences = getSharedPreferences("sFile", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                if (cbAutoLogin.isChecked() == true) {
+
+                    String email = etId.getText().toString();
+                    String pass = etPassword.getText().toString();
+
+                    editor.putString("email", email);
+                    editor.putString("pass", pass);
+
+                    editor.commit();
+                } else {
+                    editor.putString("email", "");
+                    editor.putString("pass", "");
+
+                }
+
+                Intent signInIntent = new Intent(SignInActivity.this, MapActivity.class);
+                signInIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                signInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(signInIntent);
+            }
+        });
     }
 
 }

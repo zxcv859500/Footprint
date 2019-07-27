@@ -3,8 +3,6 @@ package com.example.footprint.model;
 public class Token {
     private User user;
 
-
-
     private Token(){
 
     }
