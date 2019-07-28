@@ -3,11 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center" >
+    android:gravity="center"
+    android:weightSum="100" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="50dp"
+        android:textSize="25sp"
         android:text="회원가입" />
 
     <EditText
@@ -21,12 +26,14 @@
         android:id="@+id/et_nickname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="닉네임" />
 
     <EditText
         android:id="@+id/et_sign_up_password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="비밀번호"
         android:inputType="textPassword"/>
 
@@ -34,9 +41,10 @@
         android:id="@+id/et_password_check"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="비밀번호 재입력"
         android:inputType="textPassword"/>
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +59,7 @@
         <TextView
             android:layout_width="7.5dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="-" />
 
         <EditText
@@ -62,6 +71,7 @@
         <TextView
             android:layout_width="7.5dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="-" />
 
         <EditText
@@ -72,16 +82,20 @@
 
         <Button
             android:id="@+id/btn_authentication"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:hint="인증" />
+            android:layout_width="65dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
+            android:text="인증"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/et_verification"
@@ -99,18 +113,22 @@
 
         <Button
             android:id="@+id/btn_verification"
-            android:layout_width="75dp"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:hint="확인" />
+            android:layout_width="65dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
+            android:text="확인"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_sign_up"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:layout_marginTop="30dp" />
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="50dp" />
 
 </LinearLayout>

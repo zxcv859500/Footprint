@@ -116,11 +116,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();
-                    double lat = location.getLatitude();
-                    double lng = location.getLongitude();
-                    LatLng here = new LatLng(lat, lng);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
-                    break;
+                    if (location != null) {
+                        double lat = location.getLatitude();
+                        double lng = location.getLongitude();
+                        LatLng here = new LatLng(lat, lng);
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+                        break;
+                    }
             }
         }
     }

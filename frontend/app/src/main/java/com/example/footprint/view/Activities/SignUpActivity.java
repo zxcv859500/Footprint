@@ -142,7 +142,6 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "휴대폰번호를 잘못 입력하셨습니다.", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    startTimerTask();
                     break;
                 case R.id.btn_verification:
                     try {

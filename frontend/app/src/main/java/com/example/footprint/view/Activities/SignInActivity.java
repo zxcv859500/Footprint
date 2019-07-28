@@ -126,6 +126,10 @@ public class SignInActivity extends AppCompatActivity {
                 signInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(signInIntent);
             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(SignInActivity.this, "아이디, 비밀번호 오류", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
