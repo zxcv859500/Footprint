@@ -85,10 +85,17 @@
 
         <EditText
             android:id="@+id/et_verification"
-            android:layout_width="225dp"
+            android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:hint="인증번호"
             android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="3:00"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/btn_verification"
