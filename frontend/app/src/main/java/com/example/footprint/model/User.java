@@ -15,8 +15,6 @@ public class User {
         this.token = token;
     }
 
-
-
     public String getUserName() {
         return userName;
     }
@@ -32,6 +30,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }

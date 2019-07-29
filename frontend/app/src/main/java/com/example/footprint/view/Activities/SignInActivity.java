@@ -3,6 +3,7 @@ package com.example.footprint.view.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.JsonToken;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.footprint.R;
+import com.example.footprint.model.Token;
 import com.example.footprint.model.User;
 import com.example.footprint.service.RestAPI;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -38,7 +40,6 @@ public class SignInActivity extends AppCompatActivity {
         cbAutoLogin = (CheckBox) findViewById(R.id.cb_auto_login);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnJoin = (Button) findViewById(R.id.btn_join);
-
         btnLogin.setOnClickListener(new BtnOnClickListener());
         btnJoin.setOnClickListener(new BtnOnClickListener());
     }
@@ -50,7 +51,6 @@ public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         SharedPreferences sf = getSharedPreferences("sFile", MODE_PRIVATE);
         String email = sf.getString("email", "");
         Log.d("for email", email);
@@ -99,9 +99,26 @@ public class SignInActivity extends AppCompatActivity {
         RestAPI.post("/auth/login", jsonParams, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // TODO: 토큰 저장
-                Toast.makeText(SignInActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
 
+                Toast.makeText(SignInActivity.this, "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+                JSONObject docs= null;
+                Log.d("test response",""+ response);
+                if(response != null){
+                    try {
+                        String tokenkey;
+
+                        docs = response;
+                        tokenkey = docs.getString("token");
+                        Log.d("test response",tokenkey);
+                        Token token = Token.getTokenObject();
+                        token.setTokenKey(tokenkey);
+                        Log.d("Token",tokenkey.toString());
+                    }catch (JSONException e){
+                        Log.d("Token","Fail for Exception");
+                    }
+                }else{
+                    Log.d("Token","Fail");
+                }
 
                 SharedPreferences sharedPreferences = getSharedPreferences("sFile", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();

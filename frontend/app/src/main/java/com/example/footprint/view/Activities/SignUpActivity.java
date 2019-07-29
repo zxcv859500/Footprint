@@ -124,6 +124,8 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             Toast.makeText(SignUpActivity.this, "가입되었습니다.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
                         @Override

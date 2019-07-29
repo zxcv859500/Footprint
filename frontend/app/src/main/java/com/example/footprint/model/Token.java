@@ -1,10 +1,13 @@
 package com.example.footprint.model;
 
 public class Token {
+
+
+    private String TokenKey;
     private User user;
 
     private Token(){
-
+        TokenKey = null;
     }
 
     private static class TokenHolder{
@@ -13,6 +16,14 @@ public class Token {
 
     public static Token getTokenObject(){
         return TokenHolder.INSTANCE;
+    }
+
+    public void setTokenKey(String tokenKey) {
+        TokenKey = tokenKey;
+    }
+
+    public String getTokenKey() {
+        return TokenKey;
     }
 
     public User getUser(){

@@ -25,7 +25,6 @@ public class UserClient {
         client.addHeader("x-access-token", user.getToken());
         client.get(url, handler);
 
-
     }
 
 
