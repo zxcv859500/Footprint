@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SignUpActivity extends AppCompatActivity {
     private EditText etSignUpId;
@@ -38,9 +41,13 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btnAuthentication;
     private Button btnVerification;
     private Button btnSignUp;
+    private TextView tvTimer;
 
     private String phoneNumber = "";
     private boolean isVerified = false;
+
+    private Timer timer = new Timer();
+    private TimerTask timerTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,9 +69,52 @@ public class SignUpActivity extends AppCompatActivity {
         btnVerification = findViewById(R.id.btn_verification);
         btnSignUp = findViewById(R.id.btn_sign_up);
 
+        tvTimer = findViewById(R.id.tv_timer);
+
         btnVerification.setOnClickListener(new BtnOnClickListener());
         btnAuthentication.setOnClickListener(new BtnOnClickListener());
         btnSignUp.setOnClickListener(new BtnOnClickListener());
+    }
+
+    @Override
+    protected void onDestroy() {
+        timer.cancel();
+        super.onDestroy();
+    }
+
+    private void startTimerTask() {
+        stopTimerTask();
+
+        timerTask = new TimerTask() {
+            int m = 3;
+            int s = 0;
+            @Override
+            public void run() {
+                m = (s == 0 ? m - 1 : m);
+                s = (s == 0 ? 59 : s - 1);
+
+                tvTimer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (m < 0) {
+                            stopTimerTask();
+                        } else {
+                            tvTimer.setText(String.format("%d:%02d", m, s));
+                        }
+                    }
+                });
+            }
+        };
+
+        timer.schedule(timerTask, 0, 1000);
+    }
+
+    private void stopTimerTask() {
+        if (timerTask != null) {
+            tvTimer.setText("3:00");
+            timerTask.cancel();
+            timerTask = null;
+        }
     }
 
     class BtnOnClickListener implements Button.OnClickListener {
@@ -82,7 +132,16 @@ public class SignUpActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    RestAPI.post("/auth/cert", jsonParams, new JsonHttpResponseHandler());
+                    RestAPI.post("/auth/cert", jsonParams, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            startTimerTask();
+                        }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Toast.makeText(SignUpActivity.this, "휴대폰번호를 잘못 입력하셨습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     break;
                 case R.id.btn_verification:
                     try {
@@ -96,6 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             Toast.makeText(SignUpActivity.this, "인증되었습니다.", Toast.LENGTH_SHORT).show();
                             isVerified = true;
+                            stopTimerTask();
                         }
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
