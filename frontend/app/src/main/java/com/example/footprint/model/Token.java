@@ -30,7 +30,7 @@ public class Token {
         return user;
     }
 
-    public User setUser(){
-        return user;
+    public void setUser(User user){
+        this.user = user;
     }
 }

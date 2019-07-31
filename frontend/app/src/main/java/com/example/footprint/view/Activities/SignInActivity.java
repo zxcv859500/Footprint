@@ -3,7 +3,6 @@ package com.example.footprint.view.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.JsonToken;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.footprint.R;
 import com.example.footprint.model.Token;
 import com.example.footprint.model.User;
-import com.example.footprint.service.RestAPI;
+import com.example.footprint.net.RestAPI;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -72,8 +71,9 @@ public class SignInActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btn_login:
+                    user.setUserName(etId.getText().toString());
+                    user.setPassword(etPassword.getText().toString());
                     signin(etId.getText().toString(),etPassword.getText().toString());
-
                     break;
 
 
@@ -87,7 +87,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    private void signin(String id, String password){
+    private void signin(String id, final String password){
         JSONObject jsonParams = new JSONObject();
         try {
             jsonParams.put("username",id)
@@ -113,6 +113,7 @@ public class SignInActivity extends AppCompatActivity {
                         Token token = Token.getTokenObject();
                         token.setTokenKey(tokenkey);
                         Log.d("Token",tokenkey.toString());
+                        token.setUser(user);
                     }catch (JSONException e){
                         Log.d("Token","Fail for Exception");
                     }

@@ -1,5 +1,6 @@
 package com.example.footprint.net;
 
+import com.example.footprint.model.Token;
 import com.example.footprint.model.User;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -7,23 +8,19 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import java.io.UnsupportedEncodingException;
 
 public class UserClient {
-    private static final String url = "아직 몰라";
+    private static final String url = "http://203.254.143.185:3000/api";
 
     private AsyncHttpClient client;
-    private User user;
+    private Token token;
 
-    public UserClient() {
-
+    public UserClient(){
+        token = Token.getTokenObject();
     }
 
-    public UserClient(User user) {
-        this.user = user;
-    }
+    public void write(JsonHttpResponseHandler handler) {
 
-    public void signIn(JsonHttpResponseHandler handler) {
-
-        client.addHeader("x-access-token", user.getToken());
-        client.get(url, handler);
+        client.addHeader("x-access-token", token.getTokenKey());
+        client.post(url, handler);
 
     }
 

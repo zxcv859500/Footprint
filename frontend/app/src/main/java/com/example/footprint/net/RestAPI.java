@@ -1,4 +1,4 @@
-package com.example.footprint.service;
+package com.example.footprint.net;
 
 import android.util.Log;
 
