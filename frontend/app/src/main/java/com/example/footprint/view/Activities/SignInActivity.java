@@ -27,12 +27,17 @@ public class SignInActivity extends AppCompatActivity {
     EditText etId, etPassword;
     CheckBox cbAutoLogin;
     Button btnLogin, btnJoin;
-    User user;
+    User user = new User();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+
+        Intent intent = new Intent(this, SplashActivity.class); // 로딩화면 준비
+        startActivity(intent); // 스플레시 엑티비티 시작
+
 
         etId = (EditText) findViewById(R.id.et_id);
         etPassword = (EditText) findViewById(R.id.et_password);
@@ -41,6 +46,8 @@ public class SignInActivity extends AppCompatActivity {
         btnJoin = (Button) findViewById(R.id.btn_join);
         btnLogin.setOnClickListener(new BtnOnClickListener());
         btnJoin.setOnClickListener(new BtnOnClickListener());
+
+
     }
 
     @Override
@@ -56,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
         String pass = sf.getString("pass", "");
         Log.d("for email", pass);
 
-        if (email.equals("") || pass.equals("")) {
+        if (email.equals("") && pass.equals("")) {
         } else {
             signin(email,pass);
         }

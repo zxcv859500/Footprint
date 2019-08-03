@@ -97,17 +97,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         }
 
-
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-
 //        TODO:
 //        찍은 사진 파일을 가져올 것
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     class BtnOnClickListener implements FloatingActionButton.OnClickListener {
 

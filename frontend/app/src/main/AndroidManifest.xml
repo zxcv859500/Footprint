@@ -27,6 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.Activities.SplashActivity"/>
         <activity android:name=".view.Activities.MapActivity"/>
         <activity android:name=".view.Activities.SignUpActivity"/>
         <activity android:name=".view.Activities.NoticeBoardActivity">
