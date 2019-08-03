@@ -3,6 +3,8 @@ package com.example.footprint.view.Activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,7 +39,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
@@ -104,6 +106,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             com.example.footprint.model.Marker marker = markers.get(i);
             markerOptions.position(new LatLng(Double.parseDouble(marker.getLatitude()),
                     Double.parseDouble(marker.getLongitude())));
+
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.black);
+            Bitmap b = bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 150, 150, false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
             googleMap.addMarker(markerOptions);
         }
     }
