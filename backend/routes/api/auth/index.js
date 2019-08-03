@@ -93,6 +93,23 @@ router.post('/edit', (req, res) => {
    }
 });
 
+router.use('/secession', auth);
+router.get('/secession', (req, res) => {
+   const { userId } = req.decoded;
+
+   controller.user.secession({ userId: userId })
+       .then(() => {
+           res.status(200).json({
+               message: "Secession complete"
+           })
+       })
+       .catch((err) => {
+           res.status(409).json({
+               error: err.message
+           })
+       })
+});
+
 router.post('/cert', async (req, res) => {
     const { phone } = req.body;
 
