@@ -32,7 +32,7 @@ import java.util.function.ToDoubleBiFunction;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private GoogleMap googleMap;
-    private FloatingActionButton fabMain, fabCamera, fabHere;
+    private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage;
     private LocationManager locationManager;
 
     @Override
@@ -43,10 +43,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fabMain = findViewById(R.id.fab_main);
         fabCamera = findViewById(R.id.fab_camera);
         fabHere = findViewById(R.id.fab_here);
+        fabMyPage = findViewById(R.id.fab_my_page);
 
         fabMain.setOnClickListener(new BtnOnClickListener());
         fabCamera.setOnClickListener(new BtnOnClickListener());
         fabHere.setOnClickListener(new BtnOnClickListener());
+        fabMyPage.setOnClickListener(new BtnOnClickListener());
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -87,22 +89,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return location;
     }
 
-    public void imageCapture() {
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-                Toast.makeText(this,"000부분 사용을 위해 카메라 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-            }
-
-        }
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-//        TODO:
-//        찍은 사진 파일을 가져올 것
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,18 +103,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (fabCamera.getVisibility() == View.VISIBLE) {
                         fabCamera.hide();
                         fabHere.hide();
+                        fabMyPage.hide();
                         fabMain.setImageDrawable(getResources().getDrawable(R.drawable.ic_plus));
                     } else {
                         fabCamera.show();
                         fabHere.show();
+                        fabMyPage.show();
                         fabMain.setImageDrawable(getResources().getDrawable(R.drawable.ic_minus));
                     }
                     break;
                 case R.id.fab_camera:
-                    imageCapture();
-                    // TODO:
-                    // 찍은 이미지와 현위치 정보를 서버에 보내고
-                    // 마커 찍기
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();
@@ -139,6 +123,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
                         break;
                     }
+                case R.id.fab_my_page:
+                    break;
             }
         }
     }
