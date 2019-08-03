@@ -91,5 +91,13 @@ module.exports = {
             password: password
         })
             .where('userId', userId);
+    },
+
+    async secession(params) {
+        const { userId } = params;
+
+        return await knex('user')
+            .where('userId', userId)
+            .del();
     }
 };
