@@ -31,8 +31,12 @@ module.exports = {
     },
 
     async login(username, password) {
-        let actualPwd;
-        let nickname;
+        let actualPwd,
+            nickname,
+            userId,
+            previlage,
+            phone;
+
         const encrypted = crypto.createHmac('sha1', config.secret)
             .update(password)
             .digest('base64');
@@ -43,14 +47,20 @@ module.exports = {
                 .where('u.username', username);
             actualPwd = user[0].password;
             nickname = user[0].nickname;
+            userId = user[0].userId;
+            previlage = user[0].previlage;
+            phone = user[0].phone;
         } catch(err) {
             throw err;
         }
         if (encrypted === actualPwd) {
              return await jwt.sign(
                 {
+                    userId: userId,
                     username: username,
-                    nickname: nickname
+                    nickname: nickname,
+                    previlage: previlage,
+                    phone: phone
                 },
                 config.secret,
                 {
@@ -71,5 +81,23 @@ module.exports = {
             });
 
         return count[0] <= 0;
+    },
+
+    async edit(params) {
+        const { password, nickname, userId } = params;
+
+        return await knex('user').update({
+            nickname: nickname,
+            password: password
+        })
+            .where('userId', userId);
+    },
+
+    async secession(params) {
+        const { userId } = params;
+
+        return await knex('user')
+            .where('userId', userId)
+            .del();
     }
 };
