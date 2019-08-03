@@ -7,7 +7,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.footprint.R;
 import com.example.footprint.model.Token;
+import com.example.footprint.net.RestAPI;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -27,16 +27,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private static final int REQUEST_IMAGE_CAPTURE = 672;
     private GoogleMap googleMap;
     private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage;
     private LocationManager locationManager;
     private Marker marker;
+    private ArrayList<com.example.footprint.model.Marker> markerArrayList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +72,40 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng jeonJu = new LatLng(35.828521, 127.115604);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jeonJu, (float)11.9));
+
+        markerArrayList = new ArrayList<>();
+        RestAPI.get("/marker/list", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                if (response != null) {
+                    int size = response.length();
+                    for (int i = 0; i < size; i++) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = (JSONObject) response.get(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (jsonObject != null) {
+                            com.example.footprint.model.Marker marker = new com.example.footprint.model.Marker(jsonObject);
+                            markerArrayList.add(marker);
+                        }
+                    }
+                    loadMarker(markerArrayList);
+                }
+            }
+        });
+    }
+
+    public void loadMarker(ArrayList<com.example.footprint.model.Marker> markers){
+        int size = markers.size();
+        for (int i = 0; i < size; i++) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            com.example.footprint.model.Marker marker = markers.get(i);
+            markerOptions.position(new LatLng(Double.parseDouble(marker.getLatitude()),
+                    Double.parseDouble(marker.getLongitude())));
+            googleMap.addMarker(markerOptions);
+        }
     }
 
     public Location whereAmI() {

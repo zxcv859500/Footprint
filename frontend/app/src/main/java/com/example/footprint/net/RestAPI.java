@@ -30,6 +30,7 @@ public class RestAPI {
     }
 
     public static void get(String uri, JsonHttpResponseHandler jsonHttpResponseHandler) {
-
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(null, url + uri, jsonHttpResponseHandler);
     }
 }
