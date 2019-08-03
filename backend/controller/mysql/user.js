@@ -71,5 +71,15 @@ module.exports = {
             });
 
         return count[0] <= 0;
+    },
+
+    async edit(params) {
+        const { password, nickname, userId } = params;
+
+        return await knex('user').update({
+            nickname: nickname,
+            password: password
+        })
+            .where('userId', userId);
     }
 };
