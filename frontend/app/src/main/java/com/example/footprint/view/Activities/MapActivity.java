@@ -24,6 +24,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap googleMap;
     private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage;
     private LocationManager locationManager;
+    private Marker marker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,10 +120,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 case R.id.fab_here:
                     Location location = whereAmI();
                     if (location != null) {
+                        if (marker != null) {
+                            marker.remove();
+                        }
                         double lat = location.getLatitude();
                         double lng = location.getLongitude();
                         LatLng here = new LatLng(lat, lng);
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(here);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
+                        marker = googleMap.addMarker(markerOptions);
                         break;
                     }
                 case R.id.fab_my_page:
