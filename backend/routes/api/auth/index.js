@@ -64,6 +64,35 @@ router.get('/check', (req, res) => {
     });
 });
 
+router.use('/edit', auth);
+router.post('/edit', (req, res) => {
+   const { password, nickname } = req.body;
+   const { userId } = req.decoded;
+   const params = {
+       password: password,
+       nickname: nickname,
+       userId: userId
+   };
+
+   if (!password || !nickname) {
+       res.status(409).json({
+           error: "New nickname and new password required"
+       });
+   } else {
+       controller.user.edit(params)
+           .then(() => {
+               res.status(200).json({
+                   params
+               });
+           })
+           .catch((err) => {
+               res.status(409).json({
+                   error: err.message
+               })
+           })
+   }
+});
+
 router.post('/cert', async (req, res) => {
     const { phone } = req.body;
 
