@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <EditText
+            android:id="@+id/et_phone1"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <TextView
+            android:layout_width="7.5dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="-" />
+
+        <EditText
+            android:id="@+id/et_phone2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <TextView
+            android:layout_width="7.5dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="-" />
+
+        <EditText
+            android:id="@+id/et_phone3"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/btn_authentication"
+            android:layout_width="65dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
+            android:text="인증"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="아이디 찾기"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp" />
+
+</LinearLayout>

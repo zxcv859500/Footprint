@@ -26,7 +26,7 @@ import org.json.JSONObject;
 public class SignInActivity extends AppCompatActivity {
     EditText etId, etPassword;
     CheckBox cbAutoLogin;
-    Button btnLogin, btnJoin;
+    Button btnLogin, btnJoin, btnFind;
     User user = new User();
 
     @Override
@@ -39,15 +39,16 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(intent); // 스플레시 엑티비티 시작
 
 
-        etId = (EditText) findViewById(R.id.et_id);
-        etPassword = (EditText) findViewById(R.id.et_password);
-        cbAutoLogin = (CheckBox) findViewById(R.id.cb_auto_login);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnJoin = (Button) findViewById(R.id.btn_join);
+        etId = findViewById(R.id.et_id);
+        etPassword = findViewById(R.id.et_password);
+        cbAutoLogin = findViewById(R.id.cb_auto_login);
+        btnLogin = findViewById(R.id.btn_login);
+        btnJoin = findViewById(R.id.btn_join);
+        btnFind = findViewById(R.id.btn_find);
+
         btnLogin.setOnClickListener(new BtnOnClickListener());
         btnJoin.setOnClickListener(new BtnOnClickListener());
-
-
+        btnFind.setOnClickListener(new BtnOnClickListener());
     }
 
     @Override
@@ -82,13 +83,14 @@ public class SignInActivity extends AppCompatActivity {
                     user.setPassword(etPassword.getText().toString());
                     signin(etId.getText().toString(),etPassword.getText().toString());
                     break;
-
-
                 case R.id.btn_join:
                     Intent signUpIntent = new Intent(SignInActivity.this, SignUpActivity.class);
                     startActivity(signUpIntent);
                     break;
-
+                case R.id.btn_find:
+                    Intent FindIntent = new Intent(SignInActivity.this, FindActivity.class);
+                    startActivity(FindIntent);
+                    break;
             }
         }
     }

@@ -30,7 +30,8 @@
         <activity android:name=".view.Activities.SplashActivity"/>
         <activity android:name=".view.Activities.MapActivity"/>
         <activity android:name=".view.Activities.SignUpActivity"/>
-        <activity android:name=".view.Activities.NoticeBoardActivity">
+        <activity android:name=".view.Activities.NoticeBoardActivity"/>
+        <activity android:name=".view.Activities.FindActivity">
         </activity>
     </application>
 
