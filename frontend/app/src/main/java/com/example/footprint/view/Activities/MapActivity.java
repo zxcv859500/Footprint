@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private GoogleMap googleMap;
     private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage;
     private LocationManager locationManager;
@@ -113,6 +113,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             googleMap.addMarker(markerOptions);
+            googleMap.setOnMarkerClickListener(this);
         }
     }
 
@@ -185,5 +186,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        double lat,lng;
+        lat = marker.getPosition().latitude;
+        lng = marker.getPosition().longitude;
+        Intent intent = new Intent(MapActivity.this, NoticeBoardActivity.class);
+        intent.putExtra("lat",lat);
+        intent.putExtra("lng",lng);
+        startActivity(intent);
+
+        return true;
     }
 }
