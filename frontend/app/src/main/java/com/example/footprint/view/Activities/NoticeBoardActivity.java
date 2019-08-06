@@ -1,6 +1,8 @@
 package com.example.footprint.view.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,11 +13,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.footprint.R;
+import com.example.footprint.model.Post;
+import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
 import com.example.footprint.view.Fragment.NoticeBoardRedFragment;
 import com.example.footprint.view.Fragment.NoticeBoardYellowFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class NoticeBoardActivity extends AppCompatActivity {
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+public class NoticeBoardActivity extends AppCompatActivity{
 
     private Button btnNoticeRed, btnNoticeYellow, btnNoticeBlue;
 
@@ -43,10 +58,42 @@ public class NoticeBoardActivity extends AppCompatActivity {
         noticeBoardYellowFragment = new NoticeBoardYellowFragment();
         noticeBoardBlueFragment = new NoticeBoardBlueFragment();
 
+        Intent intent = getIntent();
+
+        classificationType(intent.getExtras().getDouble("lat"),intent.getExtras().getDouble("lng"));
+
+
 //      Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
 //      setSupportActionBar(tb);
         setFragment(0);
 
+
+    }
+
+    private void classificationType(double lat, double lng){
+
+        final JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("latitude", Double.toString(lat));
+            jsonObject.put("longitude",Double.toString(lng));
+        }catch (JSONException e){
+
+        }
+
+        RestAPI.post("/post/list",jsonObject, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Gson gson = new Gson();
+                Log.d("testResponse","" + response);
+
+                ArrayList<Post> postArrayList = new ArrayList<Post>();
+                Type tmpType = new TypeToken<ArrayList<Post>>(){}.getType();
+                gson.fromJson(response.toString(), new TypeToken<ArrayList<Post>>(){}.getType());
+
+                
+            }
+        });
 
     }
 
