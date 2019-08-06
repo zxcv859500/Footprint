@@ -218,4 +218,27 @@ router.post('/find/password/verify', (req, res) => {
     }
 });
 
+router.post('/find/password', (req, res) => {
+    const {username, newPassword} = req.body;
+
+    if (!username || !newPassword) {
+        res.status(409).json({
+            error: "Username and newPassword required"
+        })
+    } else {
+        controller.user.findPassword({username: username, newPassword: newPassword})
+            .then(() => {
+                res.status(200).json({
+                    "username": username,
+                    "new password": newPassword
+                })
+            })
+            .catch(() => {
+                res.status(409).json({
+                    error: "Unregistered username or invalid password"
+                })
+            })
+    }
+});
+
 module.exports = router;
