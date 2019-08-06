@@ -196,4 +196,26 @@ router.post('/find/username', (req, res) => {
    }
 });
 
+router.post('/find/password/verify', (req, res) => {
+    const {username} = req.body;
+
+    if (!username) {
+        res.status(409).json({
+            error: 'Username required'
+        })
+    } else {
+        controller.user.findPasswordVerify({username: username})
+            .then((result) => {
+                res.status(200).json({
+                    "phone": result
+                });
+            })
+            .catch(() => {
+                res.status(409).json({
+                    "error": "Unregistered username or some error occur"
+                })
+            })
+    }
+});
+
 module.exports = router;
