@@ -91,6 +91,7 @@ public class NoticeBoardActivity extends AppCompatActivity{
                 Type tmpType = new TypeToken<ArrayList<Post>>(){}.getType();
                 gson.fromJson(response.toString(), new TypeToken<ArrayList<Post>>(){}.getType());
 
+                
             }
         });
 
