@@ -109,8 +109,21 @@ module.exports = {
             .where('phone', phone)
             .map((result) => {
                 return result.username;
-            })
+            });
 
         return username[0];
+    },
+
+    async findPasswordVerify(params) {
+        const {username} = params;
+
+        const phone = await knex('user')
+            .select('phone')
+            .where('username', username)
+            .map((result) => {
+                return result.phone;
+            });
+
+        return phone[0];
     }
 };
