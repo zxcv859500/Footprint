@@ -170,4 +170,30 @@ router.post('/verify', (req, res) => {
     }
 });
 
+router.post('/find/username', (req, res) => {
+   const {phone} = req.body;
+
+   if (!phone) {
+       res.status(409).json({
+           error: 'Phone number required'
+       })
+   } else if (!phone.match(/^\d{3}-\d{3,4}-\d{4}$/)) {
+       res.status(409).json({
+           error: "Unsuccessful phone number"
+       });
+   } else {
+       controller.user.findUsername({phone: phone})
+           .then((result) => {
+               res.status(200).json({
+                   "username": result
+               });
+           })
+           .catch(() => {
+               res.status(409).json({
+                   "error": "Unregistered phone number or some error occur"
+               })
+           })
+   }
+});
+
 module.exports = router;
