@@ -124,9 +124,10 @@ module.exports = {
                 like: r.like,
                 date: r.date,
             }));
-        post[0].comments = await knex.select('date', 'author', 'content', 'commentId')
+        post[0].comments = await knex.select('date', 'author', 'content', 'commentId', 'userId')
             .from('comment')
             .joinRaw('natural join commentApply')
+            .joinRaw('natural join user')
             .where('postId', postId);
 
         return post[0];
