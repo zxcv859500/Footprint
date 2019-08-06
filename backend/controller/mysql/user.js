@@ -99,5 +99,18 @@ module.exports = {
         return await knex('user')
             .where('userId', userId)
             .del();
+    },
+
+    async findUsername(params) {
+        const {phone} = params;
+
+        const username = await knex('user')
+            .select('username')
+            .where('phone', phone)
+            .map((result) => {
+                return result.username;
+            })
+
+        return username[0];
     }
 };
