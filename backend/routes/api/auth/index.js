@@ -241,4 +241,60 @@ router.post('/find/password', (req, res) => {
     }
 });
 
+router.post('/find/cert', async (req, res) => {
+    const { phone } = req.body;
+
+    if (!phone) {
+        res.status(409).json({
+            error: "Phone number required"
+        });
+    } else if (!phone.match(/^\d{3}-\d{3,4}-\d{4}$/)) {
+        res.status(409).json({
+            error: "Unsuccessful phone number"
+        })
+    } else {
+        service.verify.sms.sendVerificationNumber(phone)
+            .then(() => {
+                res.status(200).json({
+                    message: "Verification number has send to your phone"
+                })
+            })
+            .catch((err) => {
+                res.status(409).json({
+                    error: err.message
+                })
+            })
+    }
+});
+
+router.post('/find/verify', (req, res) => {
+    const { phone, verify } = req.body;
+
+    if (!phone || !verify) {
+        res.status(409).json({
+            error: "Phone number or verify number required"
+        })
+    } else if (!phone.match(/^\d{3}-\d{3,4}-\d{4}$/)) {
+        res.status(409).json({
+            error: "Unsuccessful phone number"
+        })
+    } else {
+        redis.verify.verify(phone)
+            .then((result) => {
+                if (verify === result) {
+                    res.status(200).json({
+                        message: "Verification complete"
+                    })
+                } else {
+                    throw new Error("Verification failed")
+                }
+            })
+            .catch((err) => {
+                res.status(409).json({
+                    error: err.message
+                })
+            })
+    }
+});
+
 module.exports = router;
