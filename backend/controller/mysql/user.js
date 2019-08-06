@@ -125,5 +125,17 @@ module.exports = {
             });
 
         return phone[0];
+    },
+
+    async findPassword(params) {
+        const {username, newPassword} = params;
+
+        const encrypted = crypto.createHmac('sha1', config.secret)
+            .update(newPassword)
+            .digest('base64');
+
+        return await knex('user')
+            .update('password', encrypted)
+            .where('username', username);
     }
 };
