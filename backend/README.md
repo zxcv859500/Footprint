@@ -57,7 +57,7 @@
 }
 ```
 
-### 비밀번호 찾기 인증 (휴대폰 번호 가져오기)
+#### 비밀번호 찾기 인증 (휴대폰 번호 가져오기)
 **Request**
 >POST /api/auth/find/password/verify
 ```json
@@ -73,7 +73,7 @@
 }
 ```
 
-### 비밀번호 찾기 (비밀번호 변경)
+#### 비밀번호 찾기 (비밀번호 변경)
 **Request**
 >POST /api/auth/find/password
 ```json
