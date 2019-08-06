@@ -41,6 +41,56 @@
 }
 ```
 
+#### 아이디 찾기
+**Request**
+>POST /api/auth/find/username
+```json
+{
+  "phone": "010-0000-0000"
+}
+```
+
+**Response**
+```json
+{
+  "username": "exampleusername"
+}
+```
+
+### 비밀번호 찾기 인증 (휴대폰 번호 가져오기)
+**Request**
+>POST /api/auth/find/password/verify
+```json
+{
+  "username": "exampleusername"
+}
+```
+
+**Response**
+```json
+{
+  "phone": "010-0000-0000"
+}
+```
+
+### 비밀번호 찾기 (비밀번호 변경)
+**Request**
+>POST /api/auth/find/password
+```json
+{
+  "username": "exampleusername",
+  "newPassword":"NeWpAsSwOrD"
+}
+```
+
+**Response**
+```json
+{
+  "username": "exampleusername",
+  "password": "NeWpAsSwOrD"
+}
+```
+
 ### 마커  
 
 #### 전체 마커 리스트  
