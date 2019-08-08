@@ -5,6 +5,7 @@ import java.util.List;
 public class Post {
     private String title;
     private String content;
+    private String author;
     private String pictureId;
     private String like;
     private String date;
@@ -24,6 +25,14 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getPictureId() {

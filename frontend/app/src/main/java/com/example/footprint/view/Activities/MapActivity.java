@@ -193,6 +193,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         double lat,lng;
         lat = marker.getPosition().latitude;
         lng = marker.getPosition().longitude;
+
+
         Intent intent = new Intent(MapActivity.this, NoticeBoardActivity.class);
         intent.putExtra("lat",lat);
         intent.putExtra("lng",lng);
@@ -200,4 +202,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         return true;
     }
+
+
 }

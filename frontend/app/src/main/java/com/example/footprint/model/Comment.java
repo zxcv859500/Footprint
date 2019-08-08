@@ -6,10 +6,10 @@ public class Comment {
     private String date;
     private String love;
 
-    public void Comment(){
+    public Comment(){
     }
 
-    public void Comment(String maintext, String nickname,String date, String love){
+    public Comment(String maintext, String nickname,String date, String love){
         this.maintext = maintext;
         this.nickname = nickname;
         this.date = date;
