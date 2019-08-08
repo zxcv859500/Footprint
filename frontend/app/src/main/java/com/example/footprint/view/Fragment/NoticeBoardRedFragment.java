@@ -1,11 +1,13 @@
 package com.example.footprint.view.Fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.example.footprint.view.MainActivity;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -39,6 +42,7 @@ public class NoticeBoardRedFragment extends Fragment {
     private TextView tvDate;
     private TextView tvTitle;
     private TextView tvMainText;
+    private ImageView ivImage;
     private Button btnLove;
     private CommentAdapter commentAdapter;
 
@@ -55,6 +59,7 @@ public class NoticeBoardRedFragment extends Fragment {
         header = getLayoutInflater().inflate(R.layout.header_notice_red,null,false);
         tvNickName = (TextView) header.findViewById(R.id.tv_nick_name);
         tvTitle = (TextView) header.findViewById(R.id.tv_title);
+        ivImage = (ImageView) header.findViewById(R.id.iv_image);
         tvDate = (TextView) header.findViewById(R.id.tv_date);
         tvMainText = (TextView) header.findViewById(R.id.tv_main_text);
         btnLove = (Button) header.findViewById(R.id.btn_love);
@@ -79,7 +84,7 @@ public class NoticeBoardRedFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Gson gson = new Gson();
                 post = gson.fromJson(response.toString(), Post.class);
-
+                Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/"+post.getPictureId()).into(ivImage);
                 tvTitle.setText(post.getTitle());
                 tvNickName.setText(post.getAuthor());
                 tvDate.setText(post.getDate());

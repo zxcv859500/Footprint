@@ -34,6 +34,10 @@ dependencies {
     //gson lib
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+
     //network
     implementation 'com.loopj.android:android-async-http:1.4.6'
 }
