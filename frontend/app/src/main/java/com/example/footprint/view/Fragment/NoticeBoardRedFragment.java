@@ -81,6 +81,7 @@ public class NoticeBoardRedFragment extends Fragment {
         postNum = ((NoticeBoardActivity)getActivity()).typeA;
 
 
+
         RestAPI.get("/post/" + postNum,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

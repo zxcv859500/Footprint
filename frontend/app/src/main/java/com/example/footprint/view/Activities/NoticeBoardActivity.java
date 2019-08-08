@@ -35,9 +35,10 @@ import java.util.ArrayList;
 public class NoticeBoardActivity extends AppCompatActivity {
 
     private Button btnNoticeRed, btnNoticeYellow, btnNoticeBlue;
-    private ArrayList<PostList> posts, postTypeB;
-    public PostList postTypeA, postTypeC;
-    public String typeA;
+    private ArrayList<PostList> posts;
+    public ArrayList<PostList>  postTypeB;
+    private PostList postTypeA, postTypeC;
+    public String typeA, typeC;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -135,6 +136,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 postTypeB.add(posts.get(i));
             } else if (posts.get(i).getType().equals("2")) {
                 postTypeC = posts.get(i);
+                typeC = postTypeC.getPostId();
+                Log.d("test", "testC");
             }
         }
         setFragment(0);
