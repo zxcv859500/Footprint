@@ -67,8 +67,10 @@ public class NoticeBoardRedFragment extends Fragment {
         comments = new ArrayList<Comment>();
 
 
-//        Comment comment = new Comment("test","인생자판기","2019/08/08","12");
-//        comments.add(comment);
+//        Comment comment1 = new Comment("test","인생자판기","2019/08/08","12");
+//        Comment comment2 = new Comment("test","인생자판기","2019/08/08","12");
+//        comments.add(comment1);
+//        comments.add(comment2);
 
         commentAdapter = new CommentAdapter(getActivity(),comments);
         lvNoticeRed.addHeaderView(header);
