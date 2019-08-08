@@ -19,6 +19,7 @@ import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
 import com.example.footprint.view.Fragment.NoticeBoardRedFragment;
 import com.example.footprint.view.Fragment.NoticeBoardYellowFragment;
+import com.example.footprint.view.Fragment.NoticeBoardYellowListFragment;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +44,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     NoticeBoardRedFragment noticeBoardRedFragment;
-    NoticeBoardYellowFragment noticeBoardYellowFragment;
+    NoticeBoardYellowListFragment noticeBoardYellowListFragment;
     NoticeBoardBlueFragment noticeBoardBlueFragment;
 
     @Override
@@ -56,9 +57,6 @@ public class NoticeBoardActivity extends AppCompatActivity {
         classificationType(intent.getExtras().getDouble("lat"), intent.getExtras().getDouble("lng"));
 
 
-
-//
-//
 //        if(posts != null) {
 //              for (int i = 0; i < posts.size(); i++) {
 //                    if (posts.get(i).getType().equals("0")) {
@@ -76,12 +74,15 @@ public class NoticeBoardActivity extends AppCompatActivity {
         btnNoticeYellow = (Button) findViewById(R.id.btn_notice_yellow);
         btnNoticeBlue = (Button) findViewById(R.id.btn_notice_blue);
 
+        btnNoticeYellow.setEnabled(false);
+        btnNoticeBlue.setEnabled(false);
+
         btnNoticeRed.setOnClickListener(new BtnOnClickListener());
         btnNoticeYellow.setOnClickListener(new BtnOnClickListener());
         btnNoticeBlue.setOnClickListener(new BtnOnClickListener());
 
         noticeBoardRedFragment = new NoticeBoardRedFragment();
-        noticeBoardYellowFragment = new NoticeBoardYellowFragment();
+        noticeBoardYellowListFragment = new NoticeBoardYellowListFragment();
         noticeBoardBlueFragment = new NoticeBoardBlueFragment();
 
 
@@ -140,6 +141,11 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 Log.d("test", "testC");
             }
         }
+        if(postTypeB != null){
+            btnNoticeYellow.setEnabled(true);
+        }else if(postTypeC != null){
+            btnNoticeBlue.setEnabled(true);
+        }
         setFragment(0);
     }
 
@@ -170,7 +176,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
                 break;
             case 1:
-                fragmentTransaction.replace(R.id.fragment, noticeBoardYellowFragment);
+                fragmentTransaction.replace(R.id.fragment, noticeBoardYellowListFragment);
                 fragmentTransaction.commit();
                 break;
             case 2:

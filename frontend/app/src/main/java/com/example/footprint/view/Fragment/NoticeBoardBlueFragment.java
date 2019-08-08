@@ -71,7 +71,7 @@ public class NoticeBoardBlueFragment extends Fragment {
         lvNoticeBlue.setAdapter(commentAdapter);
 
         postNum = ((NoticeBoardActivity) getActivity()).typeC;
-        Log.d("test",postNum);
+
 
         RestAPI.get("/post/" + postNum, new JsonHttpResponseHandler() {
             @Override
