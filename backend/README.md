@@ -246,7 +246,7 @@ picture="사진 파일"
 
 ### 댓글
 #### 댓글 쓰기
-**Request**
+**Request (요청 시 Auth 필요)**
 >POST /api/comment/:postId/write
 ```json
 {
@@ -264,10 +264,10 @@ picture="사진 파일"
 ```
 
 #### 댓글 가져오기
-**Request
+**Request**
 >GET /api/comment/:postId
 
-**Response
+**Response**
 ```json
 {
     "result": [
@@ -288,7 +288,7 @@ picture="사진 파일"
 ```
 
 #### 댓글 삭제
-**Request**
+**Request (요청 시 Auth 필요)**
 >GET /api/comment/:commentId/delete
 
 **Response**
