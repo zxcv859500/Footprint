@@ -2,6 +2,22 @@ const router = require('express').Router();
 const controller = require('../../../controller/mysql');
 const auth = require('../../../middlewares/auth');
 
+router.get('/:id', (req, res, next) => {
+    const postId = req.params.id;
+
+    controller.comment.get({postId: postId})
+        .then((result) => {
+             res.status(200).json({
+                 result
+             });
+        })
+        .catch(() => {
+            res.status(409).json({
+                error: "Error occur when get comments"
+            })
+        })
+});
+
 router.use('/:id/write', auth);
 router.post('/:id/write', (req, res, next) => {
     const { nickname } = req.decoded;

@@ -1,6 +1,16 @@
 const knex = require('../knexfile');
 
 module.exports = {
+    async get(params) {
+        const { postId } = params;
+
+        return await knex.select('date', 'content', 'commentId', 'nickname', 'content')
+            .from('comment')
+            .joinRaw('natural join commentApply')
+            .joinRaw('natural join user')
+            .where('postId', postId);
+    },
+
     async write(author, postId, content) {
         const date = new Date();
 
