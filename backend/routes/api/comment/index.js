@@ -101,7 +101,7 @@ router.get('/:id/like', (req, res, next) => {
                 username: username
             })
         })
-        .catch(() => {
+        .catch((err) => {
             res.status(409).json({
                 Error: err.message
             })
