@@ -2,6 +2,33 @@ const router = require('express').Router();
 const controller = require('../../../controller/mysql');
 const auth = require('../../../middlewares/auth');
 
+router.use('/:id/write', auth);
+router.post('/:id/write', (req, res, next) => {
+    const { nickname } = req.decoded;
+    const postId = req.params.id;
+    const { content } = req.body;
+
+    if (!content || content.trim() === '') {
+        res.status(409).json({
+            Error: "Content empty"
+        })
+    } else {
+        controller.comment.write(nickname, postId, content)
+            .then(() => {
+                res.status(200).json({
+                    nickname: nickname,
+                    postId: postId,
+                    content: content
+                })
+            })
+            .catch((err) => {
+                res.status(409).json({
+                    Error: err.message
+                })
+            })
+    }
+});
+
 router.use('/:id/delete', auth);
 router.get('/:id/delete', (req, res, next) => {
     const { nickname } = req.decoded;
