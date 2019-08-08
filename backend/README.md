@@ -245,4 +245,55 @@ picture="사진 파일"
 사진 파일  
 
 ### 댓글
-#### 댓글
+#### 댓글 쓰기
+**Request**
+>POST /api/comment/:postId/write
+```json
+{
+  "content": "댓글 내용입니다"
+}
+```
+
+**Response**
+```json
+{
+  "nickname": "닉네임",
+  "postId": "42",
+  "content": "댓글입니다."
+}
+```
+
+#### 댓글 가져오기
+**Request
+>GET /api/comment/:postId
+
+**Response
+```json
+{
+    "result": [
+        {
+            "date": "2019-08-08T07:12:01.000Z",
+            "content": "댓글입니다",
+            "commentId": 4,
+            "nickname": "seagull"
+        },
+        {
+            "date": "2019-08-08T07:12:01.000Z",
+            "content": "댓글입니다2",
+            "commentId": 5,
+            "nickname": "seagull"
+        }
+    ]
+}
+```
+
+#### 댓글 삭제
+**Request**
+>GET /api/comment/:commentId/delete
+
+**Response**
+```json
+{
+  "message": "Delete complete"
+}
+```
