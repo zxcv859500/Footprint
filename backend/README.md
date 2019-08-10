@@ -209,7 +209,7 @@ picture="사진 파일"
 ]
 ```
 #### 해당 글 번호의 글 가져오기
-**Request**
+**Request(요청시 Auth 필요)**
 >GET /api/post/:id  
 
 **Response**
@@ -264,7 +264,7 @@ picture="사진 파일"
 ```
 
 #### 댓글 가져오기
-**Request**
+**Request(요청 시 Auth 필요)**
 >GET /api/comment/:postId
 
 **Response**
@@ -297,3 +297,28 @@ picture="사진 파일"
   "message": "Delete complete"
 }
 ```
+
+### 좋아요
+#### 글 좋아요
+**Request (요청 시 Auth 필요)**
+>GET /api/post/:글 번호/like
+
+**Response**
+```json
+{
+  "postId": 42,
+  "userId": 1
+}
+```
+
+#### 글 좋아요 취소
+**Request (요청 시 Auth 필요)**
+>GET /api/post/:글 번호/like/cancel
+
+#### 댓글 좋아요
+**Request (요청 시 Auth 필요)**
+>GET /api/comment/:댓글 번호/like
+
+#### 댓글 좋아요 취소
+**Request (요청 시 Auth 필요)**
+>GET /api/comment/:댓글 번호/like/cancel
