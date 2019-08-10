@@ -138,7 +138,7 @@ module.exports = {
                 date: r.date,
             }));
 
-        post.likeFlag = flag;
+        post[0].likeFlag = flag;
 
         return post[0];
     },
