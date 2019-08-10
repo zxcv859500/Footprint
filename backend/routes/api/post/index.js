@@ -59,10 +59,12 @@ router.post('/list', (req, res, next) => {
        })
 });
 
+router.use('/:id', auth);
 router.get('/:id', (req, res, next) => {
     const postId = req.params.id;
+    const {userId} = req.decoded;
 
-    controller.post.getPost(postId)
+    controller.post.getPost({postId, userId})
         .then((result) => {
             res.status(200).send(result);
         })

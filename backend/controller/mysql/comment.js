@@ -2,13 +2,26 @@ const knex = require('../knexfile');
 
 module.exports = {
     async get(params) {
-        const { postId } = params;
+        const { postId, userId } = params;
 
-        return await knex.select('date', 'content', 'commentId', 'nickname', 'content')
+        let comments = await knex.select('date', 'content', 'commentId', 'nickname', 'content')
             .from('comment')
             .joinRaw('natural join commentApply')
             .joinRaw('natural join user')
             .where('postId', postId);
+
+        for (let element of comments) {
+            const count = await knex.count('commentId as cnt')
+                .where('commentId', element.commentId)
+                .andWhere('userId', element.userId)
+                .map((result) => {
+                    return result.cnt;
+                });
+
+            element.likeFlag = count[0] >= 1;
+        }
+
+        return comments;
     },
 
     async write(author, postId, content) {

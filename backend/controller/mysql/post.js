@@ -109,7 +109,19 @@ module.exports = {
         return posts;
     },
 
-    async getPost(postId) {
+    async getPost(params) {
+        const {postId, userId} = params;
+        let flag = false;
+
+        const count = await knex.count('userId as cnt')
+            .where('postId', postId)
+            .andWhere('userId', userId)
+            .map((result) => {
+                return result.cnt;
+            });
+
+        if (count[0] >= 1) flag = true;
+
         let post = await knex.select('title', 'content', 'nickname', 'pictureId', 'like', 'date', 'nickname')
             .from('post')
             .joinRaw('natural join user')
@@ -124,6 +136,8 @@ module.exports = {
                 like: r.like,
                 date: r.date,
             }));
+
+        post.likeFlag = flag;
 
         return post[0];
     },

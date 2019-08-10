@@ -2,10 +2,12 @@ const router = require('express').Router();
 const controller = require('../../../controller/mysql');
 const auth = require('../../../middlewares/auth');
 
+router.use('/:id', auth);
 router.get('/:id', (req, res, next) => {
     const postId = req.params.id;
+    const {userId} = req.decoded;
 
-    controller.comment.get({postId: postId})
+    controller.comment.get({postId: postId, userId: userId})
         .then((result) => {
              res.status(200).json({
                  result
