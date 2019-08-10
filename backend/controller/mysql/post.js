@@ -114,6 +114,7 @@ module.exports = {
         let flag = false;
 
         const count = await knex.count('userId as cnt')
+            .from('likeApply')
             .where('postId', postId)
             .andWhere('userId', userId)
             .map((result) => {
