@@ -215,13 +215,13 @@ picture="사진 파일"
 **Response**
 ```json
 {
-    "title": "test title",
-    "content": "test content",
-    "author": "seagull",
-    "pictureId": 29,
-    "like": 0,
-    "date": "2019-07-16T08:59:25.000Z",
-    "comments": []
+    "title": "문석암",
+    "content": "글 내용입니다",
+    "author": "인생자판기",
+    "pictureId": 35,
+    "like": 1,
+    "date": "2019-08-03T10:21:03.000Z",
+    "likeFlag": true
 }
 ```
 
@@ -275,13 +275,19 @@ picture="사진 파일"
             "date": "2019-08-08T07:12:01.000Z",
             "content": "댓글입니다",
             "commentId": 4,
-            "nickname": "seagull"
+            "nickname": "seagull",
+            "userId": 1,
+            "like": 0,
+            "likeFlag": false
         },
         {
-            "date": "2019-08-08T07:12:01.000Z",
-            "content": "댓글입니다2",
+            "date": "2019-08-11T09:08:11.000Z",
+            "content": "test",
             "commentId": 5,
-            "nickname": "seagull"
+            "nickname": "인생자판기",
+            "userId": 5,
+            "like": 0,
+            "likeFlag": false
         }
     ]
 }
