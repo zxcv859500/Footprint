@@ -1,12 +1,12 @@
 package com.example.footprint.view.Fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,16 +17,17 @@ import com.example.footprint.R;
 import com.example.footprint.adapter.CommentAdapter;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.Post;
-import com.example.footprint.model.PostList;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
-import com.example.footprint.view.MainActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,10 +46,13 @@ public class NoticeBoardRedFragment extends Fragment {
     private ImageView ivImage;
     private Button btnLove;
     private CommentAdapter commentAdapter;
+    private Button btComment;
+    private EditText etComment;
 
     private String postNum;
     private Post post;
     private ArrayList<Comment> comments;
+    private Comment comment;
 
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
@@ -63,6 +67,9 @@ public class NoticeBoardRedFragment extends Fragment {
         tvDate = (TextView) header.findViewById(R.id.tv_date);
         tvMainText = (TextView) header.findViewById(R.id.tv_main_text);
         btnLove = (Button) header.findViewById(R.id.btn_love);
+        btComment = (Button) view.findViewById(R.id.bt_comment);
+        etComment = (EditText) view.findViewById(R.id.et_comment);
+
 
         comments = new ArrayList<Comment>();
 
@@ -76,28 +83,83 @@ public class NoticeBoardRedFragment extends Fragment {
         lvNoticeRed.addHeaderView(header);
         lvNoticeRed.setAdapter(commentAdapter);
 
+        btComment.setOnClickListener(new BtnOnClickListener());
+
 
 
         postNum = ((NoticeBoardActivity)getActivity()).typeA;
 
+        Log.d("test_",postNum);
 
-
-        RestAPI.get("/post/" + postNum,new JsonHttpResponseHandler() {
+        RestAPI.get("/post/" + postNum, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Gson gson = new Gson();
                 post = gson.fromJson(response.toString(), Post.class);
-                Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/"+post.getPictureId()).into(ivImage);
+                Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/" + post.getPictureId()).into(ivImage);
                 tvTitle.setText(post.getTitle());
                 tvNickName.setText(post.getAuthor());
                 tvDate.setText(post.getDate());
                 tvMainText.setText(post.getContent());
 
-                Log.d("testResponse",""+response);
+                Log.d("test_Response",""+response);
 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("test_",responseString);
             }
         });
 
+        getComment();
+
         return view;
     }
+
+    class BtnOnClickListener implements FloatingActionButton.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.bt_comment:
+
+                    JSONObject jsonObject = new JSONObject();
+                    try{
+                        jsonObject.put("content",etComment.getText().toString());
+                    }catch(JSONException e){
+
+                    }
+                    etComment.setText("");
+                    RestAPI.post("/comment/"+ postNum + "/write",jsonObject,new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                        }
+                    });
+                    getComment();
+                    break;
+            }
+
+        }
+    }
+
+    private void getComment(){
+        RestAPI.get("/comment/"+postNum,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Gson gson = new Gson();
+                try {
+                    comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>(){}.getType());
+                    response.getJSONArray("result");
+                }catch (JSONException e){
+
+                }
+                commentAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
 }

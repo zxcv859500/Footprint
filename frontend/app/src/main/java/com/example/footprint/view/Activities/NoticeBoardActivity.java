@@ -8,20 +8,16 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.footprint.R;
-import com.example.footprint.model.Post;
 import com.example.footprint.model.PostList;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
 import com.example.footprint.view.Fragment.NoticeBoardRedFragment;
-import com.example.footprint.view.Fragment.NoticeBoardYellowFragment;
 import com.example.footprint.view.Fragment.NoticeBoardYellowListFragment;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -30,7 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class NoticeBoardActivity extends AppCompatActivity {
