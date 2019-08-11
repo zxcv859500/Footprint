@@ -166,6 +166,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     break;
                 case R.id.fab_camera:
+                    Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
+                    startActivity(postIntent);
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();
