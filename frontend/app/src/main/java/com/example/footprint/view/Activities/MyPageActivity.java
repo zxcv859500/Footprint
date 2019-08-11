@@ -2,6 +2,7 @@ package com.example.footprint.view.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +55,7 @@ public class MyPageActivity extends AppCompatActivity {
 
     class BtnOnClickListener implements Button.OnClickListener {
         JSONObject jsonParams = new JSONObject();
+
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -70,11 +72,12 @@ public class MyPageActivity extends AppCompatActivity {
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 Toast.makeText(MyPageActivity.this, "변경되었습니다.", Toast.LENGTH_SHORT).show();
                                 Token token = Token.getTokenObject();
-                                Intent intent = new Intent(MyPageActivity.this,SignInActivity.class);
+                                Intent intent = new Intent(MyPageActivity.this, SignInActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                         Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                         Intent.FLAG_ACTIVITY_NEW_TASK);
                                 token.setTokenKey(null);
+                                removeAutoLogin();
                                 startActivity(intent);
                             }
                         });
@@ -84,11 +87,12 @@ public class MyPageActivity extends AppCompatActivity {
                     break;
                 case R.id.btn_logout:
                     Token token = Token.getTokenObject();
-                    Intent intent = new Intent(MyPageActivity.this,SignInActivity.class);
+                    Intent intent = new Intent(MyPageActivity.this, SignInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                             Intent.FLAG_ACTIVITY_CLEAR_TOP |
                             Intent.FLAG_ACTIVITY_NEW_TASK);
                     token.setTokenKey(null);
+                    removeAutoLogin();
                     startActivity(intent);
                     break;
                 case R.id.btn_withdrawal:
@@ -105,12 +109,14 @@ public class MyPageActivity extends AppCompatActivity {
                                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                                     Toast.makeText(MyPageActivity.this, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
                                                     Token token = Token.getTokenObject();
-                                                    Intent intent = new Intent(MyPageActivity.this,SignInActivity.class);
+                                                    Intent intent = new Intent(MyPageActivity.this, SignInActivity.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                                             Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                                             Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     token.setTokenKey(null);
+                                                    removeAutoLogin();
                                                     startActivity(intent);
+
                                                 }
                                             });
                                         }
@@ -128,5 +134,16 @@ public class MyPageActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private void removeAutoLogin() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sFile", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("email", "");
+        editor.putString("pass", "");
+        editor.commit();
+
     }
 }
