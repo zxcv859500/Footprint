@@ -183,6 +183,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         break;
                     }
                 case R.id.fab_my_page:
+                    Intent myPageIntent = new Intent(MapActivity.this, MyPageActivity.class);
+                    startActivity(myPageIntent);
                     break;
             }
         }
