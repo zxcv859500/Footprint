@@ -9,7 +9,8 @@ public class Post {
     private String pictureId;
     private String like;
     private String date;
-    private List comments;
+    private String likeFlag;
+//    private List comments;
 
     public String getTitle() {
         return title;
@@ -59,12 +60,20 @@ public class Post {
         this.date = date;
     }
 
-    public List getComments() {
-        return comments;
+    public String getLikeFlag() {
+        return likeFlag;
     }
 
-    public void setComments(List comments) {
-        this.comments = comments;
+    public void setLikeFlag(String likeFlag) {
+        this.likeFlag = likeFlag;
     }
+
+//    public List getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List comments) {
+//        this.comments = comments;
+//    }
 
 }

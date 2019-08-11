@@ -1,27 +1,29 @@
 package com.example.footprint.model;
 
 public class Comment {
-    private String maintext;
+    private String content;
     private String nickname;
+    private String commentId;
     private String date;
-    private String love;
+    private String like;
+    private String likeFlag;
 
     public Comment(){
     }
 
-    public Comment(String maintext, String nickname,String date, String love){
-        this.maintext = maintext;
+    public Comment(String content, String nickname,String date, String love){
+        this.content = content;
         this.nickname = nickname;
         this.date = date;
-        this.love = love;
+        this.like = love;
     }
 
     public String getMaintext() {
-        return maintext;
+        return content;
     }
 
-    public void setMaintext(String maintext) {
-        this.maintext = maintext;
+    public void setMaintext(String content) {
+        this.content = content;
     }
 
     public String getNickname() {
@@ -32,6 +34,14 @@ public class Comment {
         this.nickname = nickname;
     }
 
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
     public String getDate() {
         return date;
     }
@@ -40,12 +50,20 @@ public class Comment {
         this.date = date;
     }
 
-    public String getLove() {
-        return love;
+    public String getLike() {
+        return like;
     }
 
-    public void setLove(String love) {
-        this.love = love;
+    public void setLike(String like) {
+        this.like = like;
+    }
+
+    public String getLikeFlag() {
+        return likeFlag;
+    }
+
+    public void setLikeFlag(String likeFlag) {
+        this.likeFlag = likeFlag;
     }
 
 
