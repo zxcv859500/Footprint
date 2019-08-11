@@ -4,7 +4,7 @@ module.exports = {
     async get(params) {
         const { postId, userId } = params;
 
-        let comments = await knex.select('date', 'content', 'commentId', 'nickname', 'content')
+        let comments = await knex.select('date', 'content', 'commentId', 'nickname', 'content', 'userId', 'like')
             .from('comment')
             .joinRaw('natural join commentApply')
             .joinRaw('natural join user')

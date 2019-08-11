@@ -86,9 +86,13 @@ module.exports = {
     async edit(params) {
         const { password, nickname, userId } = params;
 
+        const encrypted = crypto.createHmac('sha1', config.secret)
+            .update(password)
+            .digest('base64');
+
         return await knex('user').update({
             nickname: nickname,
-            password: password
+            password: encrypted
         })
             .where('userId', userId);
     },
