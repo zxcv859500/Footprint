@@ -19,7 +19,7 @@ public class RestAPI {
     public static void post(String uri, JSONObject jsonParams, JsonHttpResponseHandler jsonHttpResponseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
         Token token = Token.getTokenObject();
-        String tokenKey = token.getTokenKey();
+        client.addHeader("x-access-token",token.getTokenKey());
         try {
             StringEntity entity = new StringEntity(jsonParams.toString(), "UTF-8");
             entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));

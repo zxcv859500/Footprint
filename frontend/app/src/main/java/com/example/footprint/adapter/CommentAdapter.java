@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
 
+    private ArrayList<Comment> comments;
+
     private static class ViewHolder {
         public TextView tvNickNameComment;
         public TextView tvMainTextComment;
@@ -22,8 +24,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         public Button btnLover;
     }
 
-    public CommentAdapter(Context context, ArrayList<Comment> commentArrayList){
+    public CommentAdapter(Context context,ArrayList<Comment> commentArrayList){
         super(context,0,commentArrayList);
+        this.comments = commentArrayList;
     }
 
 
@@ -56,5 +59,11 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         });
 
         return convertView;
+    }
+
+    public void setItems (ArrayList<Comment> comments){
+        this.comments.clear();
+        this.comments.addAll(comments);
+        notifyDataSetChanged();
     }
 }

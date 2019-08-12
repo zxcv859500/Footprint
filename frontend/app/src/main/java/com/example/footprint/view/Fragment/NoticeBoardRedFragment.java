@@ -1,5 +1,6 @@
 package com.example.footprint.view.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import com.example.footprint.R;
 import com.example.footprint.adapter.CommentAdapter;
@@ -45,6 +47,11 @@ public class NoticeBoardRedFragment extends Fragment {
     private TextView tvMainText;
     private ImageView ivImage;
     private Button btnLove;
+
+    public CommentAdapter getCommentAdapter() {
+        return commentAdapter;
+    }
+
     private CommentAdapter commentAdapter;
     private Button btComment;
     private EditText etComment;
@@ -55,12 +62,12 @@ public class NoticeBoardRedFragment extends Fragment {
     private Comment comment;
 
     @Override
-    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_notice_board_red,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_notice_board_red, container, false);
 
         lvNoticeRed = (ListView) view.findViewById(R.id.lv_notice_red);
 
-        header = getLayoutInflater().inflate(R.layout.header_notice_red,null,false);
+        header = getLayoutInflater().inflate(R.layout.header_notice_red, null, false);
         tvNickName = (TextView) header.findViewById(R.id.tv_nick_name);
         tvTitle = (TextView) header.findViewById(R.id.tv_title);
         ivImage = (ImageView) header.findViewById(R.id.iv_image);
@@ -73,23 +80,24 @@ public class NoticeBoardRedFragment extends Fragment {
 
         comments = new ArrayList<Comment>();
 
-
 //        Comment comment1 = new Comment("test","인생자판기","2019/08/08","12");
 //        Comment comment2 = new Comment("test","인생자판기","2019/08/08","12");
 //        comments.add(comment1);
 //        comments.add(comment2);
 
-        commentAdapter = new CommentAdapter(getActivity(),comments);
+//        comments = ((NoticeBoardActivity)getActivity()).getComments();
+
+        commentAdapter = new CommentAdapter(getActivity(), comments);
         lvNoticeRed.addHeaderView(header);
         lvNoticeRed.setAdapter(commentAdapter);
+
 
         btComment.setOnClickListener(new BtnOnClickListener());
 
 
+        postNum = ((NoticeBoardActivity) getActivity()).typeA;
 
-        postNum = ((NoticeBoardActivity)getActivity()).typeA;
-
-        Log.d("test_",postNum);
+        Log.d("test_", postNum);
 
         RestAPI.get("/post/" + postNum, new JsonHttpResponseHandler() {
             @Override
@@ -102,14 +110,14 @@ public class NoticeBoardRedFragment extends Fragment {
                 tvDate.setText(post.getDate());
                 tvMainText.setText(post.getContent());
 
-                Log.d("test_Response",""+response);
+                Log.d("test_Response", "" + response);
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.d("test_",responseString);
+                Log.d("test_", responseString);
             }
         });
 
@@ -121,41 +129,48 @@ public class NoticeBoardRedFragment extends Fragment {
     class BtnOnClickListener implements FloatingActionButton.OnClickListener {
         @Override
         public void onClick(View view) {
-            switch(view.getId()) {
+            switch (view.getId()) {
                 case R.id.bt_comment:
 
                     JSONObject jsonObject = new JSONObject();
-                    try{
-                        jsonObject.put("content",etComment.getText().toString());
-                    }catch(JSONException e){
+                    try {
+                        jsonObject.put("content", etComment.getText().toString());
+                    } catch (JSONException e) {
 
                     }
                     etComment.setText("");
-                    RestAPI.post("/comment/"+ postNum + "/write",jsonObject,new JsonHttpResponseHandler(){
+                    RestAPI.post("/comment/" + postNum + "/write", jsonObject, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("test_comment",response.toString());
+                            getComment();
+                        }
 
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("test_comment",responseString);
                         }
                     });
-                    getComment();
+
                     break;
             }
 
         }
     }
 
-    private void getComment(){
-        RestAPI.get("/comment/"+postNum,new JsonHttpResponseHandler(){
+    private void getComment() {
+        RestAPI.get("/comment/" + postNum, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Gson gson = new Gson();
                 try {
-                    comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>(){}.getType());
-                    response.getJSONArray("result");
-                }catch (JSONException e){
+                    comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>() {
+                    }.getType());
+                    commentAdapter.setItems(comments);
+                } catch (JSONException e) {
 
                 }
-                commentAdapter.notifyDataSetChanged();
+
             }
         });
 

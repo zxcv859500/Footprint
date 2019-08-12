@@ -10,8 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 
 import com.example.footprint.R;
+import com.example.footprint.model.Comment;
 import com.example.footprint.model.PostList;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
@@ -35,12 +37,18 @@ public class NoticeBoardActivity extends AppCompatActivity {
     public ArrayList<PostList>  postTypeB;
     private PostList postTypeA, postTypeC;
     public String typeA, typeC;
+    private ArrayList<Comment> comments;
+
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     NoticeBoardRedFragment noticeBoardRedFragment;
     NoticeBoardYellowListFragment noticeBoardYellowListFragment;
     NoticeBoardBlueFragment noticeBoardBlueFragment;
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,8 +149,30 @@ public class NoticeBoardActivity extends AppCompatActivity {
         }else if(postTypeC != null){
             btnNoticeBlue.setEnabled(true);
         }
+
+        Log.d("test_", typeA);
+
         setFragment(0);
+
+//        RestAPI.get("/comment/" + typeA, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Gson gson = new Gson();
+//                try {
+//                    comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>() {
+//                    }.getType());
+//                    Log.d("test_", comments.get(1).getNickname());
+//                    setFragment(0);
+//                } catch (JSONException e) {
+//
+//                }
+//
+//            }
+//        });
+
+
     }
+
 
     class BtnOnClickListener implements Button.OnClickListener {
         @Override
@@ -181,4 +211,15 @@ public class NoticeBoardActivity extends AppCompatActivity {
         }
 
     }
+
+    public void refresh(){
+//        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.detach(noticeBoardRedFragment);
+//        fragmentTransaction.attach(noticeBoardRedFragment);
+//        fragmentTransaction.commit();
+        noticeBoardRedFragment.getCommentAdapter().notifyDataSetChanged();
+        Log.d("test_","why?");
+
+    }
+
 }
