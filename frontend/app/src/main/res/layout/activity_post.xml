@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="제목"/>
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:clickable="true"
+            android:background="@color/colorPrimary"/>
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="내용"
+            android:inputType="textMultiLine"/>
+
+        <Button
+            android:id="@+id/btn_post"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="확인"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorPrimary"/>
+        </LinearLayout>
+
+</RelativeLayout>
