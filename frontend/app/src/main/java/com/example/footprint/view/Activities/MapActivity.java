@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -37,8 +39,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private GoogleMap googleMap;
@@ -166,7 +170,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     break;
                 case R.id.fab_camera:
+                    Location current = whereAmI();
+                    String thoroughfare = null;
+                    try {
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 1);
+                        Address address = addresses.get(0);
+                        thoroughfare = address.getThoroughfare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
+                    postIntent.putExtra("type", 0);
+                    postIntent.putExtra("lat", current.getLatitude());
+                    postIntent.putExtra("lng", current.getLongitude());
+                    postIntent.putExtra("thoroughfare", thoroughfare);
                     startActivity(postIntent);
                     break;
                 case R.id.fab_here:
