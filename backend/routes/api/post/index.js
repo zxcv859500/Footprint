@@ -153,7 +153,8 @@ router.use('/:id/delete', auth);
 router.get('/:id/delete', (req, res, next) => {
     const data = {
         author: req.decoded.nickname,
-        postId: req.params.id
+        postId: req.params.id,
+        previlage: req.decoded.previlage
     };
 
     controller.post.delete(data)

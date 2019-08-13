@@ -182,7 +182,7 @@ module.exports = {
 
         if (post[0].cnt <= 0) {
             throw new Error("Post doesn't exist");
-        } else if (post[0].author !== data.author) {
+        } else if (data.previlage === 0 && post[0].author !== data.author) {
             throw new Error("This user is not author of this post");
         } else {
             this.deleteComment(data.postId);
