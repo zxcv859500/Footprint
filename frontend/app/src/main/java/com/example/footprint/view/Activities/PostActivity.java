@@ -1,7 +1,9 @@
 package com.example.footprint.view.Activities;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -10,13 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -48,6 +50,7 @@ public class PostActivity extends AppCompatActivity {
     private String thoroughfare, nickname;
 
     private static final int REQUEST_IMAGE_CAPTURE = 672;
+    private static final int PICK_FROM_ALBUM = 1;
     private String imageFilePath;
     private Uri photoUri;
     private File photoFile;
@@ -106,6 +109,32 @@ public class PostActivity extends AppCompatActivity {
             }
 
             ivImage.setImageBitmap(rotate(bitmap, exifDegree));
+
+        } else if (requestCode == PICK_FROM_ALBUM) {
+            Uri photoUri = data.getData();
+            Cursor cursor = null;
+
+            try {
+                String[] proj = {MediaStore.Images.Media.DATA};
+
+                assert photoUri != null;
+                cursor = getContentResolver().query(photoUri, proj, null, null, null);
+
+                assert cursor != null;
+                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                cursor.moveToFirst();
+
+                photoFile = new File(cursor.getString(columnIndex));
+            } finally {
+               if (cursor != null) {
+                   cursor.close();
+               }
+            }
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
+            ivImage.setImageBitmap(bitmap);
         }
     }
 
@@ -153,14 +182,38 @@ public class PostActivity extends AppCompatActivity {
         return image;
     }
 
+    private void imageLoad() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
     private void uploadImageAction() {
         switch (type) {
             case 0:
                 imageCapture();
                 break;
             case 1:
+                imageLoad();
                 break;
             case 2:
+                CharSequence[] charSequences = new CharSequence[] {"사진 찍기", "사진 가져오기"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(charSequences, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i) {
+                                    case 0:
+                                        imageCapture();
+                                        break;
+                                    case 1:
+                                        imageLoad();
+                                        break;
+                                }
+                                dialogInterface.dismiss();
+                            }
+                        });
+                builder.create().show();
                 break;
         }
     }
@@ -176,15 +229,17 @@ public class PostActivity extends AppCompatActivity {
                     List<BasicNameValuePair> list = new ArrayList<>();
 
                     try {
-                        list.add(new BasicNameValuePair("title", new String(etTitle.getText().toString().getBytes(), "UTF-8")));
-                        list.add(new BasicNameValuePair("content", new String(etContent.getText().toString().getBytes(), "UTF-8")));
+                        byte[] title = etTitle.getText().toString().getBytes();
+                        byte[] content = etContent.getText().toString().getBytes();
+                        list.add(new BasicNameValuePair("title", new String(title, "UTF-16")));
+                        list.add(new BasicNameValuePair("content", new String(content, "UTF-16")));
+                        list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
+                        list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
+                        list.add(new BasicNameValuePair("road", thoroughfare));
+                        list.add(new BasicNameValuePair("type", Integer.toString(type)));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                    list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
-                    list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
-                    list.add(new BasicNameValuePair("road", thoroughfare));
-                    list.add(new BasicNameValuePair("type", Integer.toString(type)));
 
                     RestAPI.post("/post/write", list, photoFile);
 
