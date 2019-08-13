@@ -24,7 +24,13 @@ router.post('/write', upload.single('picture'), (req, res, next) => {
 
     if (!data.title || !data.content || !data.latitude || !data.longitude || !data.road || !data.type) {
         res.status(409).json({
-            Error: "Title, content, latitude, longitude, road, type required"
+            error: "Title, content, latitude, longitude, road, type required"
+        })
+    }
+
+    if ((data.type === 1 || data.type === 2) && req.decoded.previlage === 0) {
+        res.status(409).json({
+            error: "You are not authorized"
         })
     }
 
