@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -229,10 +230,10 @@ public class PostActivity extends AppCompatActivity {
                     List<BasicNameValuePair> list = new ArrayList<>();
 
                     try {
-                        byte[] title = etTitle.getText().toString().getBytes();
-                        byte[] content = etContent.getText().toString().getBytes();
-                        list.add(new BasicNameValuePair("title", new String(title, "UTF-16")));
-                        list.add(new BasicNameValuePair("content", new String(content, "UTF-16")));
+                        String title = etTitle.getText().toString();
+                        String content = etContent.getText().toString();
+                        list.add(new BasicNameValuePair("title", URLEncoder.encode(title, "utf-8")));
+                        list.add(new BasicNameValuePair("content", URLEncoder.encode(content, "utf-8")));
                         list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
                         list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
                         list.add(new BasicNameValuePair("road", thoroughfare));
