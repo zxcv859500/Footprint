@@ -18,8 +18,17 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorAccent"
-        android:layout_marginRight="20dp"
+
         android:layout_alignRight="@+id/tv_nick_name_comment"
+        />
+    <Button
+        android:id="@+id/btn_del_comment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorAccent"
+        android:layout_marginRight="5dp"
+        android:text="삭"
+        android:layout_toLeftOf="@+id/btn_love_comment"
         />
 
     <TextView

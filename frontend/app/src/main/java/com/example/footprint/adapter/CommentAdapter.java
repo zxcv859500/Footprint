@@ -1,6 +1,8 @@
 package com.example.footprint.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,13 @@ import android.widget.TextView;
 import com.example.footprint.R;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.TimeParse;
+import com.example.footprint.net.RestAPI;
+import com.example.footprint.view.Activities.MapActivity;
+import com.example.footprint.view.Activities.NoticeBoardActivity;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -22,6 +31,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         public TextView tvNickNameComment;
         public TextView tvMainTextComment;
         public TextView tvDateComment;
+        public Button btndelComment;
         public Button btnLover;
     }
 
@@ -44,6 +54,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             viewHolder.tvMainTextComment = (TextView) convertView.findViewById(R.id.tv_main_text_comment);
             viewHolder.tvDateComment = (TextView) convertView.findViewById(R.id.tv_date_comment);
             viewHolder.btnLover = (Button) convertView.findViewById(R.id.btn_love_comment );
+            viewHolder.btndelComment = (Button) convertView.findViewById(R.id.btn_del_comment);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -52,6 +63,13 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         viewHolder.tvNickNameComment.setText(comment.getNickname());
         viewHolder.tvMainTextComment.setText(comment.getMaintext());
         viewHolder.tvDateComment.setText(TimeParse.getTime(comment.getDate()));
+        viewHolder.btndelComment.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("test_comment_del","onClick");
+                delComment(comment.getCommentId());
+            }
+        });
         viewHolder.btnLover.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -60,6 +78,21 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         });
 
         return convertView;
+    }
+
+    private void delComment(String id){
+        RestAPI.get("/comment/"+id+"/delete",new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("test_del",response.toString());
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("test_del",responseString);
+            }
+        });
     }
 
     public void setItems (ArrayList<Comment> comments){
