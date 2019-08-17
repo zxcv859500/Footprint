@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.footprint.R;
 import com.example.footprint.model.Comment;
+import com.example.footprint.model.TimeParse;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         viewHolder.tvNickNameComment.setText(comment.getNickname());
         viewHolder.tvMainTextComment.setText(comment.getMaintext());
-        viewHolder.tvDateComment.setText(comment.getDate());
+        viewHolder.tvDateComment.setText(TimeParse.getTime(comment.getDate()));
         viewHolder.btnLover.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {

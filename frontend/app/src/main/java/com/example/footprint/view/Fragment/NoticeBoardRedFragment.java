@@ -13,15 +13,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 
 import com.example.footprint.R;
 import com.example.footprint.adapter.CommentAdapter;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.Post;
+import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
+import com.example.footprint.view.Activities.MapActivity;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -32,7 +32,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class NoticeBoardRedFragment extends Fragment {
 
@@ -46,6 +51,7 @@ public class NoticeBoardRedFragment extends Fragment {
     private TextView tvTitle;
     private TextView tvMainText;
     private ImageView ivImage;
+    private Button btnDel;
     private Button btnLove;
 
     public CommentAdapter getCommentAdapter() {
@@ -60,6 +66,8 @@ public class NoticeBoardRedFragment extends Fragment {
     private Post post;
     private ArrayList<Comment> comments;
     private Comment comment;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +84,7 @@ public class NoticeBoardRedFragment extends Fragment {
         btnLove = (Button) header.findViewById(R.id.btn_love);
         btComment = (Button) view.findViewById(R.id.bt_comment);
         etComment = (EditText) view.findViewById(R.id.et_comment);
+        btnDel = (Button) header.findViewById(R.id.btn_del);
 
 
         comments = new ArrayList<Comment>();
@@ -90,7 +99,6 @@ public class NoticeBoardRedFragment extends Fragment {
         commentAdapter = new CommentAdapter(getActivity(), comments);
         lvNoticeRed.addHeaderView(header);
         lvNoticeRed.setAdapter(commentAdapter);
-
 
         btComment.setOnClickListener(new BtnOnClickListener());
 
@@ -107,7 +115,10 @@ public class NoticeBoardRedFragment extends Fragment {
                 Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/" + post.getPictureId()).into(ivImage);
                 tvTitle.setText(post.getTitle());
                 tvNickName.setText(post.getAuthor());
-                tvDate.setText(post.getDate());
+                tvDate.setText(TimeParse.getTime(post.getDate()));
+
+                Log.d("test_time",TimeParse.getTime(post.getDate()));
+
                 tvMainText.setText(post.getContent());
 
                 Log.d("test_Response", "" + response);
@@ -126,39 +137,69 @@ public class NoticeBoardRedFragment extends Fragment {
         return view;
     }
 
-    class BtnOnClickListener implements FloatingActionButton.OnClickListener {
+    class BtnOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.bt_comment:
-
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("content", etComment.getText().toString());
-                    } catch (JSONException e) {
-
-                    }
-                    etComment.setText("");
-                    RestAPI.post("/comment/" + postNum + "/write", jsonObject, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            Log.d("test_comment",response.toString());
-                            getComment();
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.d("test_comment",responseString);
-                        }
-                    });
-
+                    Log.d("test_comment","onClick");
+                    writeComment();
+                    break;
+                case R.id.btn_del:
+                    dlePost();
                     break;
             }
 
         }
     }
 
+    private void writeComment(){
+        Comment comment1 = new Comment("test", "인생자판기", "2019/08/08", "12");
+        Comment comment2 = new Comment("test", "인생자판기", "2019/08/08", "12");
+        comments.add(comment1);
+        comments.add(comment2);
+        getComment();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("content", etComment.getText().toString());
+        } catch (JSONException e) {
+
+        }
+        etComment.setText("");
+        RestAPI.post("/comment/" + postNum + "/write", jsonObject, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("test_comment",response.toString());
+                getComment();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("test_comment",responseString);
+            }
+        });
+    }
+
+
+    private void dlePost(){
+        RestAPI.get("/post/"+postNum+"/delete",new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("test_del",response.toString());
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("test_del",responseString);
+            }
+        });
+    }
+
     private void getComment() {
+
         RestAPI.get("/comment/" + postNum, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -173,8 +214,9 @@ public class NoticeBoardRedFragment extends Fragment {
 
             }
         });
-
+        Log.d("test_comment","getComment");
 
     }
+
 
 }

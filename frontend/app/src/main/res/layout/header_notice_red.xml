@@ -18,12 +18,20 @@
 
         <TextView
             android:id="@+id/tv_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:text="2019.07.16 14:38"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/tv_nick_name"/>
+
+        <Button
+            android:id="@+id/btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="삭"
+            />
 
 
         <TextView
