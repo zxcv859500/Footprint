@@ -335,22 +335,20 @@ picture="사진 파일"
 
 **Response**
 ```json
-{
-	[
-		{
-			"road":"도로명",
-			"typeA": 1,
-			"typeB": 0,
-			"typeC": 0
-		}
-	],
-	[	
-		{ 
-			"road":"도로명2",
-			"typeA": 1,
-			"typeB": 3,
-			"typeC": 1
-		}
-	]
-}
+[
+	{
+		"road":"도로명",
+		"typeA": 1,
+		"typeB": 0,
+		"typeC": 0
+	}
+],
+[	
+	{ 
+		"road":"도로명2",
+		"typeA": 1,
+		"typeB": 3,
+		"typeC": 1
+	}
+]
 ```
