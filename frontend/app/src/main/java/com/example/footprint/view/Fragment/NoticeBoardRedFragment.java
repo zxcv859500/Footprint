@@ -92,7 +92,20 @@ public class NoticeBoardRedFragment extends Fragment {
 
 //        comments = ((NoticeBoardActivity)getActivity()).getComments();
 
-        commentAdapter = new CommentAdapter(getActivity(), comments);
+        commentAdapter = new CommentAdapter(getActivity(), comments)
+        {
+            @Override
+            public void notifyDataSetChanged() {
+                super.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void setNotifyOnChange(boolean notifyOnChange) {
+                ((NoticeBoardActivity)getActivity()).refresh();
+                super.setNotifyOnChange(notifyOnChange);
+            }
+        };
         lvNoticeRed.addHeaderView(header);
         lvNoticeRed.setAdapter(commentAdapter);
 
@@ -204,6 +217,7 @@ public class NoticeBoardRedFragment extends Fragment {
                     comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>() {
                     }.getType());
                     commentAdapter.setItems(comments);
+
                 } catch (JSONException e) {
 
                 }
