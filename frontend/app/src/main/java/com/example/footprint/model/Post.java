@@ -7,7 +7,7 @@ public class Post {
     private String content;
     private String author;
     private String pictureId;
-    private String like;
+    private int like;
     private String date;
     private String likeFlag;
 //    private List comments;
@@ -44,11 +44,11 @@ public class Post {
         this.pictureId = pictureId;
     }
 
-    public String getLike() {
+    public int getLike() {
         return like;
     }
 
-    public void setLike(String like) {
+    public void setLike(int like) {
         this.like = like;
     }
 

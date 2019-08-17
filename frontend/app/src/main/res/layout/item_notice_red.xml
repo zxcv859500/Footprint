@@ -13,12 +13,20 @@
         android:textSize="20sp"
         android:layout_marginBottom="10dp"
         android:text="tester"/>
+
+    <TextView
+        android:id="@+id/tv_love_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btn_del_comment"
+        android:layout_marginRight="5dp"
+        android:text="좋아요 0개"
+        />
     <Button
         android:id="@+id/btn_love_comment"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorAccent"
-
         android:layout_alignRight="@+id/tv_nick_name_comment"
         />
     <Button
