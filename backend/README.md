@@ -332,3 +332,25 @@ picture="사진 파일"
 #### 통계 리스트 가져오기
 **Request**
 >GET /api/statistics/list
+
+**Response**
+```json
+{
+	[
+		{
+			"road":"도로명",
+			"typeA": 1,
+			"typeB": 0,
+			"typeC": 0
+		}
+	],
+	[	
+		{ 
+			"road":"도로명2",
+			"typeA": 1,
+			"typeB": 3,
+			"typeC": 1
+		}
+	]
+}
+```
