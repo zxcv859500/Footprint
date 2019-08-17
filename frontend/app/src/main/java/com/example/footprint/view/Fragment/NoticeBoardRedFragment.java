@@ -53,6 +53,7 @@ public class NoticeBoardRedFragment extends Fragment {
     private ImageView ivImage;
     private Button btnDel;
     private Button btnLove;
+    private TextView tvLove;
 
     public CommentAdapter getCommentAdapter() {
         return commentAdapter;
@@ -85,6 +86,8 @@ public class NoticeBoardRedFragment extends Fragment {
         btComment = (Button) view.findViewById(R.id.bt_comment);
         etComment = (EditText) view.findViewById(R.id.et_comment);
         btnDel = (Button) header.findViewById(R.id.btn_del);
+        tvLove = (TextView) header.findViewById(R.id.tv_love);
+
 
 
         comments = new ArrayList<Comment>();
@@ -102,6 +105,7 @@ public class NoticeBoardRedFragment extends Fragment {
 
         btComment.setOnClickListener(new BtnOnClickListener());
         btnDel.setOnClickListener(new BtnOnClickListener());
+        btnLove.setOnClickListener(new BtnOnClickListener());
 
 
         postNum = ((NoticeBoardActivity) getActivity()).typeA;
@@ -117,7 +121,8 @@ public class NoticeBoardRedFragment extends Fragment {
                 tvTitle.setText(post.getTitle());
                 tvNickName.setText(post.getAuthor());
                 tvDate.setText(TimeParse.getTime(post.getDate()));
-
+                String tmp = "좋아요 " +(post.getLike()) +"개";
+                tvLove.setText(tmp);
                 Log.d("test_time",TimeParse.getTime(post.getDate()));
 
                 tvMainText.setText(post.getContent());
@@ -150,6 +155,20 @@ public class NoticeBoardRedFragment extends Fragment {
                     Log.d("test_del","del Comment");
                     ((NoticeBoardActivity)getActivity()).dlePost(postNum);
                     Log.d("test_del","finDel");
+                    break;
+                case R.id.btn_love:
+
+
+
+                    if (post.getLikeFlag().equals("false")){
+                        post.setLikeFlag("true");
+                        ((NoticeBoardActivity)getActivity()).addLike(postNum);
+                    }
+                    else{
+                        post.setLikeFlag("false");
+                        ((NoticeBoardActivity)getActivity()).subLike(postNum);
+
+                    }
                     break;
             }
 

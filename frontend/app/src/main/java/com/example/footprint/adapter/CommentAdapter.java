@@ -1,7 +1,6 @@
 package com.example.footprint.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import com.example.footprint.R;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
-import com.example.footprint.view.Activities.MapActivity;
-import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -31,7 +28,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         public TextView tvNickNameComment;
         public TextView tvMainTextComment;
         public TextView tvDateComment;
-        public Button btndelComment;
+        public TextView tvLoveComment;
+        public Button btnDelComment;
         public Button btnLover;
     }
 
@@ -54,7 +52,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             viewHolder.tvMainTextComment = (TextView) convertView.findViewById(R.id.tv_main_text_comment);
             viewHolder.tvDateComment = (TextView) convertView.findViewById(R.id.tv_date_comment);
             viewHolder.btnLover = (Button) convertView.findViewById(R.id.btn_love_comment );
-            viewHolder.btndelComment = (Button) convertView.findViewById(R.id.btn_del_comment);
+            viewHolder.btnDelComment = (Button) convertView.findViewById(R.id.btn_del_comment);
+            viewHolder.tvLoveComment = (TextView) convertView.findViewById(R.id.tv_love_comment);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -63,7 +62,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         viewHolder.tvNickNameComment.setText(comment.getNickname());
         viewHolder.tvMainTextComment.setText(comment.getMaintext());
         viewHolder.tvDateComment.setText(TimeParse.getTime(comment.getDate()));
-        viewHolder.btndelComment.setOnClickListener(new Button.OnClickListener(){
+        String tmp = "좋아요 "+ comment.getLike()+"개";
+        viewHolder.tvLoveComment.setText(tmp);
+        viewHolder.btnDelComment.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Log.d("test_comment_del","onClick");
@@ -73,8 +74,39 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         viewHolder.btnLover.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // 좋아요 서버 업로드필요
+                if(comment.getLikeFlag().equals("true")){
+                    comment.setLikeFlag("false");
+                    RestAPI.get("/comment/"+comment.getCommentId()+"/like/cancel",new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("test_del",comment.getCommentId());
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("test_del",comment.getCommentId());
+                        }
+                    });
+                }else{
+                    comment.setLikeFlag("true");
+                    RestAPI.get("/comment/"+comment.getCommentId()+"/like",new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("test_del",comment.getCommentId());
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("test_del",comment.getCommentId());
+                        }
+                    });
+
+                }
             }
+
+
         });
 
         return convertView;

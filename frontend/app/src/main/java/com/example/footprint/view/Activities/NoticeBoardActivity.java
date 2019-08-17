@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
 
 import com.example.footprint.R;
 import com.example.footprint.model.Comment;
@@ -239,6 +238,37 @@ public class NoticeBoardActivity extends AppCompatActivity {
             }
         });
         Log.d("test_del","finhttp");
+    }
+
+    public void addLike(String postNum){
+
+        RestAPI.get("/post/"+postNum+"/like",new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+
+    }
+    public void subLike(String postNum){
+
+        RestAPI.get("/post/"+postNum+"/like/cancel",new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+
     }
 
 }

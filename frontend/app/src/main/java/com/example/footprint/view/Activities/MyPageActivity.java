@@ -67,7 +67,7 @@ public class MyPageActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        RestAPI.post("/auth/edit", jsonParams, Token.getTokenObject().getTokenKey(), new JsonHttpResponseHandler() {
+                        RestAPI.post("/auth/edit", jsonParams,  new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 Toast.makeText(MyPageActivity.this, "변경되었습니다.", Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class MyPageActivity extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            RestAPI.get("/auth/secession", Token.getTokenObject().getTokenKey(), new JsonHttpResponseHandler() {
+                                            RestAPI.get("/auth/secession", new JsonHttpResponseHandler() {
                                                 @Override
                                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                                     Toast.makeText(MyPageActivity.this, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
