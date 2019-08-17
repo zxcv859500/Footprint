@@ -52,6 +52,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<com.example.footprint.model.Marker> markerArrayList;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        markerArrayList = new ArrayList<>();
+        RestAPI.get("/marker/list", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                if (response != null) {
+                    int size = response.length();
+                    for (int i = 0; i < size; i++) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = (JSONObject) response.get(i);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (jsonObject != null) {
+                            com.example.footprint.model.Marker marker = new com.example.footprint.model.Marker(jsonObject);
+                            markerArrayList.add(marker);
+                        }
+                    }
+                    loadMarker(markerArrayList);
+                }
+            }
+        });
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
