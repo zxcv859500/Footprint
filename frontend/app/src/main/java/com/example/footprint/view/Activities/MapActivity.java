@@ -221,6 +221,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         intent.putExtra("lat",lat);
         intent.putExtra("lng",lng);
         startActivity(intent);
+        finish();
 
         return true;
     }

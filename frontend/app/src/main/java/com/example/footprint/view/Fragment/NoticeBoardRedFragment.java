@@ -101,6 +101,7 @@ public class NoticeBoardRedFragment extends Fragment {
         lvNoticeRed.setAdapter(commentAdapter);
 
         btComment.setOnClickListener(new BtnOnClickListener());
+        btnDel.setOnClickListener(new BtnOnClickListener());
 
 
         postNum = ((NoticeBoardActivity) getActivity()).typeA;
@@ -146,7 +147,9 @@ public class NoticeBoardRedFragment extends Fragment {
                     writeComment();
                     break;
                 case R.id.btn_del:
-                    dlePost();
+                    Log.d("test_del","del Comment");
+                    ((NoticeBoardActivity)getActivity()).dlePost(postNum);
+                    Log.d("test_del","finDel");
                     break;
             }
 
