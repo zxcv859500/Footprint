@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,7 +77,9 @@ public class PostActivity extends AppCompatActivity {
         }
 
         TedPermission.with(getApplicationContext())
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                .setPermissions(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
 
         etTitle = findViewById(R.id.et_title);
         etContent = findViewById(R.id.et_content);
@@ -229,18 +232,14 @@ public class PostActivity extends AppCompatActivity {
                 case R.id.btn_post:
                     List<BasicNameValuePair> list = new ArrayList<>();
 
-                    try {
-                        String title = etTitle.getText().toString();
-                        String content = etContent.getText().toString();
-                        list.add(new BasicNameValuePair("title", URLEncoder.encode(title, "utf-8")));
-                        list.add(new BasicNameValuePair("content", URLEncoder.encode(content, "utf-8")));
-                        list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
-                        list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
-                        list.add(new BasicNameValuePair("road", URLEncoder.encode(thoroughfare, "utf-8")));
-                        list.add(new BasicNameValuePair("type", Integer.toString(type)));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    String title = etTitle.getText().toString();
+                    String content = etContent.getText().toString();
+                    list.add(new BasicNameValuePair("title", title));
+                    list.add(new BasicNameValuePair("content", content));
+                    list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
+                    list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
+                    list.add(new BasicNameValuePair("road", thoroughfare));
+                    list.add(new BasicNameValuePair("type", Integer.toString(type)));
 
                     RestAPI.post("/post/write", list, photoFile);
 
