@@ -13,6 +13,7 @@ import com.example.footprint.R;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
+import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -74,6 +75,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         viewHolder.btnLover.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Log.d("test_bool",comment.getLikeFlag());
                 if(comment.getLikeFlag().equals("true")){
                     comment.setLikeFlag("false");
                     RestAPI.get("/comment/"+comment.getCommentId()+"/like/cancel",new JsonHttpResponseHandler(){
@@ -88,7 +90,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
                             Log.d("test_del",comment.getCommentId());
                         }
                     });
-                }else{
+                }else if(comment.getLikeFlag().equals("false")){
                     comment.setLikeFlag("true");
                     RestAPI.get("/comment/"+comment.getCommentId()+"/like",new JsonHttpResponseHandler(){
                         @Override
@@ -104,6 +106,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
                     });
 
                 }
+
+                notifyDataSetChanged();
             }
 
 
@@ -111,6 +115,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         return convertView;
     }
+
+
 
     private void delComment(String id){
         RestAPI.get("/comment/"+id+"/delete",new JsonHttpResponseHandler(){
@@ -125,11 +131,19 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
                 Log.d("test_del",responseString);
             }
         });
+
+
     }
 
     public void setItems (ArrayList<Comment> comments){
         this.comments.clear();
         this.comments.addAll(comments);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+
+        super.notifyDataSetChanged();
     }
 }

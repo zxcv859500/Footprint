@@ -212,11 +212,12 @@ public class NoticeBoardActivity extends AppCompatActivity {
     }
 
     public void refresh(){
-//        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.detach(noticeBoardRedFragment);
-//        fragmentTransaction.attach(noticeBoardRedFragment);
-//        fragmentTransaction.commit();
-        noticeBoardRedFragment.getCommentAdapter().notifyDataSetChanged();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(noticeBoardRedFragment);
+        fragmentTransaction.attach(noticeBoardRedFragment);
+        fragmentTransaction.commit();
+
+//        noticeBoardRedFragment.getCommentAdapter().notifyDataSetChanged();
         Log.d("test_","why?");
 
     }
@@ -227,9 +228,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d("test_del",response.toString());
-                Intent intent = new Intent(NoticeBoardActivity.this, MapActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+
             }
 
             @Override
@@ -238,6 +237,9 @@ public class NoticeBoardActivity extends AppCompatActivity {
             }
         });
         Log.d("test_del","finhttp");
+        Intent intent = new Intent(NoticeBoardActivity.this, MapActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public void addLike(String postNum){

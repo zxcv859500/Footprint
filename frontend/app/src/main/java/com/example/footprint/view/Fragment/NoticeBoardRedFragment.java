@@ -1,6 +1,5 @@
 package com.example.footprint.view.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.example.footprint.model.Comment;
 import com.example.footprint.model.Post;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
-import com.example.footprint.view.Activities.MapActivity;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,12 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class NoticeBoardRedFragment extends Fragment {
 
@@ -163,10 +156,12 @@ public class NoticeBoardRedFragment extends Fragment {
                     if (post.getLikeFlag().equals("false")){
                         post.setLikeFlag("true");
                         ((NoticeBoardActivity)getActivity()).addLike(postNum);
+                        ((NoticeBoardActivity)getActivity()).refresh();
                     }
                     else{
                         post.setLikeFlag("false");
                         ((NoticeBoardActivity)getActivity()).subLike(postNum);
+                        ((NoticeBoardActivity)getActivity()).refresh();
 
                     }
                     break;
@@ -176,11 +171,6 @@ public class NoticeBoardRedFragment extends Fragment {
     }
 
     private void writeComment(){
-        Comment comment1 = new Comment("test", "인생자판기", "2019/08/08", "12");
-        Comment comment2 = new Comment("test", "인생자판기", "2019/08/08", "12");
-        comments.add(comment1);
-        comments.add(comment2);
-        getComment();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("content", etComment.getText().toString());
@@ -200,6 +190,8 @@ public class NoticeBoardRedFragment extends Fragment {
                 Log.d("test_comment",responseString);
             }
         });
+
+        ((NoticeBoardActivity)getActivity()).refresh();
     }
 
     private void getComment() {
@@ -221,6 +213,5 @@ public class NoticeBoardRedFragment extends Fragment {
         Log.d("test_comment","getComment");
 
     }
-
 
 }
