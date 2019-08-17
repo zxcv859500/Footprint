@@ -236,7 +236,7 @@ public class PostActivity extends AppCompatActivity {
                         list.add(new BasicNameValuePair("content", URLEncoder.encode(content, "utf-8")));
                         list.add(new BasicNameValuePair("latitude", Double.toString(lat)));
                         list.add(new BasicNameValuePair("longitude", Double.toString(lng)));
-                        list.add(new BasicNameValuePair("road", thoroughfare));
+                        list.add(new BasicNameValuePair("road", URLEncoder.encode(thoroughfare, "utf-8")));
                         list.add(new BasicNameValuePair("type", Integer.toString(type)));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -254,3 +254,4 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 }
+
