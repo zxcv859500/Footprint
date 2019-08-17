@@ -70,6 +70,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
+        LatLng jeonJu = new LatLng(35.828521, 127.115604);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jeonJu, (float)11.9));
 
         markerArrayList = new ArrayList<>();
         RestAPI.get("/marker/list", new JsonHttpResponseHandler() {
@@ -93,14 +101,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         });
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-
-        LatLng jeonJu = new LatLng(35.828521, 127.115604);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(jeonJu, (float)11.9));
     }
 
     public void loadMarker(ArrayList<com.example.footprint.model.Marker> markers){

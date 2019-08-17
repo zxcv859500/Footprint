@@ -101,6 +101,7 @@ public class NoticeBoardRedFragment extends Fragment {
         lvNoticeRed.setAdapter(commentAdapter);
 
         btComment.setOnClickListener(new BtnOnClickListener());
+        btnDel.setOnClickListener(new BtnOnClickListener());
 
 
         postNum = ((NoticeBoardActivity) getActivity()).typeA;
@@ -146,7 +147,9 @@ public class NoticeBoardRedFragment extends Fragment {
                     writeComment();
                     break;
                 case R.id.btn_del:
-                    dlePost();
+                    Log.d("test_del","del Comment");
+                    ((NoticeBoardActivity)getActivity()).dlePost(postNum);
+                    Log.d("test_del","finDel");
                     break;
             }
 
@@ -176,24 +179,6 @@ public class NoticeBoardRedFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d("test_comment",responseString);
-            }
-        });
-    }
-
-
-    private void dlePost(){
-        RestAPI.get("/post/"+postNum+"/delete",new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("test_del",response.toString());
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("test_del",responseString);
             }
         });
     }
