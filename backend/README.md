@@ -328,3 +328,7 @@ picture="사진 파일"
 #### 댓글 좋아요 취소
 **Request (요청 시 Auth 필요)**
 >GET /api/comment/:댓글 번호/like/cancel
+
+#### 통계 리스트 가져오기
+**Request**
+>GET /api/statistics/list
