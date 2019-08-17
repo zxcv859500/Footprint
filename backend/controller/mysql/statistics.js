@@ -13,24 +13,30 @@ module.exports = {
 		for (road of roads) {
 			const typeA = await knex.count('markerId as cnt')
 				.from('marker')
+				.joinRaw('natural join markerApply')
 				.joinRaw('natural join post')
 				.where('type', 0)
+				.andWhere('road', road)
 				.map((result) => {
 					return result.cnt;
 				});
 
 			const typeB = await knex.count('markerId as cnt')
 				.from('marker')
+				.joinRaw('natural join markerApply')
 				.joinRaw('natural join post')
 				.where('type', 1)
+				.andWhere('road', road)
 				.map((result) => {
 					return result.cnt;
 				});
 
 			const typeC = await knex.count('markerId as cnt')
 				.from('marker')
+				.joinRaw('natural join markerApply')
 				.joinRaw('natural join post')
 				.where('type', 2)
+				.andWhere('road', road)
 				.map((result) => {
 					return result.cnt;
 				});
