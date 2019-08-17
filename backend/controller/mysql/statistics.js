@@ -1,7 +1,7 @@
 const knex = require('../knexfile');
 
 module.exports = {
-	list() {
+	async list() {
 		const roads = await knex('marker')
 			.distinct('road')
 			.map((result) => {

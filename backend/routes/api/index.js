@@ -11,6 +11,6 @@ router.use('/post', post);
 router.use('/comment', comment);
 router.use('/marker', marker);
 router.use('/picture', picture);
-router.use('./statistics', statistics);
+router.use('/statistics', statistics);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const controller = require('../../../controller/myseql');
+const controller = require('../../../controller/mysql');
 
 router.get('/list', (req, res) => {
 	controller.statistics.list()
@@ -11,4 +11,6 @@ router.get('/list', (req, res) => {
 				error: err.message
 			})
 		})
-}
+})
+
+module.exports = router;
