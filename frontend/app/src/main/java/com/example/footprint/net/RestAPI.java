@@ -10,6 +10,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RestAPI {
     final private static String url = "http://203.254.143.185:3000/api";
@@ -48,7 +51,8 @@ public class RestAPI {
 
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         for (BasicNameValuePair pair : list) {
-            builder.addTextBody(pair.getName(), pair.getValue());
+            builder.addTextBody(pair.getName(), pair.getValue(), ContentType.MULTIPART_FORM_DATA.withCharset("utf-8"));
+            Log.e(pair.getName(), pair.getValue());
         }
         builder.addPart("picture", new FileBody(file));
 
