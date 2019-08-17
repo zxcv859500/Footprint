@@ -183,24 +183,6 @@ public class NoticeBoardRedFragment extends Fragment {
         });
     }
 
-
-    private void dlePost(){
-        RestAPI.get("/post/"+postNum+"/delete",new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d("test_del",response.toString());
-                Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("test_del",responseString);
-            }
-        });
-    }
-
     private void getComment() {
 
         RestAPI.get("/comment/" + postNum, new JsonHttpResponseHandler() {

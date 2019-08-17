@@ -72,6 +72,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -221,7 +222,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         intent.putExtra("lat",lat);
         intent.putExtra("lng",lng);
         startActivity(intent);
-        finish();
 
         return true;
     }
