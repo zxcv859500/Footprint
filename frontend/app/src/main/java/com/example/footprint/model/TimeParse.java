@@ -15,7 +15,7 @@ public class TimeParse {
         DateFormat dateFormat_UTX = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         DateFormat dateFormat_Local = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = null;
-        timeZone = TimeZone.getTimeZone("Asia/Seoul");
+        timeZone = TimeZone.getTimeZone("KST");
         dateFormat_UTX.setTimeZone(timeZone);
         try {
             date = dateFormat_UTX.parse(strTime);
