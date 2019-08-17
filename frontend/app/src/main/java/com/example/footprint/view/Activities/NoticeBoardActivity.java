@@ -10,11 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
 
 import com.example.footprint.R;
 import com.example.footprint.model.Comment;
-import com.example.footprint.model.Post;
 import com.example.footprint.model.PostList;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
