@@ -14,7 +14,7 @@ module.exports = {
             const count = await knex.count('commentId as cnt')
                 .from('commentLike')
                 .where('commentId', element.commentId)
-                .andWhere('userId', element.userId)
+                .andWhere('userId', userId)
                 .map((result) => {
                     return result.cnt;
                 });
