@@ -4,6 +4,7 @@ const comment = require('./comment');
 const like = require('./like');
 const marker = require('./marker');
 const picture = require('./picture');
+const statistics = require('./statistics');
 
 module.exports = {
     user,
@@ -11,5 +12,6 @@ module.exports = {
     comment,
     like,
     marker,
-    picture
+    picture,
+    statistics	
 };
