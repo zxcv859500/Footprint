@@ -133,6 +133,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void loadMarker(ArrayList<com.example.footprint.model.Marker> markers){
+        BitmapDrawable[] bitmapdraw = {(BitmapDrawable) getResources().getDrawable(R.mipmap.ic_red),
+                (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_yellow),
+                (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_blue)};
         int size = markers.size();
         for (int i = 0; i < size; i++) {
             MarkerOptions markerOptions = new MarkerOptions();
@@ -140,8 +143,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             markerOptions.position(new LatLng(Double.parseDouble(marker.getLatitude()),
                     Double.parseDouble(marker.getLongitude())));
 
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.black);
-            Bitmap b = bitmapdraw.getBitmap();
+
+            Bitmap b = bitmapdraw[marker.getType()].getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 150, 150, false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 

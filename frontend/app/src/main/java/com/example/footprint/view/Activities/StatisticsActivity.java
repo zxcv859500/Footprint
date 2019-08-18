@@ -1,5 +1,6 @@
 package com.example.footprint.view.Activities;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,10 @@ public class StatisticsActivity extends AppCompatActivity {
         tvRed = findViewById(R.id.tv_red);
         tvYellow = findViewById(R.id.tv_yellow);
         tvBlue = findViewById(R.id.tv_blue);
+
+        ivRed.setImageResource(R.mipmap.ic_red);
+        ivYellow.setImageResource(R.mipmap.ic_yellow);
+        ivBlue.setImageResource(R.mipmap.ic_blue);
     }
 
     @Override
