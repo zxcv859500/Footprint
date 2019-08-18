@@ -7,6 +7,7 @@ import com.example.footprint.model.Token;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -62,6 +64,22 @@ public class RestAPI {
         myAsyncTask.execute(httpPost);
     }
 
+    public static String post(String uri) {
+        MyAsyncTask myAsyncTask = new MyAsyncTask();
+        HttpPost httpPost = new HttpPost(uri);
+
+        String res = null;
+        try {
+            res = myAsyncTask.execute(httpPost).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return res;
+    }
+
     public static void get(String uri, JsonHttpResponseHandler jsonHttpResponseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
         Token token = Token.getTokenObject();
@@ -75,16 +93,21 @@ public class RestAPI {
         @Override
         protected String doInBackground(HttpPost... httpPosts) {
             HttpClient httpClient = new DefaultHttpClient();
+            String json = null;
             try {
                 HttpResponse httpResponse = httpClient.execute(httpPosts[0]);
-                String json;
                 BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
-                json = reader.readLine();
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                json = sb.toString();
                 Log.e("error", json);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return json;
         }
     }
 }

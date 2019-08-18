@@ -201,7 +201,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     String thoroughfare = null;
                     try {
                         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                        List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 1);
+                        Log.e("lat", Double.toString(current.getLatitude()));
+                        Log.e("lng", Double.toString(current.getLongitude()));
+                        List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
                         Address address = addresses.get(0);
                         thoroughfare = address.getThoroughfare();
                     } catch (IOException e) {
@@ -251,6 +253,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         return true;
     }
-
-
 }

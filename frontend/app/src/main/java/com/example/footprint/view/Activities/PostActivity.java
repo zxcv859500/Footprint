@@ -35,8 +35,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,6 +66,13 @@ public class PostActivity extends AppCompatActivity {
         lng = intent.getExtras().getDouble("lng");
         thoroughfare = intent.getExtras().getString("thoroughfare");
 
+        Log.e("thoroughfare", thoroughfare);
+
+        TedPermission.with(getApplicationContext())
+                .setPermissions(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+
         String token = Token.getTokenObject().getTokenKey();
         try {
             JSONObject json = new JSONObject(JwtDecoder.decode(token));
@@ -75,11 +80,6 @@ public class PostActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        TedPermission.with(getApplicationContext())
-                .setPermissions(Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE);
 
         etTitle = findViewById(R.id.et_title);
         etContent = findViewById(R.id.et_content);
