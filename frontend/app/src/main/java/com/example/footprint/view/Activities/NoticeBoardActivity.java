@@ -17,6 +17,7 @@ import com.example.footprint.model.PostList;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
 import com.example.footprint.view.Fragment.NoticeBoardRedFragment;
+import com.example.footprint.view.Fragment.NoticeBoardYellowFragment;
 import com.example.footprint.view.Fragment.NoticeBoardYellowListFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,9 +34,9 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
     private Button btnNoticeRed, btnNoticeYellow, btnNoticeBlue;
     private ArrayList<PostList> posts;
-    public ArrayList<PostList>  postTypeB;
-    private PostList postTypeA, postTypeC;
-    public String typeA, typeC;
+    public ArrayList<PostList>  postTypeB = new ArrayList<PostList>();
+    private PostList postTypeA, postTypeC,postTypeB_tmp;
+    public String typeA, typeC, typeB;
     private ArrayList<Comment> comments;
 
 
@@ -44,6 +45,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
     NoticeBoardRedFragment noticeBoardRedFragment;
     NoticeBoardYellowListFragment noticeBoardYellowListFragment;
     NoticeBoardBlueFragment noticeBoardBlueFragment;
+    NoticeBoardYellowFragment noticeBoardYellowFragment;
 
     public ArrayList<Comment> getComments() {
         return comments;
@@ -86,6 +88,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
         noticeBoardRedFragment = new NoticeBoardRedFragment();
         noticeBoardYellowListFragment = new NoticeBoardYellowListFragment();
         noticeBoardBlueFragment = new NoticeBoardBlueFragment();
+        noticeBoardYellowFragment = new NoticeBoardYellowFragment();
 
 
 //      Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
@@ -130,20 +133,28 @@ public class NoticeBoardActivity extends AppCompatActivity {
     }
 
     private void setType(ArrayList<PostList> posts){
-        for (int i = 0; i < posts.size(); i++) {
+        Log.d("test_",posts.size()+"");
+        int tmp = posts.size();
+        for (int i = 0; i < tmp; i++) {
+            final int index;
+            index = i;
+            Log.d("test_roof","for"+index);
             if (posts.get(i).getType().equals("0")) {
                 postTypeA = posts.get(i);
                 typeA = postTypeA.getPostId();
                 Log.d("test", "test");
-            } else if (posts.get(i).getType().equals("1")) {
-                postTypeB.add(posts.get(i));
-            } else if (posts.get(i).getType().equals("2")) {
-                postTypeC = posts.get(i);
+            } else if (posts.get(index).getType().equals("1")) {
+                Log.d("test_type", "testB");
+                postTypeB_tmp = posts.get(index);
+                postTypeB.add(postTypeB_tmp);
+                Log.d("test_type", postTypeB_tmp.getPostId());
+            } else if (posts.get(index).getType().equals("2")) {
+                postTypeC = posts.get(index);
                 typeC = postTypeC.getPostId();
                 Log.d("test", "testC");
             }
         }
-        if(postTypeB != null){
+        if(postTypeB_tmp != null){
             btnNoticeYellow.setEnabled(true);
         }else if(postTypeC != null){
             btnNoticeBlue.setEnabled(true);
@@ -190,7 +201,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void setFragment(int n) {
+    public void setFragment(int n) {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -205,6 +216,10 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragmentTransaction.replace(R.id.fragment, noticeBoardBlueFragment);
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                fragmentTransaction.replace(R.id.fragment, noticeBoardYellowFragment);
                 fragmentTransaction.commit();
                 break;
         }
@@ -228,6 +243,19 @@ public class NoticeBoardActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
+    public void refreshYellow(){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(noticeBoardYellowFragment);
+        fragmentTransaction.attach(noticeBoardYellowFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void setTypeB(String postNum){
+        typeB = postNum;
+    }
+
+
 
     public void dlePost(String postNum){
         Log.d("test_del","start");

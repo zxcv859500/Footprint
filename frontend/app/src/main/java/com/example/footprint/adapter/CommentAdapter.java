@@ -13,20 +13,14 @@ import com.example.footprint.R;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
-import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
 
     private ArrayList<Comment> comments;
 
@@ -125,10 +119,6 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         return convertView;
     }
-
-
-
-
 
 
     private void delComment(String id){
