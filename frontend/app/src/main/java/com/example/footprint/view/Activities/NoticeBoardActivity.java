@@ -131,13 +131,13 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
     private void setType(ArrayList<PostList> posts){
         for (int i = 0; i < posts.size(); i++) {
-            if (posts.get(i).getType().equals("2")) {
+            if (posts.get(i).getType().equals("0")) {
                 postTypeA = posts.get(i);
                 typeA = postTypeA.getPostId();
                 Log.d("test", "test");
             } else if (posts.get(i).getType().equals("1")) {
                 postTypeB.add(posts.get(i));
-            } else if (posts.get(i).getType().equals("0")) {
+            } else if (posts.get(i).getType().equals("2")) {
                 postTypeC = posts.get(i);
                 typeC = postTypeC.getPostId();
                 Log.d("test", "testC");
