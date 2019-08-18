@@ -207,22 +207,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Location current = whereAmI();
                     if (current != null) {
                         String thoroughfare = null;
+                        String city = null;
                         try {
                             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                            Log.e("lat", Double.toString(current.getLatitude()));
-                            Log.e("lng", Double.toString(current.getLongitude()));
                             List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
                             Address address = addresses.get(0);
                             thoroughfare = address.getThoroughfare();
+                            city = address.getLocality();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
-                        postIntent.putExtra("type", 0);
-                        postIntent.putExtra("lat", current.getLatitude());
-                        postIntent.putExtra("lng", current.getLongitude());
-                        postIntent.putExtra("thoroughfare", thoroughfare);
-                        startActivity(postIntent);
+                        if (city.equals("전주시")) {
+                            Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
+                            postIntent.putExtra("type", 0);
+                            postIntent.putExtra("lat", current.getLatitude());
+                            postIntent.putExtra("lng", current.getLongitude());
+                            postIntent.putExtra("thoroughfare", thoroughfare);
+                            startActivity(postIntent);
+                        } else {
+                            Toast.makeText(MapActivity.this, "전주시가 아닙니다.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     break;
                 case R.id.fab_here:
