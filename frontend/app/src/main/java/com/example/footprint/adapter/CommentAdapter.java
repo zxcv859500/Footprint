@@ -18,10 +18,15 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     private ArrayList<Comment> comments;
 
@@ -80,34 +85,39 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
                     comment.setLikeFlag("false");
                     RestAPI.get("/comment/"+comment.getCommentId()+"/like/cancel",new JsonHttpResponseHandler(){
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            Log.d("test_del",comment.getCommentId());
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.d("test_del",response.toString());
+
+                            setNotifyOnChange(true);
+
 
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.d("test_del",comment.getCommentId());
+                            Log.d("test_del",responseString);
+
                         }
                     });
+
                 }else if(comment.getLikeFlag().equals("false")){
                     comment.setLikeFlag("true");
                     RestAPI.get("/comment/"+comment.getCommentId()+"/like",new JsonHttpResponseHandler(){
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            Log.d("test_del",comment.getCommentId());
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                            setNotifyOnChange(true);
 
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.d("test_del",comment.getCommentId());
+
+
                         }
                     });
 
                 }
-
-                notifyDataSetChanged();
             }
 
 
@@ -118,10 +128,14 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
 
 
+
+
+
     private void delComment(String id){
         RestAPI.get("/comment/"+id+"/delete",new JsonHttpResponseHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                setNotifyOnChange(true);
                 Log.d("test_del",response.toString());
 
             }
@@ -139,11 +153,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         this.comments.clear();
         this.comments.addAll(comments);
         notifyDataSetChanged();
+
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-
-        super.notifyDataSetChanged();
-    }
 }
