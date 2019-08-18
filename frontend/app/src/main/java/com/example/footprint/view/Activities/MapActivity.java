@@ -155,7 +155,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(MapActivity.this,
                         new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
-                return null;
+                return whereAmI();
             }
         }
 
@@ -198,23 +198,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     break;
                 case R.id.fab_camera:
                     Location current = whereAmI();
-                    String thoroughfare = null;
-                    try {
-                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                        Log.e("lat", Double.toString(current.getLatitude()));
-                        Log.e("lng", Double.toString(current.getLongitude()));
-                        List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
-                        Address address = addresses.get(0);
-                        thoroughfare = address.getThoroughfare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (current != null) {
+                        String thoroughfare = null;
+                        try {
+                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                            Log.e("lat", Double.toString(current.getLatitude()));
+                            Log.e("lng", Double.toString(current.getLongitude()));
+                            List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
+                            Address address = addresses.get(0);
+                            thoroughfare = address.getThoroughfare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
+                        postIntent.putExtra("type", 0);
+                        postIntent.putExtra("lat", current.getLatitude());
+                        postIntent.putExtra("lng", current.getLongitude());
+                        postIntent.putExtra("thoroughfare", thoroughfare);
+                        startActivity(postIntent);
                     }
-                    Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
-                    postIntent.putExtra("type", 0);
-                    postIntent.putExtra("lat", current.getLatitude());
-                    postIntent.putExtra("lng", current.getLongitude());
-                    postIntent.putExtra("thoroughfare", thoroughfare);
-                    startActivity(postIntent);
                     break;
                 case R.id.fab_here:
                     Location location = whereAmI();

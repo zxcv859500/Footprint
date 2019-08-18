@@ -71,7 +71,8 @@ public class PostActivity extends AppCompatActivity {
         TedPermission.with(getApplicationContext())
                 .setPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE);
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
 
         String token = Token.getTokenObject().getTokenKey();
         try {
