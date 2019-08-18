@@ -131,13 +131,13 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
     private void setType(ArrayList<PostList> posts){
         for (int i = 0; i < posts.size(); i++) {
-            if (posts.get(i).getType().equals("0")) {
+            if (posts.get(i).getType().equals("2")) {
                 postTypeA = posts.get(i);
                 typeA = postTypeA.getPostId();
                 Log.d("test", "test");
             } else if (posts.get(i).getType().equals("1")) {
                 postTypeB.add(posts.get(i));
-            } else if (posts.get(i).getType().equals("2")) {
+            } else if (posts.get(i).getType().equals("0")) {
                 postTypeC = posts.get(i);
                 typeC = postTypeC.getPostId();
                 Log.d("test", "testC");
@@ -219,6 +219,13 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
 //        noticeBoardRedFragment.getCommentAdapter().notifyDataSetChanged();
         Log.d("test_","why?");
+
+    }
+    public void refreshBlue(){
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(noticeBoardBlueFragment);
+        fragmentTransaction.attach(noticeBoardBlueFragment);
+        fragmentTransaction.commit();
 
     }
 

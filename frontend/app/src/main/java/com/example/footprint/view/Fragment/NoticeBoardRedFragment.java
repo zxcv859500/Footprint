@@ -95,12 +95,6 @@ public class NoticeBoardRedFragment extends Fragment {
         commentAdapter = new CommentAdapter(getActivity(), comments)
         {
             @Override
-            public void notifyDataSetChanged() {
-                super.notifyDataSetChanged();
-
-            }
-
-            @Override
             public void setNotifyOnChange(boolean notifyOnChange) {
                 ((NoticeBoardActivity)getActivity()).refresh();
                 super.setNotifyOnChange(notifyOnChange);
@@ -116,7 +110,7 @@ public class NoticeBoardRedFragment extends Fragment {
 
         postNum = ((NoticeBoardActivity) getActivity()).typeA;
 
-        Log.d("test_", postNum);
+
 
         RestAPI.get("/post/" + postNum, new JsonHttpResponseHandler() {
             @Override
