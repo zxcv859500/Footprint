@@ -34,7 +34,8 @@
         <activity android:name=".view.Activities.NoticeBoardActivity"/>
         <activity android:name=".view.Activities.FindActivity"/>
         <activity android:name=".view.Activities.MyPageActivity"/>
-        <activity android:name=".view.Activities.PostActivity">
+        <activity android:name=".view.Activities.PostActivity"/>
+        <activity android:name=".view.Activities.StatisticsActivity">
         </activity>
         
         <provider

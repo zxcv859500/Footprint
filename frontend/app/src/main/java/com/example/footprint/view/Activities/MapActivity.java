@@ -46,7 +46,7 @@ import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private GoogleMap googleMap;
-    private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage;
+    private FloatingActionButton fabMain, fabCamera, fabHere, fabMyPage, fabStatistics;
     private LocationManager locationManager;
     private Marker marker;
     private ArrayList<com.example.footprint.model.Marker> markerArrayList;
@@ -87,11 +87,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fabCamera = findViewById(R.id.fab_camera);
         fabHere = findViewById(R.id.fab_here);
         fabMyPage = findViewById(R.id.fab_my_page);
+        fabStatistics = findViewById(R.id.fab_statistics);
 
         fabMain.setOnClickListener(new BtnOnClickListener());
         fabCamera.setOnClickListener(new BtnOnClickListener());
         fabHere.setOnClickListener(new BtnOnClickListener());
         fabMyPage.setOnClickListener(new BtnOnClickListener());
+        fabStatistics.setOnClickListener(new BtnOnClickListener());
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -155,7 +157,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(MapActivity.this,
                         new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
-                return whereAmI();
+                return null;
             }
         }
 
@@ -188,11 +190,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         fabCamera.hide();
                         fabHere.hide();
                         fabMyPage.hide();
+                        fabStatistics.hide();
                         fabMain.setImageDrawable(getResources().getDrawable(R.drawable.ic_plus));
                     } else {
                         fabCamera.show();
                         fabHere.show();
                         fabMyPage.show();
+                        fabStatistics.show();
                         fabMain.setImageDrawable(getResources().getDrawable(R.drawable.ic_minus));
                     }
                     break;
@@ -231,11 +235,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         markerOptions.position(here);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(here, 16));
                         marker = googleMap.addMarker(markerOptions);
-                        break;
                     }
+                    else {
+                        Log.e("location", "null");
+                    }
+                    break;
                 case R.id.fab_my_page:
                     Intent myPageIntent = new Intent(MapActivity.this, MyPageActivity.class);
                     startActivity(myPageIntent);
+                    break;
+                case R.id.fab_statistics:
+                    Intent statisticsIntent = new Intent(MapActivity.this, StatisticsActivity.class);
+                    startActivity(statisticsIntent);
                     break;
             }
         }
