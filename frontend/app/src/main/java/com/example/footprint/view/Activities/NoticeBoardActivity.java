@@ -39,6 +39,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
     public String typeA, typeC, typeB;
     private ArrayList<Comment> comments;
 
+    double lat, lng;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -58,7 +59,9 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        classificationType(intent.getExtras().getDouble("lat"), intent.getExtras().getDouble("lng"));
+        lat = intent.getExtras().getDouble("lat");
+        lng = intent.getExtras().getDouble("lng");
+        classificationType(lat, lng);
 
 
 //        if(posts != null) {
