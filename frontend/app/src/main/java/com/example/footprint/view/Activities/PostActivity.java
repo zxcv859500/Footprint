@@ -3,10 +3,14 @@ package com.example.footprint.view.Activities;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +31,7 @@ import com.example.footprint.R;
 import com.example.footprint.model.Token;
 import com.example.footprint.net.JwtDecoder;
 import com.example.footprint.net.RestAPI;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -59,6 +64,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_post);
 
         Intent intent = getIntent();
@@ -66,8 +72,6 @@ public class PostActivity extends AppCompatActivity {
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
         thoroughfare = intent.getExtras().getString("thoroughfare");
-
-        Log.e("thoroughfare", thoroughfare);
 
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(new PermissionListener() {
@@ -99,8 +103,6 @@ public class PostActivity extends AppCompatActivity {
         ivImage = findViewById(R.id.iv_image);
         btnPost = findViewById(R.id.btn_post);
 
-        ivImage.setImageResource(R.drawable.ic_plus);
-
         ivImage.setOnClickListener(new BtnOnClickListener());
         btnPost.setOnClickListener(new BtnOnClickListener());
     }
@@ -112,7 +114,12 @@ public class PostActivity extends AppCompatActivity {
             ExifInterface exif = null;
 
             try {
-                exif = new ExifInterface(imageFilePath);
+                if (imageFilePath != null) {
+                    exif = new ExifInterface(imageFilePath);
+                } else {
+                    Log.e("error", "error");
+                    return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -124,9 +131,7 @@ public class PostActivity extends AppCompatActivity {
                 exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
                 exifDegree = exifOrientationToDegree(exifOrientation);
             }
-
             ivImage.setImageBitmap(rotate(bitmap, exifDegree));
-
         } else if (requestCode == PICK_FROM_ALBUM) {
             Uri photoUri = data.getData();
             Cursor cursor = null;
@@ -195,7 +200,9 @@ public class PostActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        imageFilePath = image.getAbsolutePath();
+        while (imageFilePath == null) {
+            imageFilePath = image.getAbsolutePath();
+        }
         return image;
     }
 
