@@ -152,7 +152,7 @@ picture="사진 파일"
 **Response**
 ```json
 {
-    "road": "경원동3가",
+    "road": "도로명",
     "posts": [
         {
             "postId": 38,
