@@ -88,6 +88,15 @@ module.exports = {
                 return result.postId;
             });
 
+        const road = await knex('marker').select('road')
+            .where({
+                latitude: latitude,
+                longitude: longitude
+            })
+            .map((result) => {
+                return result.road;
+            });
+
         for (const postId of postIds) {
             const post = await knex.select('title', 'nickname', 'pictureId', 'like', 'date', 'type', 'postId')
                 .from('post')
@@ -106,7 +115,10 @@ module.exports = {
                 }));
             posts.push(await post[0]);
         }
-        return posts;
+        return {
+            road: road[0],
+            posts
+        };
     },
 
     async getPost(params) {
