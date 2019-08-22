@@ -151,62 +151,65 @@ picture="사진 파일"
 ```
 **Response**
 ```json
-[
-    {
-        "postId": 38,
-        "title": "test title",
-        "author": "seagull",
-        "pictureId": 29,
-        "like": 0,
-        "date": "2019-07-16T08:59:25.000Z",
-        "type": 1
-    },
-    {
-        "postId": 39,
-        "title": "edit test title",
-        "author": "seagull",
-        "pictureId": 30,
-        "like": 0,
-        "date": "2019-07-16T10:26:46.000Z",
-        "type": 1
-    },
-    {
-        "postId": 40,
-        "title": "edit test title",
-        "author": "seagull",
-        "pictureId": 31,
-        "like": 0,
-        "date": "2019-07-16T10:32:50.000Z",
-        "type": 0
-    },
-    {
-        "postId": 35,
-        "title": "test title",
-        "author": "seagull",
-        "pictureId": 26,
-        "like": 0,
-        "date": "2019-07-16T06:06:44.000Z",
-        "type": 1
-    },
-    {
-        "postId": 36,
-        "title": "test title",
-        "author": "seagull",
-        "pictureId": 27,
-        "like": 0,
-        "date": "2019-07-16T06:06:51.000Z",
-        "type": 1
-    },
-    {
-        "postId": 37,
-        "title": "test title",
-        "author": "seagull",
-        "pictureId": 28,
-        "like": 0,
-        "date": "2019-07-16T06:07:28.000Z",
-        "type": 2
-    }
-]
+{
+    "road": "경원동3가",
+    "posts": [
+        {
+            "postId": 38,
+            "title": "test title",
+            "author": "seagull",
+            "pictureId": 29,
+            "like": 0,
+            "date": "2019-07-16T08:59:25.000Z",
+            "type": 1
+        },
+        {
+            "postId": 39,
+            "title": "edit test title",
+            "author": "seagull",
+            "pictureId": 30,
+            "like": 0,
+            "date": "2019-07-16T10:26:46.000Z",
+            "type": 1
+        },
+        {
+            "postId": 40,
+            "title": "edit test title",
+            "author": "seagull",
+            "pictureId": 31,
+            "like": 0,
+            "date": "2019-07-16T10:32:50.000Z",
+            "type": 0
+        },
+        {
+            "postId": 35,
+            "title": "test title",
+            "author": "seagull",
+            "pictureId": 26,
+            "like": 0,
+            "date": "2019-07-16T06:06:44.000Z",
+            "type": 1
+        },
+        {
+            "postId": 36,
+            "title": "test title",
+            "author": "seagull",
+            "pictureId": 27,
+            "like": 0,
+            "date": "2019-07-16T06:06:51.000Z",
+            "type": 1
+        },
+        {
+            "postId": 37,
+            "title": "test title",
+            "author": "seagull",
+            "pictureId": 28,
+            "like": 0,
+            "date": "2019-07-16T06:07:28.000Z",
+            "type": 2
+        }
+    ]
+}
 ```
 #### 해당 글 번호의 글 가져오기
 **Request(요청시 Auth 필요)**
