@@ -39,7 +39,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
     public String typeA, typeC, typeB;
     private ArrayList<Comment> comments;
 
-    double lat, lng;
+    public double lat, lng;
+    public String thoroughfare;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -113,14 +114,21 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
         RestAPI.post("/post/list", jsonObject, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray array = null;
+                try {
+                    array = response.getJSONArray("posts");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 ArrayList<PostList> postLists;
                 try {
                     Gson gson = new Gson();
                     Log.d("testResponse", "" + response);
-                    posts = gson.fromJson(response.toString(), new TypeToken<ArrayList<PostList>>() {}.getType());
+                    posts = gson.fromJson(array.toString(), new TypeToken<ArrayList<PostList>>() {}.getType());
                     setType(posts);
-
+                    thoroughfare = response.getString("road");
+                    Log.e("thoroughfare", thoroughfare);
                 } catch (Exception e) {
                     posts = null;
                 }

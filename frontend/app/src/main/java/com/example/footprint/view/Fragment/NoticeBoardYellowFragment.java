@@ -1,5 +1,6 @@
 package com.example.footprint.view.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.example.footprint.model.Post;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
+import com.example.footprint.view.Activities.PostActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -49,6 +51,7 @@ public class NoticeBoardYellowFragment extends Fragment {
     private ImageView ivImage;
     private Button btnDel;
     private Button btnLove;
+    private Button btnNext;
     private TextView tvLove;
 
 
@@ -78,6 +81,7 @@ public class NoticeBoardYellowFragment extends Fragment {
         etComment = (EditText) view.findViewById(R.id.et_comment_yellow);
         btComment = (Button) view.findViewById(R.id.bt_comment_yellow);
         btnDel = (Button) header.findViewById(R.id.btn_del);
+        btnNext = header.findViewById(R.id.btn_next);
         tvLove = (TextView) header.findViewById(R.id.tv_love);
 
 
@@ -97,6 +101,7 @@ public class NoticeBoardYellowFragment extends Fragment {
         btComment.setOnClickListener(new BtnOnClickListener());
         btnDel.setOnClickListener(new BtnOnClickListener());
         btnLove.setOnClickListener(new BtnOnClickListener());
+        btnNext.setOnClickListener(new BtnOnClickListener());
 
         postNum = ((NoticeBoardActivity) getActivity()).typeB;
 
@@ -151,6 +156,14 @@ public class NoticeBoardYellowFragment extends Fragment {
                         ((NoticeBoardActivity)getActivity()).refreshYellow();
 
                     }
+                    break;
+                case R.id.btn_next:
+                    Intent postIntent = new Intent((NoticeBoardActivity)getActivity(), PostActivity.class);
+                    postIntent.putExtra("type", 2);
+                    postIntent.putExtra("lat", ((NoticeBoardActivity)getActivity()).lat);
+                    postIntent.putExtra("lng", ((NoticeBoardActivity)getActivity()).lng);
+                    postIntent.putExtra("thoroughfare", ((NoticeBoardActivity)getActivity()).thoroughfare);
+                    startActivity(postIntent);
                     break;
             }
 

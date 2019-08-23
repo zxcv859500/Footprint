@@ -33,6 +33,14 @@
             android:text="삭"
             />
 
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/btn_del"
+            android:text="다음 단계"
+            />
 
         <TextView
             android:id="@+id/tv_title"

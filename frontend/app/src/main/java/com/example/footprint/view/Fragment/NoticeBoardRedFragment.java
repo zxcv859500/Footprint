@@ -1,5 +1,6 @@
 package com.example.footprint.view.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.example.footprint.model.Post;
 import com.example.footprint.model.TimeParse;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
+import com.example.footprint.view.Activities.PostActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -46,6 +48,7 @@ public class NoticeBoardRedFragment extends Fragment {
     private ImageView ivImage;
     private Button btnDel;
     private Button btnLove;
+    private Button btnNext;
     private TextView tvLove;
 
     public CommentAdapter getCommentAdapter() {
@@ -77,6 +80,7 @@ public class NoticeBoardRedFragment extends Fragment {
         tvMainText = (TextView) header.findViewById(R.id.tv_main_text);
         btnLove = (Button) header.findViewById(R.id.btn_love);
         btComment = (Button) view.findViewById(R.id.bt_comment);
+        btnNext = header.findViewById(R.id.btn_next);
         etComment = (EditText) view.findViewById(R.id.et_comment);
         btnDel = (Button) header.findViewById(R.id.btn_del);
         tvLove = (TextView) header.findViewById(R.id.tv_love);
@@ -106,7 +110,7 @@ public class NoticeBoardRedFragment extends Fragment {
         btComment.setOnClickListener(new BtnOnClickListener());
         btnDel.setOnClickListener(new BtnOnClickListener());
         btnLove.setOnClickListener(new BtnOnClickListener());
-
+        btnNext.setOnClickListener(new BtnOnClickListener());
 
         postNum = ((NoticeBoardActivity) getActivity()).typeA;
 
@@ -171,6 +175,14 @@ public class NoticeBoardRedFragment extends Fragment {
                         ((NoticeBoardActivity)getActivity()).refresh();
 
                     }
+                    break;
+                case R.id.btn_next:
+                    Intent postIntent = new Intent((NoticeBoardActivity)getActivity(), PostActivity.class);
+                    postIntent.putExtra("type", 1);
+                    postIntent.putExtra("lat", ((NoticeBoardActivity)getActivity()).lat);
+                    postIntent.putExtra("lng", ((NoticeBoardActivity)getActivity()).lng);
+                    postIntent.putExtra("thoroughfare", ((NoticeBoardActivity)getActivity()).thoroughfare);
+                    startActivity(postIntent);
                     break;
             }
 

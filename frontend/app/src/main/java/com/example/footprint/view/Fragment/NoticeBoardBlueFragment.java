@@ -46,6 +46,7 @@ public class NoticeBoardBlueFragment extends Fragment {
     private ImageView ivImage;
     private Button btnDel;
     private Button btnLove;
+    private Button btnNext;
     private TextView tvLove;
 
 
@@ -75,8 +76,10 @@ public class NoticeBoardBlueFragment extends Fragment {
         etComment = (EditText) view.findViewById(R.id.et_comment_blue);
         btComment = (Button) view.findViewById(R.id.bt_comment_blue);
         btnDel = (Button) header.findViewById(R.id.btn_del);
+        btnNext = header.findViewById(R.id.btn_next);
         tvLove = (TextView) header.findViewById(R.id.tv_love);
 
+        btnNext.setVisibility(View.INVISIBLE);
 
         comments = new ArrayList<Comment>();
 
