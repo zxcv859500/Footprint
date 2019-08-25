@@ -72,6 +72,7 @@ public class PostActivity extends AppCompatActivity {
         lat = intent.getExtras().getDouble("lat");
         lng = intent.getExtras().getDouble("lng");
         thoroughfare = intent.getExtras().getString("thoroughfare");
+        //Log.e("asdfasdfasdf", thoroughfare);
 
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(new PermissionListener() {
@@ -131,7 +132,11 @@ public class PostActivity extends AppCompatActivity {
                 exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
                 exifDegree = exifOrientationToDegree(exifOrientation);
             }
-            ivImage.setImageBitmap(rotate(bitmap, exifDegree));
+            try {
+                ivImage.setImageBitmap(rotate(bitmap, exifDegree));
+            } catch (OutOfMemoryError e) {
+                ivImage.setImageBitmap(bitmap);
+            }
         } else if (requestCode == PICK_FROM_ALBUM) {
             Uri photoUri = data.getData();
             Cursor cursor = null;
@@ -171,7 +176,7 @@ public class PostActivity extends AppCompatActivity {
         return 0;
     }
 
-    private Bitmap rotate(Bitmap bitmap, float degree) {
+    private Bitmap rotate(Bitmap bitmap, float degree) throws OutOfMemoryError {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);

@@ -196,6 +196,7 @@ public class NoticeBoardRedFragment extends Fragment {
                     postIntent.putExtra("lat", ((NoticeBoardActivity)getActivity()).lat);
                     postIntent.putExtra("lng", ((NoticeBoardActivity)getActivity()).lng);
                     postIntent.putExtra("thoroughfare", ((NoticeBoardActivity)getActivity()).thoroughfare);
+                    //Log.e("asdfasfd", ((NoticeBoardActivity)getActivity()).thoroughfare);
                     startActivity(postIntent);
                     break;
             }

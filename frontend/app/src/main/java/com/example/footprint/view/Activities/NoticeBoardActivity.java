@@ -121,20 +121,18 @@ public class NoticeBoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 JSONArray array = null;
-                try {
-                    array = response.getJSONArray("posts");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 ArrayList<PostList> postLists;
                 try {
+                    array = response.getJSONArray("posts");
                     Gson gson = new Gson();
-                    Log.d("testResponse", "" + response);
+                    Log.d("testResponse", "" + array);
+
                     posts = gson.fromJson(array.toString(), new TypeToken<ArrayList<PostList>>() {}.getType());
+                    Log.d("testPosts",""+posts);
+
                     setType(posts);
                     thoroughfare = response.getString("road");
-                    Log.e("thoroughfare", thoroughfare);
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     posts = null;
                 }
 
@@ -176,11 +174,6 @@ public class NoticeBoardActivity extends AppCompatActivity {
         if(postTypeB_tmp != null){
             btnNoticeYellow.setEnabled(true);
         }
-        else if(typeC.equals("")){
-
-        }
-
-
 
 
 //        RestAPI.get("/comment/" + typeA, new JsonHttpResponseHandler() {

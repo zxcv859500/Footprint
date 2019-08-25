@@ -4,7 +4,7 @@ public class PostList {
     private String postId;
     private String title;
     private String author;
-    private int picturedId;
+    private String picturedId;
     private String like;
     private String date;
     private String type;
@@ -33,11 +33,11 @@ public class PostList {
         this.author = author;
     }
 
-    public int getPicturedId() {
+    public String getPicturedId() {
         return picturedId;
     }
 
-    public void setPicturedId(int picturedId) {
+    public void setPicturedId(String picturedId) {
         this.picturedId = picturedId;
     }
 
