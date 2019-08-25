@@ -27,7 +27,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/like"
+        android:layout_below="@+id/tv_title_list"
         android:id="@+id/iv_list"/>
 
 
