@@ -160,15 +160,17 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 postTypeB.add(postTypeB_tmp);
                 Log.d("test_type", postTypeB_tmp.getPostId());
             } else if (posts.get(index).getType().equals("2")) {
-                postTypeC = posts.get(index);
+                postTypeC = posts.get(i);
                 typeC = postTypeC.getPostId();
-                Log.d("test", "testC");
+                btnNoticeBlue.setEnabled(true);
+                Log.d("test", typeC);
             }
         }
         if(postTypeB_tmp != null){
             btnNoticeYellow.setEnabled(true);
-        }else if(postTypeC != null){
-            btnNoticeBlue.setEnabled(true);
+        }
+        else if(typeC.equals("")){
+
         }
 
         Log.d("test_", typeA);
