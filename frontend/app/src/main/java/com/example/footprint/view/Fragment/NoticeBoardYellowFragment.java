@@ -88,6 +88,10 @@ public class NoticeBoardYellowFragment extends Fragment {
         comments = new ArrayList<Comment>();
 
 
+        if(((NoticeBoardActivity)getActivity()).decoderJwt()){
+            btnNext.setVisibility(View.INVISIBLE);
+        }
+
         commentAdapter = new CommentAdapter(getActivity(), comments){
             @Override
             public void setNotifyOnChange(boolean notifyOnChange) {

@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.footprint.R;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.PostList;
+import com.example.footprint.model.Token;
+import com.example.footprint.net.JwtDecoder;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Fragment.NoticeBoardBlueFragment;
 import com.example.footprint.view.Fragment.NoticeBoardRedFragment;
@@ -38,6 +40,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
     private PostList postTypeA, postTypeC,postTypeB_tmp;
     public String typeA, typeC, typeB;
     private ArrayList<Comment> comments;
+    private String previlage;
 
     public double lat, lng;
     public String thoroughfare;
@@ -101,6 +104,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
 
     }
+
+
 
     private void classificationType(double lat, double lng) {
         final JSONObject jsonObject = new JSONObject();
@@ -319,6 +324,30 @@ public class NoticeBoardActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public Boolean decoderJwt(){
+        Token token = Token.getTokenObject();
+        String tmp;
+        tmp = token.getTokenKey();
+        try {
+            JSONObject jsonObject = new JSONObject(JwtDecoder.decode(tmp));
+            previlage = jsonObject.get("previlage").toString();
+        } catch (JSONException e) {
+            previlage = "99";
+            e.printStackTrace();
+        }
+
+
+
+        Log.d("testToekn",JwtDecoder.decode(tmp));
+        Log.d("testToekn",previlage);
+
+        if(previlage.equals("0")){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }
