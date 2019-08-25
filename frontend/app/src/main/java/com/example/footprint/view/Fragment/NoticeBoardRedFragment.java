@@ -19,6 +19,8 @@ import com.example.footprint.adapter.CommentAdapter;
 import com.example.footprint.model.Comment;
 import com.example.footprint.model.Post;
 import com.example.footprint.model.TimeParse;
+import com.example.footprint.model.Token;
+import com.example.footprint.net.JwtDecoder;
 import com.example.footprint.net.RestAPI;
 import com.example.footprint.view.Activities.NoticeBoardActivity;
 import com.example.footprint.view.Activities.PostActivity;
@@ -66,6 +68,7 @@ public class NoticeBoardRedFragment extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_notice_board_red, container, false);
@@ -95,6 +98,11 @@ public class NoticeBoardRedFragment extends Fragment {
 //        comments.add(comment2);
 
 //        comments = ((NoticeBoardActivity)getActivity()).getComments();
+
+
+        if(((NoticeBoardActivity)getActivity()).decoderJwt()){
+            btnNext.setVisibility(View.INVISIBLE);
+        }
 
         commentAdapter = new CommentAdapter(getActivity(), comments)
         {
@@ -127,6 +135,9 @@ public class NoticeBoardRedFragment extends Fragment {
                 tvDate.setText(TimeParse.getTime(post.getDate()));
                 String tmp = "좋아요 " +(post.getLike()) +"개";
                 tvLove.setText(tmp);
+                if(post.getLikeFlag().equals("false")){
+                    btnLove.setBackgroundResource(R.drawable.like_gray);
+                }
                 Log.d("test_time",TimeParse.getTime(post.getDate()));
 
                 tvMainText.setText(post.getContent());
@@ -142,10 +153,13 @@ public class NoticeBoardRedFragment extends Fragment {
             }
         });
 
+
         getComment();
 
         return view;
     }
+
+
 
     class BtnOnClickListener implements Button.OnClickListener {
         @Override

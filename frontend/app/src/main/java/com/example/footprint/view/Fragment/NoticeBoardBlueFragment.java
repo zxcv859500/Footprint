@@ -112,6 +112,9 @@ public class NoticeBoardBlueFragment extends Fragment {
                 tvDate.setText(TimeParse.getTime(post.getDate()));
                 String tmp = "좋아요 "+(post.getLike()) +"개";
                 tvLove.setText(tmp);
+                if(post.getLikeFlag().equals("false")){
+                    btnLove.setBackgroundResource(R.drawable.like_gray);
+                }
                 tvDate.setText(post.getDate());
                 tvMainText.setText(post.getContent());
 

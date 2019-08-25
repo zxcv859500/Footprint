@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import com.example.footprint.R;
 import com.example.footprint.model.Token;
 import com.example.footprint.net.Geocoder;
+import com.example.footprint.net.JwtDecoder;
 import com.example.footprint.net.RestAPI;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -200,6 +201,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         fabHere.show();
                         fabMyPage.show();
                         fabStatistics.show();
+                        if(decoderJwt()){
+                            fabStatistics.hide();
+                        }
                         fabMain.setImageDrawable(getResources().getDrawable(R.drawable.ic_minus));
                     }
                     break;
@@ -257,6 +261,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     startActivity(statisticsIntent);
                     break;
             }
+        }
+    }
+
+    private Boolean decoderJwt(){
+        String previlage;
+        Token token = Token.getTokenObject();
+        String tmp;
+        tmp = token.getTokenKey();
+        try {
+            JSONObject jsonObject = new JSONObject(JwtDecoder.decode(tmp));
+            previlage = jsonObject.get("previlage").toString();
+        } catch (JSONException e) {
+            previlage = "99";
+            e.printStackTrace();
+        }
+
+
+
+        Log.d("testToekn",JwtDecoder.decode(tmp));
+        Log.d("testToekn",previlage);
+
+        if(previlage.equals("0")){
+            return true;
+        }else {
+            return false;
         }
     }
 
