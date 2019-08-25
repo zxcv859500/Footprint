@@ -171,6 +171,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 Log.d("test", typeC);
             }
         }
+        setFragment(0);
+        Log.d("test_", "typeA");
         if(postTypeB_tmp != null){
             btnNoticeYellow.setEnabled(true);
         }
@@ -178,9 +180,8 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
         }
 
-        Log.d("test_", typeA);
 
-        setFragment(0);
+
 
 //        RestAPI.get("/comment/" + typeA, new JsonHttpResponseHandler() {
 //            @Override
