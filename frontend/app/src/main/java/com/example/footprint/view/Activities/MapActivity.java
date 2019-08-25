@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -21,7 +22,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.footprint.R;
 import com.example.footprint.model.Token;
-import com.example.footprint.net.Geocoder;
 import com.example.footprint.net.JwtDecoder;
 import com.example.footprint.net.RestAPI;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -212,16 +212,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (current != null) {
                         String thoroughfare = null;
                         String city = null;
-                        Geocoder.getThoroughfare(current.getLatitude(), current.getLongitude());
-//                        try {
-//                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-//                            List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
-//                            Address address = addresses.get(0);
-//                            thoroughfare = address.getThoroughfare();
-//                            city = address.getLocality();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+                        com.example.footprint.net.Geocoder.getThoroughfare(current.getLatitude(), current.getLongitude());
+                        thoroughfare = com.example.footprint.net.Geocoder.thoroughfare;
+                        try {
+                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                            List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
+                            Address address = addresses.get(0);
+                            city = address.getLocality();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         if (city.equals("전주시")) {
                             Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
                             postIntent.putExtra("type", 0);
