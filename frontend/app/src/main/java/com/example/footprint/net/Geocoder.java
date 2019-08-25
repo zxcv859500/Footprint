@@ -28,7 +28,7 @@ public class Geocoder {
                     JSONArray results = response.getJSONArray("results");
                     JSONObject object = results.getJSONObject(0).getJSONObject("region").getJSONObject("area3");
                     thoroughfare = object.getString("name");
-                    Log.e("thoroughfare", thoroughfare);
+                    //Log.e("thoroughfare", thoroughfare);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

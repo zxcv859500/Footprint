@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -208,30 +209,51 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                     break;
                 case R.id.fab_camera:
-                    Location current = whereAmI();
+                    final Location current = whereAmI();
                     if (current != null) {
-                        String thoroughfare = null;
-                        String city = null;
-                        com.example.footprint.net.Geocoder.getThoroughfare(current.getLatitude(), current.getLongitude());
-                        thoroughfare = com.example.footprint.net.Geocoder.thoroughfare;
-                        try {
-                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                            List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
-                            Address address = addresses.get(0);
-                            city = address.getLocality();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (city.equals("전주시")) {
-                            Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
-                            postIntent.putExtra("type", 0);
-                            postIntent.putExtra("lat", current.getLatitude());
-                            postIntent.putExtra("lng", current.getLongitude());
-                            postIntent.putExtra("thoroughfare", thoroughfare);
-                            startActivity(postIntent);
-                        } else {
-                            Toast.makeText(MapActivity.this, "전주시가 아닙니다.", Toast.LENGTH_SHORT).show();
-                        }
+                        String url1 = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=";
+                        String url2 = "&sourcecrs=epsg:4326&output=json&orders=admcode";
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.addHeader("X-NCP-APIGW-API-KEY-ID", "9vltm1bcl4");
+                        client.addHeader("X-NCP-APIGW-API-KEY", "6f38EWTV4XyEOhmtPQw6bBjtx9u0A0ApzXQ3Vieb");
+                        client.get(null, url1 + current.getLongitude() + "," + current.getLatitude() + url2, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                String thoroughfare = null;
+                                try {
+                                    JSONArray results = response.getJSONArray("results");
+                                    JSONObject object = results.getJSONObject(0).getJSONObject("region").getJSONObject("area3");
+                                    thoroughfare = object.getString("name");
+                                    Log.e("thoroughfare", thoroughfare);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String city = null;
+                                try {
+
+                                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                                    List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
+                                    Address address = addresses.get(0);
+                                    city = address.getLocality();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if (city.equals("전주시")) {
+                                    Intent postIntent = new Intent(MapActivity.this, PostActivity.class);
+                                    postIntent.putExtra("type", 0);
+                                    postIntent.putExtra("lat", current.getLatitude());
+                                    postIntent.putExtra("lng", current.getLongitude());
+                                    postIntent.putExtra("thoroughfare", thoroughfare);
+                                    startActivity(postIntent);
+                                } else {
+                                    Toast.makeText(MapActivity.this, "전주시가 아닙니다.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+
+
                     }
                     break;
                 case R.id.fab_here:
