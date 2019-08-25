@@ -212,11 +212,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (current != null) {
                         String thoroughfare = null;
                         String city = null;
+                        com.example.footprint.net.Geocoder.getThoroughfare(current.getLatitude(), current.getLongitude());
+                        thoroughfare = com.example.footprint.net.Geocoder.thoroughfare;
                         try {
                             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                             List<Address> addresses = geocoder.getFromLocation(current.getLatitude(), current.getLongitude(), 10);
                             Address address = addresses.get(0);
-                            thoroughfare = address.getThoroughfare();
                             city = address.getLocality();
                         } catch (IOException e) {
                             e.printStackTrace();
