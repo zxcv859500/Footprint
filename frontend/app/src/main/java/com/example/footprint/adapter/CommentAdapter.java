@@ -59,6 +59,9 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        if(comment.getLikeFlag().equals("false")){
+            viewHolder.btnLover.setBackgroundResource(R.drawable.like_gray);
+        }
         viewHolder.tvNickNameComment.setText(comment.getNickname());
         viewHolder.tvMainTextComment.setText(comment.getMaintext());
         viewHolder.tvDateComment.setText(TimeParse.getTime(comment.getDate()));
