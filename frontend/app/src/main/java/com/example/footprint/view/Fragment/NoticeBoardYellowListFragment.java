@@ -22,6 +22,8 @@ import com.example.footprint.view.Activities.NoticeBoardActivity;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class NoticeBoardYellowListFragment extends Fragment {
 
@@ -42,6 +44,15 @@ public class NoticeBoardYellowListFragment extends Fragment {
         postLists = new ArrayList<PostList>();
 
         postLists.addAll(((NoticeBoardActivity)getActivity()).postTypeB);
+
+        Collections.sort(postLists , new Comparator<PostList>() {
+            @Override
+            public int compare(PostList postList, PostList t1) {
+                return postList.getDate().compareTo(t1.getDate());
+            }
+        });
+
+        Collections.reverse(postLists);
 
         Log.d("test",postLists.get(0).getPostId());
 

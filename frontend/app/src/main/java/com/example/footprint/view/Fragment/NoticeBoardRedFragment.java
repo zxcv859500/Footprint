@@ -35,6 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class NoticeBoardRedFragment extends Fragment {
 
@@ -237,6 +239,16 @@ public class NoticeBoardRedFragment extends Fragment {
                 try {
                     comments = gson.fromJson(response.getJSONArray("result").toString(), new TypeToken<ArrayList<Comment>>() {
                     }.getType());
+
+                    Collections.sort(comments, new Comparator<Comment>() {
+                        @Override
+                        public int compare(Comment comment, Comment t1) {
+                            return comment.getLike().compareTo(t1.getLike());
+                        }
+                    });
+
+                    Collections.reverse(comments);
+
                     commentAdapter.setItems(comments);
 
                 } catch (JSONException e) {
