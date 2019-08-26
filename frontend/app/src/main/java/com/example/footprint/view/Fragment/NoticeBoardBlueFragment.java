@@ -106,7 +106,7 @@ public class NoticeBoardBlueFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Gson gson = new Gson();
                 post = gson.fromJson(response.toString(), Post.class);
-                Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/" + post.getPictureId()).into(ivImage);
+                Picasso.with(getActivity()).load("http://203.254.143.185:3000/api/picture/" + post.getPictureId()).fit().into(ivImage);
                 tvTitle.setText(post.getTitle());
                 tvNickName.setText(post.getAuthor());
                 tvDate.setText(TimeParse.getTime(post.getDate()));

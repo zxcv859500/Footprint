@@ -1,6 +1,7 @@
 package com.example.footprint.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class NoticeListAdapter extends ArrayAdapter<PostList> {
     private Context context;
-
+    private ArrayList<PostList> postList;
     private static class ViewHolder{
         public TextView tvDate;
         public TextView tvTitle;
@@ -26,6 +27,7 @@ public class NoticeListAdapter extends ArrayAdapter<PostList> {
 
     public NoticeListAdapter(Context context, ArrayList<PostList> commentArrayList){
         super(context,0,commentArrayList);
+        this.postList = commentArrayList;
         this.context = context;
 
     }
@@ -33,8 +35,8 @@ public class NoticeListAdapter extends ArrayAdapter<PostList> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final PostList postList = getItem(position);
-
         ViewHolder viewHolder;
+        Log.d("test_Po",postList.getPostId());
         if(convertView == null){
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,9 +49,11 @@ public class NoticeListAdapter extends ArrayAdapter<PostList> {
         }else{
          viewHolder = (ViewHolder) convertView.getTag();
         }
-        Picasso.with(context).load("http://203.254.143.185:3000/api/picture/" + postList.getPicturedId())
+
+        Picasso.with(context).load("http://203.254.143.185:3000/api/picture/" + postList.getPictureId())
                 .error(R.drawable.ic_launcher_background)
-                .fit().into(viewHolder.ivList);
+                .fit()
+                .into(viewHolder.ivList);
         viewHolder.tvTitle.setText(postList.getTitle());
         viewHolder.tvDate.setText(TimeParse.getTime(postList.getDate()));
 

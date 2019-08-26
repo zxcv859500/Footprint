@@ -134,7 +134,7 @@ public class NoticeBoardActivity extends AppCompatActivity {
                     setType(posts);
                     thoroughfare = response.getString("road");
                     Log.e("thoroughfare", thoroughfare);
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     posts = null;
                 }
 
@@ -163,7 +163,6 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 Log.d("test_type", "testB");
                 postTypeB_tmp = posts.get(index);
                 postTypeB.add(postTypeB_tmp);
-                Log.d("test_type", postTypeB_tmp.getPostId());
             } else if (posts.get(index).getType().equals("2")) {
                 postTypeC = posts.get(i);
                 typeC = postTypeC.getPostId();

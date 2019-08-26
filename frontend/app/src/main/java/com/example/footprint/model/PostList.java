@@ -4,10 +4,24 @@ public class PostList {
     private String postId;
     private String title;
     private String author;
-    private int picturedId;
+    private String pictureId;
     private String like;
     private String date;
     private String type;
+
+
+    public PostList(){
+
+    }
+    public PostList(String postId,String title,String author,String pictureId,String like,String date,String type){
+        this.postId = postId;
+        this.title = title;
+        this.author = author;
+        this.pictureId = pictureId;
+        this.like = like;
+        this.date = date;
+        this.type = type;
+    }
 
     public String getPostId() {
         return postId;
@@ -33,12 +47,12 @@ public class PostList {
         this.author = author;
     }
 
-    public int getPicturedId() {
-        return picturedId;
+    public String getPictureId() {
+        return pictureId;
     }
 
-    public void setPicturedId(int picturedId) {
-        this.picturedId = picturedId;
+    public void setPictureId(String pictureId) {
+        this.pictureId = pictureId;
     }
 
     public String getLike() {
