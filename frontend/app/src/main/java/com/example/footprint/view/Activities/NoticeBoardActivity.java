@@ -205,9 +205,15 @@ public class NoticeBoardActivity extends AppCompatActivity {
                     setFragment(0);
                     break;
                 case R.id.btn_notice_yellow:
+                    btnNoticeRed.setBackgroundResource(R.color.w);
+                    btnNoticeYellow.setBackgroundResource(R.color.colorPrimaryDark);
+                    btnNoticeBlue.setBackgroundResource(R.color.w);
                     setFragment(1);
                     break;
                 case R.id.btn_notice_blue:
+                    btnNoticeRed.setBackgroundResource(R.color.w);
+                    btnNoticeYellow.setBackgroundResource(R.color.w);
+                    btnNoticeBlue.setBackgroundResource(R.color.colorPrimaryDark);
                     setFragment(2);
                     break;
             }
@@ -220,6 +226,9 @@ public class NoticeBoardActivity extends AppCompatActivity {
 
         switch (n) {
             case 0:
+                btnNoticeRed.setBackgroundResource(R.color.colorPrimaryDark);
+                btnNoticeYellow.setBackgroundResource(R.color.w);
+                btnNoticeBlue.setBackgroundResource(R.color.w);
                 fragmentTransaction.replace(R.id.fragment, noticeBoardRedFragment);
                 fragmentTransaction.commit();
                 break;

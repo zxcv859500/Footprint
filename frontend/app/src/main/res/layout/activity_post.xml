@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="30dp"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -20,9 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:clickable="true"
-            android:src="@drawable/ic_plus"
-            android:scaleType="center"
-            android:background="@color/colorPrimary"/>
+            android:src="@drawable/camera"
+
+            />
 
         <EditText
             android:id="@+id/et_content"
