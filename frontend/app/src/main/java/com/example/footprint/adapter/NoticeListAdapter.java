@@ -52,7 +52,6 @@ public class NoticeListAdapter extends ArrayAdapter<PostList> {
 
         Picasso.with(context).load("http://3.130.170.152:3000/api/picture/" + postList.getPictureId())
                 .error(R.drawable.ic_launcher_background)
-                .fit()
                 .into(viewHolder.ivList);
         viewHolder.tvTitle.setText(postList.getTitle());
         viewHolder.tvDate.setText(TimeParse.getTime(postList.getDate()));
