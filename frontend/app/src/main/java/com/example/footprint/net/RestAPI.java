@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutionException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RestAPI {
-    final private static String url = "http://203.254.143.185:3000/api";
+    final private static String url = "http://3.130.170.152:3000/api";
 
     public static void post(String uri, JSONObject jsonParams, JsonHttpResponseHandler jsonHttpResponseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
