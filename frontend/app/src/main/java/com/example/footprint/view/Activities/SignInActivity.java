@@ -66,7 +66,7 @@ public class SignInActivity extends AppCompatActivity {
 
         if (email.equals("") && pass.equals("")) {
         } else {
-            signin(email,pass);
+            signIn(email,pass);
         }
 
         super.onResume();
@@ -81,7 +81,7 @@ public class SignInActivity extends AppCompatActivity {
                 case R.id.btn_login:
                     user.setUserName(etId.getText().toString());
                     user.setPassword(etPassword.getText().toString());
-                    signin(etId.getText().toString(),etPassword.getText().toString());
+                    signIn(etId.getText().toString(),etPassword.getText().toString());
                     break;
                 case R.id.btn_join:
                     Intent signUpIntent = new Intent(SignInActivity.this, SignUpActivity.class);
@@ -96,7 +96,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    private void signin(String id, final String password){
+    private void signIn(String id, final String password){
         JSONObject jsonParams = new JSONObject();
         try {
             jsonParams.put("username",id)
