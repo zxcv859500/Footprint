@@ -3,6 +3,7 @@ package com.example.footprint.net;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.footprint.R;
 import com.example.footprint.model.Token;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -32,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class RestAPI {
-    final private static String url = "http://3.130.170.152:3000/api";
+    final private static String url = "http://"+ R.string.end_point+"/api";
 
     public static void post(String uri, JSONObject jsonParams, JsonHttpResponseHandler jsonHttpResponseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
