@@ -214,8 +214,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         String url1 = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords=";
                         String url2 = "&sourcecrs=epsg:4326&output=json&orders=admcode";
                         AsyncHttpClient client = new AsyncHttpClient();
-                        client.addHeader("X-NCP-APIGW-API-KEY-ID", "9vltm1bcl4");
-                        client.addHeader("X-NCP-APIGW-API-KEY", "6f38EWTV4XyEOhmtPQw6bBjtx9u0A0ApzXQ3Vieb");
+                        client.addHeader("X-NCP-APIGW-API-KEY-ID", "91513i6v7y");
+                        client.addHeader("X-NCP-APIGW-API-KEY", "rJ60SW3g1B19ZZUzZev2LdkQd8uRoBbgkhGM8KlU");
                         client.get(null, url1 + current.getLongitude() + "," + current.getLatitude() + url2, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

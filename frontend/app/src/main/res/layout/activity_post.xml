@@ -6,8 +6,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
+        android:layout_above="@+id/et_content"
         android:gravity="center">
 
         <EditText
@@ -19,27 +22,31 @@
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:clickable="true"
             android:src="@drawable/camera"
-
             />
+    </LinearLayout>
 
-        <EditText
-            android:id="@+id/et_content"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:hint="내용"
-            android:inputType="textMultiLine"
-            android:gravity="top"/>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:hint="내용"
+        android:inputType="textMultiLine"
+        android:layout_above="@+id/btn_post"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="top"/>
 
-        <Button
-            android:id="@+id/btn_post"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="확인"
-            android:textColor="#FFFFFF"
-            android:background="@color/colorPrimary"/>
-        </LinearLayout>
+    <Button
+        android:id="@+id/btn_post"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimary"/>
 
 </RelativeLayout>
