@@ -50,7 +50,7 @@ public class NoticeListAdapter extends ArrayAdapter<PostList> {
          viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Picasso.with(context).load("http://203.254.143.185:3000/api/picture/" + postList.getPictureId())
+        Picasso.with(context).load("http://3.130.170.152:3000/api/picture/" + postList.getPictureId())
                 .error(R.drawable.ic_launcher_background)
                 .fit()
                 .into(viewHolder.ivList);
