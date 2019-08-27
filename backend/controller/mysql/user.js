@@ -2,6 +2,7 @@ const knex = require('../knexfile');
 const crypto = require('crypto');
 const config = require('../../config');
 const jwt = require('jsonwebtoken');
+const postController = require('./post');
 
 module.exports = {
     async create(username, password, nickname, phone) {
@@ -99,6 +100,18 @@ module.exports = {
 
     async secession(params) {
         const { userId } = params;
+
+        const postIds = await knex('post')
+            .select('postId')
+            .joinRaw('natural join user')
+            .where('userId', userId)
+            .map((result) => {
+                return result.postId
+            });
+
+        for (const postId of postIds) {
+            await postController.delete({postId: postId});
+        }
 
         return await knex('user')
             .where('userId', userId)
