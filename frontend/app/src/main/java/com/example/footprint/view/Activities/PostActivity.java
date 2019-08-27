@@ -266,7 +266,9 @@ public class PostActivity extends AppCompatActivity {
                     list.add(new BasicNameValuePair("road", thoroughfare));
                     list.add(new BasicNameValuePair("type", Integer.toString(type)));
 
-                    RestAPI.post("/post/write", list, photoFile);
+                    String res = RestAPI.post("/post/write", list, photoFile);
+
+                    while (res == null);
 
                     Intent mapIntent = new Intent(PostActivity.this, MapActivity.class);
                     mapIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |

@@ -47,7 +47,7 @@ public class RestAPI {
         }
     }
 
-    public static void post(String uri, List<BasicNameValuePair> list, File file) {
+    public static String post(String uri, List<BasicNameValuePair> list, File file) {
         MyAsyncTask myAsyncTask = new MyAsyncTask();
         HttpPost httpPost = new HttpPost(url + uri);
 
@@ -61,7 +61,16 @@ public class RestAPI {
         httpPost.setEntity(builder.build());
         httpPost.setHeader("x-access-token", Token.getTokenObject().getTokenKey());
 
-        myAsyncTask.execute(httpPost);
+        String res = null;
+        try {
+            res = myAsyncTask.execute(httpPost).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
     public static String post(String uri) {
@@ -94,6 +103,7 @@ public class RestAPI {
         protected String doInBackground(HttpPost... httpPosts) {
             HttpClient httpClient = new DefaultHttpClient();
             String json = null;
+            String res = "complete";
             try {
                 HttpResponse httpResponse = httpClient.execute(httpPosts[0]);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"));
@@ -107,7 +117,12 @@ public class RestAPI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return json;
+            return res;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 }
