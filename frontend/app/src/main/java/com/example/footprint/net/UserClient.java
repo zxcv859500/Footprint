@@ -9,7 +9,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import java.io.UnsupportedEncodingException;
 
 public class UserClient {
-    private static final String url = "http://"+ R.string.end_point+"/api";
+    private static final String url = "http://13.209.117.111:3000/api";
 
     private AsyncHttpClient client;
     private Token token;
